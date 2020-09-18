@@ -1,0 +1,7 @@
+/* You can add global styles to this file, and also import other style files */
+html {
+    margin: 0px;
+    padding: 10px;
+    background: url(./assets/images/yellow_background.jpg) no-repeat;
+    background-size: cover;
+}
