@@ -12,6 +12,10 @@ app.get('/test1', (req, res) => {
   res.send("Hello world");
 });
 
+app.get('/yeet', (req, res) => {
+  res.send("yeet");
+});
+
 var http = require('http');
 
 var port = '8000';
