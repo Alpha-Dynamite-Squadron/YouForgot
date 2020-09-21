@@ -15,6 +15,10 @@ app.get('/test1', (req, res) => {
 app.get('/yeet', (req, res) => {
   res.send("yeet");
 });
+//Ryan Dimitri Ramos's simple API Request for Assignment 3
+app.get('/dimitri', (req, res) => {
+  res.send("Hi, this is Dimitri's test");
+});
 
 var http = require('http');
 
