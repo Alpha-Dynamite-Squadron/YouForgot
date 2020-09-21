@@ -11,13 +11,17 @@ app.use(bodyParser.urlencoded({ extended: false}));
 app.get('/test1', (req, res) => {
   res.send("Hello world");
 });
-
+//Kenny Lee's Simple API Request for Assignment 3
 app.get('/yeet', (req, res) => {
   res.send("yeet");
 });
-//Ryan Dimitri Ramos's simple API Request for Assignment 3
+//Ryan Dimitri Ramos's Simple API Request for Assignment 3
 app.get('/dimitri', (req, res) => {
   res.send("Hi, this is Dimitri's test");
+});
+//Nicholas Stewart's Simple API Request for Assignment 3
+app.get('/nicholas', (req, res) => {
+  res.send("I like Moose.");
 });
 
 var http = require('http');
