@@ -1,0 +1,27 @@
+{
+  "name": "you-forgot-server",
+  "version": "1.0.0",
+  "description": "Backend Code to handle HTTP requests",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Alpha-Dynamite-Squadron/YouForgot.git"
+  },
+  "keywords": [
+    "you",
+    "forgot"
+  ],
+  "author": "AlphaDynamiteSquadron",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Alpha-Dynamite-Squadron/YouForgot/issues"
+  },
+  "homepage": "https://github.com/Alpha-Dynamite-Squadron/YouForgot#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.4"
+  }
+}
