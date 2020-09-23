@@ -4,7 +4,11 @@
   "description": "Backend Code to handle HTTP requests",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test -u bdd -R spec",
+    "pretest": "npm run lint",
+    "posttest": "echo 'Test Completed.'",
+    "start": "node start.js",
+    "lint": "jshint ./start.js"
   },
   "repository": {
     "type": "git",
@@ -23,5 +27,11 @@
   "dependencies": {
     "express": "^4.17.1",
     "nodemon": "^2.0.4"
+  },
+  "devDependencies": {
+    "jshint": "^2.12.0",
+    "mocha": "^8.1.3",
+    "should": "^13.2.3",
+    "typescript": "^4.0.3"
   }
 }
