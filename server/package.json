@@ -8,7 +8,7 @@
     "pretest": "npm run lint",
     "posttest": "echo 'Test Completed.'",
     "start": "node start.js",
-    "lint": "jshint ./start.js"
+    "lint": "jshint ./src ./test"
   },
   "repository": {
     "type": "git",
