@@ -1,11 +1,20 @@
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
-
+var mysql = require('mysql');
 var app = express();
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
+
+var connection = mysql.createConnection({
+  host  : 'localhost',
+  user  : 'me',
+  password : 'yeet',
+  database : 'yuh'
+});
+connection.connect();
+connection.end();
+
 
 //Christian Devile's Simple API Request Assignment 3
 app.get('/test1', (req, res) => {
@@ -34,6 +43,7 @@ var server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+
 
 /**
  * Normalize a port into a number, string, or false.
