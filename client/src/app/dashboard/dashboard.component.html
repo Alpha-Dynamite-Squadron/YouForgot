@@ -1,0 +1,276 @@
+<div class="main-content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card card-chart">
+            <div class="card-header card-header-info" data-header-animation="true">
+              <div class="ct-chart" id="websiteViewsChart"></div>
+            </div>
+            <div class="card-body">
+              <div class="card-actions">
+                <button mat-raised-button type="button" class="btn btn-danger btn-link fix-broken-card">
+                  <i class="material-icons">build</i> Fix Header!
+                </button>
+                <button mat-raised-button type="button" class="btn btn-info btn-link" matTooltip="Refresh" [matTooltipPosition]="'below'">
+                  <i class="material-icons">refresh</i>
+                </button>
+                <button mat-raised-button type="button" class="btn btn-default btn-link" matTooltip="Change Date" [matTooltipPosition]="'below'">
+                  <i class="material-icons">edit</i>
+                </button>
+              </div>
+              <h4 class="card-title">Assignments in Progress</h4>
+              <p class="card-category">Assignments Currently being Worked</p>
+            </div>
+            <div class="card-footer">
+              <div class="stats">
+                <i class="material-icons">access_time</i> updated 10 minutes ago
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-chart">
+            <div class="card-header card-header-info" data-header-animation="true">
+              <div class="ct-chart" id="dailySalesChart"></div>
+            </div>
+            <div class="card-body">
+              <div class="card-actions">
+                <button mat-raised-button type="button" class="btn btn-danger btn-link fix-broken-card">
+                  <i class="material-icons">build</i> Fix Header!
+                </button>
+                <button mat-raised-button type="button" class="btn btn-info btn-link" matTooltip="Refresh" [matTooltipPosition]="'below'">
+                  <i class="material-icons">refresh</i>
+                </button>
+                <button mat-raised-button type="button" class="btn btn-default btn-link" matTooltip="Change Date" [matTooltipPosition]="'below'">
+                  <i class="material-icons">edit</i>
+                </button>
+              </div>
+              <h4 class="card-title">Active Assignments</h4>
+              <p class="card-category">
+                <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> Number of Open Assignments</p>
+            </div>
+            <div class="card-footer">
+              <div class="stats">
+                <i class="material-icons">access_time</i> updated 1 hour ago
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-chart">
+            <div class="card-header card-header-info" data-header-animation="true">
+              <div class="ct-chart" id="completedTasksChart"></div>
+            </div>
+            <div class="card-body">
+              <div class="card-actions">
+                <button mat-raised-button type="button" class="btn btn-danger btn-link fix-broken-card">
+                  <i class="material-icons">build</i> Fix Header!
+                </button>
+                <button mat-raised-button type="button" class="btn btn-info btn-link" matTooltip="Refresh" [matTooltipPosition]="'below'">
+                  <i class="material-icons">refresh</i>
+                </button>
+                <button mat-raised-button type="button" class="btn btn-default btn-link" matTooltip="Change Date" [matTooltipPosition]="'below'">
+                  <i class="material-icons">edit</i>
+                </button>
+              </div>
+              <h4 class="card-title">Completed Assignments</h4>
+              <p class="card-category">Number of Assignments Turned in</p>
+            </div>
+            <div class="card-footer">
+              <div class="stats">
+                <i class="material-icons">access_time</i> updated yesterday
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="card card-stats">
+            <div class="card-header card-header-info card-header-icon">
+              <div class="card-icon">
+                <i class="material-icons">assignment_late</i>
+              </div>
+              <p class="card-category">Past-Due Assignments</p>
+              <h3 class="card-title">3</h3>
+            </div>
+            <div class="card-footer">
+              <div class="stats">
+                <i class="material-icons text-danger">warning</i>
+                <a href="#">View Assignments...</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="card card-stats">
+            <div class="card-header card-header-info card-header-icon">
+              <div class="card-icon">
+                <i class="material-icons">equalizer</i>
+              </div>
+              <p class="card-category">Course Visits</p>
+              <h3 class="card-title">76</h3>
+            </div>
+            <div class="card-footer">
+              <div class="stats">
+                <i class="material-icons">local_offer</i> Tracked by Google Analytics
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="card card-stats">
+            <div class="card-header card-header-info card-header-icon">
+              <div class="card-icon">
+                <i class="material-icons">star_rate</i>
+              </div>
+              <p class="card-category">Profile Rating</p>
+              <h3 class="card-title">4.9</h3>
+            </div>
+            <div class="card-footer">
+              <div class="stats">
+                <i class="material-icons">access_time</i> Last 24 Hours
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="card card-stats">
+            <div class="card-header card-header-info card-header-icon">
+              <div class="card-icon">
+                <i class="material-icons">assignment</i>
+              </div>
+              <p class="card-category">Course Enrollment</p>
+              <h3 class="card-title">4 Courses</h3>
+            </div>
+            <div class="card-footer">
+              <div class="stats">
+                <i class="material-icons">update</i> Just Updated
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h3>Active Assignments</h3>
+      <br>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card card-product">
+            <div class="card-header card-header-image" data-header-animation="true">
+              <a href="#">
+                <img class="img" src="../../assets/img/assignments/android.jpeg">
+              </a>
+            </div>
+            <div class="card-body">
+              <div class="card-actions text-center">
+                <button mat-raised-button type="button" class="btn btn-danger btn-link fix-broken-card">
+                  <i class="material-icons">build</i> Fix Header!
+                </button>
+                <button mat-raised-button type="button" class="btn btn-default btn-link" matTooltip="View" [matTooltipPosition]="'below'">
+                  <i class="material-icons">art_track</i>
+                </button>
+                <button mat-raised-button type="button" class="btn btn-success btn-link" matTooltip="Edit" [matTooltipPosition]="'below'">
+                  <i class="material-icons">edit</i>
+                </button>
+                <button mat-raised-button type="button" class="btn btn-danger btn-link" matTooltip="Remove" [matTooltipPosition]="'below'">
+                  <i class="material-icons">close</i>
+                </button>
+              </div>
+              <h4 class="card-title">
+                <a href="#">Homework #2 CriminalIntent App</a>
+              </h4>
+              <div class="card-description">
+                Create the CriminalIntent application by following Chapters 7-11 from the textbook.
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="price">
+                <h4>CS4750</h4>
+              </div>
+              <div class="stats">
+                <p class="card-category"><i class="material-icons">schedule</i>Due October 29th</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-product">
+            <div class="card-header card-header-image" data-header-animation="true">
+              <a href="#">
+                <img class="img" src="../../assets/img/assignments/regex_example.jpg">
+              </a>
+            </div>
+            <div class="card-body">
+              <div class="card-actions text-center">
+                <button mat-raised-button type="button" class="btn btn-danger btn-link fix-broken-card">
+                  <i class="material-icons">build</i> Fix Header!
+                </button>
+                <button mat-raised-button type="button" class="btn btn-default btn-link" matTooltip="View" [matTooltipPosition]="'below'">
+                  <i class="material-icons">art_track</i>
+                </button>
+                <button mat-raised-button type="button" class="btn btn-success btn-link" matTooltip="Edit" [matTooltipPosition]="'below'">
+                  <i class="material-icons">edit</i>
+                </button>
+                <button mat-raised-button type="button" class="btn btn-danger btn-link" matTooltip="Remove" [matTooltipPosition]="'below'">
+                  <i class="material-icons">close</i>
+                </button>
+              </div>
+              <h4 class="card-title">
+                <a href="#">Homework #4 Regular Expressions</a>
+              </h4>
+              <div class="card-description">
+                Complete Homework #4 and upload a pdf of your answers to Black Board before the due date.
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="price">
+                <h4>CS3110</h4>
+              </div>
+              <div class="stats">
+                <p class="card-category"><i class="material-icons">schedule</i>Due October 5th</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-product">
+            <div class="card-header card-header-image" data-header-animation="true">
+              <a href="#">
+                <img class="img" src="../../assets/img/assignments/physics_chalkboard.png">
+              </a>
+            </div>
+            <div class="card-body">
+              <div class="card-actions text-center">
+                <button mat-raised-button type="button" class="btn btn-danger btn-link fix-broken-card">
+                  <i class="material-icons">build</i> Fix Header!
+                </button>
+                <button mat-raised-button type="button" class="btn btn-default btn-link" matTooltip="View" [matTooltipPosition]="'below'">
+                  <i class="material-icons">art_track</i>
+                </button>
+                <button mat-raised-button type="button" class="btn btn-success btn-link" matTooltip="Edit" [matTooltipPosition]="'below'">
+                  <i class="material-icons">edit</i>
+                </button>
+                <button mat-raised-button type="button" class="btn btn-danger btn-link" matTooltip="Remove" [matTooltipPosition]="'below'">
+                  <i class="material-icons">close</i>
+                </button>
+              </div>
+              <h4 class="card-title">
+                <a href="#">Challenging Problem Homework #6</a>
+              </h4>
+              <div class="card-description">
+                Complete the challenging problem posted on Black Board and email your solution to the grader by Friday.
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="price">
+                <h4>PHY1520</h4>
+              </div>
+              <div class="stats">
+                <p class="card-category"><i class="material-icons">schedule</i>Due October 2nd</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

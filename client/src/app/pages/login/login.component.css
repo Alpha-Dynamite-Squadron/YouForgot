@@ -1,0 +1,5 @@
+.page-header,.login-page,.header-filter {
+  background-image: url('../../../assets/img/yellow_background.jpg'); 
+  background-size: cover; 
+  background-position: top center;
+}
