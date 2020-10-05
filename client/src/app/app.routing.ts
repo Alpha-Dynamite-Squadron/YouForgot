@@ -39,9 +39,6 @@ export const AppRoutes: Routes = [
     }, {
         path: '',
         loadChildren: './userpage/user.module#UserModule'
-    }, {
-        path: '',
-        loadChildren: './timeline/timeline.module#TimelineModule'
     }
   ]}, {
       path: '',
