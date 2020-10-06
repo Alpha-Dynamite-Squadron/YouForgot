@@ -22,9 +22,8 @@ describe('AppComponent', () => {
   let de: DebugElement;
 
   beforeEach(async(() => {
-
     TestBed.configureTestingModule({
-      imports: [ RouterTestingModule],
+      imports: [ RouterTestingModule ],
       declarations: [ AppComponent ]
     })
     .compileComponents(); //compiles the template and css
@@ -38,8 +37,14 @@ describe('AppComponent', () => {
   });
 
   //Spec Definitions
-  it('should create', () => {
+  it('should be created', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should start application', () => {
+    spyOn(component, "ngOnInit");
+    component.ngOnInit();
+    expect(component.ngOnInit).toHaveBeenCalled();
   });
 
 });

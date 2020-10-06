@@ -19,13 +19,10 @@ export class AppComponent implements OnInit {
     ).subscribe((event: NavigationEnd) => {
       const body = document.getElementsByTagName('body')[0];
       const modalBackdrop = document.getElementsByClassName('modal-backdrop')[0];
-      console.log(body);
-      console.log('*****************')
-      console.log(modalBackdrop);
       if (body.classList.contains('modal-open')) {
         body.classList.remove('modal-open');
         modalBackdrop.remove();
       }
-    });
+    }); 
   }
 }
