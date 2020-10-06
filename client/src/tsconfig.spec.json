@@ -6,5 +6,12 @@
       "jasmine",
       "node"
     ]
-  }
+  },
+  "files": [
+    "./test.ts",
+    "./polyfills.ts",
+    "./app/app.component.spec.ts",
+    "./app/md/md-chart/md-chart.component.spec.ts",
+    "./app/shared/fixedplugin/fixedplugin.component.spec.ts"
+  ]
 }

@@ -86,20 +86,19 @@ import { AppRoutes } from './app.routing';
 export class MaterialModule {}
 
 @NgModule({
-    imports:      [
-        CommonModule,
-        BrowserAnimationsModule,
-        FormsModule,
-        RouterModule.forRoot(AppRoutes,{
-          useHash: true
-        }),
-        HttpClientModule,
-
-        MaterialModule,
-        SidebarModule,
-        NavbarModule,
-        FooterModule,
-        FixedpluginModule
+    imports: [
+      CommonModule,
+      BrowserAnimationsModule,
+      FormsModule,
+      RouterModule.forRoot(AppRoutes,{
+        useHash: true
+      }),
+      HttpClientModule,
+      MaterialModule,
+      SidebarModule,
+      NavbarModule,
+      FooterModule,
+      FixedpluginModule
     ],
     declarations: [
         AppComponent,
@@ -109,6 +108,6 @@ export class MaterialModule {}
     providers : [
       MatNativeDateModule
     ],
-    bootstrap:    [ AppComponent ]
+    bootstrap: [ AppComponent ]
 })
 export class AppModule { }
