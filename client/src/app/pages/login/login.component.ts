@@ -12,6 +12,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private toggleButton: any;
     private sidebarVisible: boolean;
     private nativeElement: Node;
+    public userResponse: string;
 
     constructor(private element: ElementRef) {
         this.nativeElement = element.nativeElement;
@@ -50,5 +51,9 @@ export class LoginComponent implements OnInit, OnDestroy {
       const body = document.getElementsByTagName('body')[0];
       body.classList.remove('login-page');
       body.classList.remove('off-canvas-sidebar');
+    }
+
+    public login(){
+        this.userResponse = "login";
     }
 }
