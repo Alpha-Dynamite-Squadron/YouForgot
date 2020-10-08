@@ -3,12 +3,13 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../app.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-// import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { PagesRoutes } from './pages.routing';
 
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
+import { ValidationFormsComponent } from '../forms/validationforms/validationforms.component'
+import { FieldErrorDisplayComponent } from '../forms/validationforms/field-error-display/field-error-display.component';
 
 @NgModule({
   imports: [
@@ -20,7 +21,9 @@ import { LoginComponent } from './login/login.component';
   ],
   declarations: [
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ValidationFormsComponent,
+    FieldErrorDisplayComponent
   ]
 })
 

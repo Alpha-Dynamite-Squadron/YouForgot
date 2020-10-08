@@ -8,6 +8,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 export class RegisterComponent implements OnInit, OnDestroy {
     test: Date = new Date();
+
+    constructor() {}
+
     ngOnInit() {
       const body = document.getElementsByTagName('body')[0];
       body.classList.add('register-page');

@@ -1,5 +1,12 @@
-.page-header,.login-page,.header-filter {
-  background-image: url('../../../assets/img/yellow_background.jpg'); 
-  background-size: cover; 
-  background-position: top center;
+div.card-footer {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+span {
+  padding-top: 2px;
+}
+
+a.btn.btn-info.btn-primary.btn-round.mt-4 {
+  margin-top: 0px;
 }
