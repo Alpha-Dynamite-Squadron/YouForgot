@@ -7,6 +7,6 @@ span {
   padding-top: 2px;
 }
 
-a.btn.btn-info.btn-primary.btn-round.mt-4 {
-  margin-top: 0px;
+span.register-link {
+  padding-bottom: 10px;
 }

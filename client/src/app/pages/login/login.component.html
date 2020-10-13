@@ -7,7 +7,7 @@
       <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-6 ml-auto mr-auto">
           <form class="form" method="" action="">
-            <div class="card card-login card-hidden">
+            <div class="card card-login">
               <div class="card-header card-header-info text-center">
                 <h4 class="card-title">Login Page</h4>
               </div>
@@ -36,8 +36,13 @@
               </div>
               <span class="text-center"><a href="#something">Forgot Password?</a></span>
               <div routerLinkActive="active" class="card-footer justify-content-center">
-                <a routerLink="/dashboard" (click)="login()" class="btn btn-info btn-primary btn-round mt-4">Login</a>
+                <a routerLink="/dashboard" (click)="login()" class="btn btn-info btn-primary btn-round">Login</a>
               </div>
+              <span 
+                routerLinkActive="active" 
+                class="text-center register-link">
+                <a routerLink="/pages/register">No Account? Register Here!</a>
+              </span>
             </div>
           </form>
         </div>
