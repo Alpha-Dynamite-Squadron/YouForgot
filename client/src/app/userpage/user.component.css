@@ -1,4 +1,5 @@
-.register-button {
+.profile-information,
+.profile-summary {
   display: flex;
   align-items: center;
   justify-content: center;

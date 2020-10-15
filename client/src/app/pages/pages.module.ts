@@ -8,8 +8,6 @@ import { PagesRoutes } from './pages.routing';
 
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
-import { ValidationFormsComponent } from '../forms/validationforms/validationforms.component'
-import { FieldErrorDisplayComponent } from '../forms/validationforms/field-error-display/field-error-display.component';
 
 @NgModule({
   imports: [
@@ -21,9 +19,7 @@ import { FieldErrorDisplayComponent } from '../forms/validationforms/field-error
   ],
   declarations: [
     LoginComponent,
-    RegisterComponent,
-    ValidationFormsComponent,
-    FieldErrorDisplayComponent
+    RegisterComponent
   ]
 })
 

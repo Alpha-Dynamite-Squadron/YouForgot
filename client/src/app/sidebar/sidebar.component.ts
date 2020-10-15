@@ -23,39 +23,25 @@ export interface ChildrenItems {
 //Menu Items
 export const ROUTES: RouteInfo[] = [{
         path: '/dashboard',
-        title: 'Dashboard',
+        title: 'Home',
         type: 'link',
         icontype: 'dashboard'
-    }, 
-    // {
-    //     path: '/forms',
-    //     title: 'Forms',
-    //     type: 'sub',
-    //     icontype: 'content_paste',
-    //     collapse: 'forms',
-    //     children: [
-    //         {path: 'regular', title: 'Regular Forms', ab:'RF'},
-    //         {path: 'extended', title: 'Extended Forms', ab:'EF'},
-    //         {path: 'validation', title: 'Validation Forms', ab:'VF'},
-    //         {path: 'wizard', title: 'Wizard', ab:'W'}
-    //     ]
-    // }, 
-    {
+    }, {
+      path: '/forms',
+      title: 'Find Courses',
+      type: 'sub',
+      icontype: 'search',
+      collapse: 'forms',
+      children: [
+          {path: 'regular', title: 'Regular Forms', ab:'RF'},
+          {path: 'extended', title: 'Extended Forms', ab:'EF'},
+          {path: 'validation', title: 'Validation Forms', ab:'VF'}
+      ]
+    }, {
         path: '/calendar',
         title: 'Calendar',
         type: 'link',
         icontype: 'date_range'
-    },{
-        path: '/pages',
-        title: 'Pages',
-        type: 'sub',
-        icontype: 'image',
-        collapse: 'pages',
-        children: [
-            {path: 'login', title: 'Login Page', ab:'LP'},
-            {path: 'register', title: 'Register Page', ab:'RP'},
-            {path: 'user', title: 'User Page', ab:'UP'}
-        ]
     }
 ];
 @Component({

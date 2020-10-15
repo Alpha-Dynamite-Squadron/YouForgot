@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MaterialModule } from '../app.module'
 
 import { UserComponent } from './user.component';
 import { UserRoutes } from './user.routing';
@@ -10,7 +11,8 @@ import { UserRoutes } from './user.routing';
     imports: [
         CommonModule,
         RouterModule.forChild(UserRoutes),
-        FormsModule
+        FormsModule,
+        MaterialModule
     ],
     declarations: [UserComponent]
 })
