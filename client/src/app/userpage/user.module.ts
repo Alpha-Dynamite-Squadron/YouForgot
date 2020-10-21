@@ -6,6 +6,8 @@ import { MaterialModule } from '../app.module'
 
 import { UserComponent } from './user.component';
 import { UserRoutes } from './user.routing';
+import { CoursesComponent } from './courses/courses.component';
+import { AssignmentsComponent } from './assignments/assignments.component';
 
 @NgModule({
     imports: [
@@ -14,7 +16,10 @@ import { UserRoutes } from './user.routing';
         FormsModule,
         MaterialModule
     ],
-    declarations: [UserComponent]
+    declarations: [
+      UserComponent, 
+      CoursesComponent, AssignmentsComponent
+    ]
 })
 
 export class UserModule {}

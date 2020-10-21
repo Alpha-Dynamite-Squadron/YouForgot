@@ -4,3 +4,7 @@
   align-items: center;
   justify-content: center;
 }
+/* adds breaks to the mat-checkboxes with long labels */
+::ng-deep .mat-checkbox-layout {
+    white-space: normal !important;
+}

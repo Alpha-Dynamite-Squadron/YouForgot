@@ -21,28 +21,29 @@ export interface ChildrenItems {
 }
 
 //Menu Items
-export const ROUTES: RouteInfo[] = [{
-        path: '/dashboard',
-        title: 'Home',
-        type: 'link',
-        icontype: 'dashboard'
-    }, {
-      path: '/forms',
-      title: 'Find Courses',
-      type: 'sub',
-      icontype: 'search',
-      collapse: 'forms',
-      children: [
-          {path: 'regular', title: 'Regular Forms', ab:'RF'},
-          {path: 'extended', title: 'Extended Forms', ab:'EF'},
-          {path: 'validation', title: 'Validation Forms', ab:'VF'}
-      ]
-    }, {
-        path: '/calendar',
-        title: 'Calendar',
-        type: 'link',
-        icontype: 'date_range'
-    }
+export const ROUTES: RouteInfo[] = [
+  {
+    path: '/dashboard',
+    title: 'Home',
+    type: 'link',
+    icontype: 'dashboard'
+  }, {
+    path: '/forms',
+    title: 'Find Courses',
+    type: 'sub',
+    icontype: 'search',
+    collapse: 'forms',
+    children: [
+        {path: 'regular', title: 'Regular Forms', ab:'RF'},
+        {path: 'extended', title: 'Extended Forms', ab:'EF'},
+        {path: 'validation', title: 'Validation Forms', ab:'VF'}
+    ]
+  }, {
+      path: '/calendar',
+      title: 'Calendar',
+      type: 'link',
+      icontype: 'date_range'
+  }
 ];
 @Component({
     selector: 'app-sidebar-cmp',
