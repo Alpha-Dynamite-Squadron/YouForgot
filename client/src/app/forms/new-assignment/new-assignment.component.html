@@ -1,0 +1,81 @@
+<div class="col-md-12">
+  <div class="card">
+    <form [formGroup]="type" class="form-horizontal">
+      <div class="card-header card-header-info card-header-text">
+        <div class="card-text">
+          <h4 class="card-title">New Assignment</h4>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <label class="col-sm-2 col-form-label text-right">Assignment Title</label>
+          <div class="col-sm-7">
+            <mat-form-field class="example-full-width has-label" [ngClass]="{'has-success':validTextType===true}"
+              [ngClass]="displayFieldCss(type, 'text')">
+              <input type="text" matInput id="text" (ngModelChange)="textValidationType($event)"
+                formControlName="text">
+              <app-field-error-display [displayError]="isFieldValid(type, 'text')" errorMsg="Required text">
+              </app-field-error-display>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <label class="col-sm-2 col-form-label text-right">Assignment Description</label>
+          <div class="col-sm-7">
+            <mat-form-field class="example-full-width has-label" [ngClass]="{'has-success':validTextType===true}"
+              [ngClass]="displayFieldCss(type, 'text')">
+              <input type="text" matInput id="text" (ngModelChange)="textValidationType($event)"
+                formControlName="text">
+              <app-field-error-display [displayError]="isFieldValid(type, 'text')" errorMsg="Required text">
+              </app-field-error-display>
+            </mat-form-field>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <label class="col-sm-2 col-form-label text-right">Assignment Due Date</label>
+          <div class="col-sm-7">
+            <mat-form-field>
+              <input matInput [matDatepicker]="picker2" placeholder="Choose a date" (click)="picker2.open()">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2 startView="year"></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <label class="col-sm-2 col-form-label text-right"></label>
+          <div class="col-sm-6">
+            <div class="togglebutton">
+              <label>
+                <input type="checkbox">
+                <span class="toggle"></span>
+                Credit/No Credit
+              </label>
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <label class="col-sm-2 col-form-label text-right">Select Course</label>
+          <div class="col-sm-7">
+            <div class="row">
+              <div class="col-lg-5 col-md-8 col-sm-4">
+                  <mat-form-field>
+                      <mat-select placeholder="Course" name="city">
+                        <mat-option *ngFor="let course of courses" [value]="course.value">
+                          {{ course.viewValue }}
+                        </mat-option>
+                      </mat-select>
+                  </mat-form-field>
+              </div>
+          </div>
+          </div>
+        </div>    
+      </div>
+      <div class="card-footer text-center">
+        <button #assignmentCreateBtn mat-raised-button type="submit" class="btn btn-info btn-fill" (click)="onType()">Create Assignment</button>
+        <button #assignmentCancelBtn mat-raised-button type="button" class="btn btn-info btn-fill" (click)="$event">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>

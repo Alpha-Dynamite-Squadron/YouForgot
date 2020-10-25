@@ -13,6 +13,8 @@ import { RegularFormsComponent } from './regularforms/regularforms.component';
 import { ValidationFormsComponent } from './validationforms/validationforms.component';
 import { WizardComponent } from './wizard/wizard.component';
 import { FieldErrorDisplayComponent } from './validationforms/field-error-display/field-error-display.component';
+import { NewAssignmentComponent } from './new-assignment/new-assignment.component';
+import { PasswordValidation } from './validationforms/password-validator.component';
 
 
 @NgModule({
@@ -30,13 +32,15 @@ import { FieldErrorDisplayComponent } from './validationforms/field-error-displa
       RegularFormsComponent,
       ValidationFormsComponent,
       WizardComponent,
-      FieldErrorDisplayComponent
+      FieldErrorDisplayComponent,
+      NewAssignmentComponent
   ],
   exports: [
     ExtendedFormsComponent,
     RegularFormsComponent,
     ValidationFormsComponent,
     FieldErrorDisplayComponent,
+    NewAssignmentComponent,
     WizardComponent
   ]
 })

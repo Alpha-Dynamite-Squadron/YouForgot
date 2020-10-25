@@ -24,16 +24,6 @@ export class ValidationFormsComponent {
     Validators.email,
   ]);
 
-  selectedValue: string;
-    currentCity: string[];
-
-    selectTheme = 'info';
-    courses = [
-      {value: 'course-1520', viewValue: 'Physics 1520: Electronegativity and Magnetism'},
-      {value: 'course-3110', viewValue: 'CS3110: Formal Languages and Automata'},
-      {value: 'course-4750', viewValue: 'CS4750: Mobile Applications Development'},
-    ];
-
   validEmailRegister: boolean = false;
   validConfirmPasswordRegister: boolean = false;
   validPasswordRegister: boolean = false;
