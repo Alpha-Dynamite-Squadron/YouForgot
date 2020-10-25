@@ -1,95 +1,65 @@
 <div class="main-content">
   <div class="container-fluid">
-    <div class="col-md-11">
-      <ul class="timeline timeline-simple">
-        <li class="timeline-inverted">
-          <div class="timeline-badge info">
-            <i class="material-icons">calculate</i>
-          </div>
-          <div class="timeline-panel">
-            <div class="timeline-heading">
-              <span class="badge badge-info">Challenging Problem Homework #6</span>
+    <div class="row" *ngIf="createNewAssignment">
+      <app-validationforms-cmp></app-validationforms-cmp>
+    </div>
+    <div class="row" *ngIf="!createNewAssignment">
+      <button mat-raised-button class="btn btn-info btn-fill" (click)="createNewAssignment = !createNewAssignment">Post New Assignment</button>
+    </div>
+    <div class="row">
+      <div class="col-md-11">
+        <ul class="timeline timeline-simple">
+          <li class="timeline-inverted">
+            <div class="timeline-badge info">
+              <i class="material-icons">calculate</i>
             </div>
-            <div class="timeline-body">
-              <p>Complete the challenging problem posted on Black Board and email your solution to the grader by Friday.</p>
-            </div>
-            <h4>
-              <i class="ti-time"></i> Due 10/29/2020
-            </h4>
-            <hr>
-              <div class="dropdown pull-right">
-                <button mat-raised-button type="button" class="btn btn-round btn-info dropdown-toggle" data-toggle="dropdown">
-                  <i class="material-icons">build</i>
-                  <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                  <li>
-                    <a href="#action">Not Started</a>
-                  </li>
-                  <li>
-                    <a href="#action">In Progress</a>
-                  </li>
-                  <li>
-                    <a href="#here">Completed</a>
-                  </li>
-                  <li class="divider"></li>
-                  <li>
-                    <a href="#link">Submitted</a>
-                  </li>
-                </ul>
+            <div class="timeline-panel">
+              <div class="timeline-heading">
+                <span class="badge badge-info">Challenging Problem Homework #6</span>
               </div>
-          </div>
-        </li>
-        <li class="timeline-inverted">
-          <div class="timeline-badge info">
-            <i class="material-icons">science</i>
-          </div>
-          <div class="timeline-panel">
-            <div class="timeline-heading">
-              <span class="badge badge-info">Homework #4 Regular Expressions</span>
-            </div>
-            <div class="timeline-body">
-              <p>Complete Homework #4 and upload a pdf of your answers to Black Board before the due date.</p>
-            </div>
-            <h4>
-              <i class="ti-time"></i> Due 10/7/2020
-            </h4>
-            <hr>
-            <div class="dropdown pull-right">
-              <button mat-raised-button type="button" class="btn btn-round btn-info dropdown-toggle" data-toggle="dropdown">
-                <i class="material-icons">build</i>
-                <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                <li>
-                  <a href="#action">Not Started</a>
-                </li>
-                <li>
-                  <a href="#action">In Progress</a>
-                </li>
-                <li>
-                  <a href="#here">Completed</a>
-                </li>
-                <li class="divider"></li>
-                <li>
-                  <a href="#link">Submitted</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </li>
-        <li class="timeline-inverted">
-          <div class="timeline-badge info">
-            <i class="material-icons">book</i>
-          </div>
-          <div class="timeline-panel">
-            <div class="timeline-heading">
-              <span class="badge badge-info">Homework #2 CriminalIntent App</span>
-            </div>
-            <div class="timeline-body">
-              <p>Create the CriminalIntent application by following Chapters 7-11 from the textbook. Try and complete one chapter every two days.</p>
+              <div class="timeline-body">
+                <p>Complete the challenging problem posted on Black Board and email your solution to the grader by Friday.</p>
+              </div>
               <h4>
-                <i class="ti-time"></i> Due 9/20/2020
+                <i class="ti-time"></i> Due 10/29/2020
+              </h4>
+              <hr>
+                <div class="dropdown pull-right">
+                  <button mat-raised-button type="button" class="btn btn-round btn-info dropdown-toggle" data-toggle="dropdown">
+                    <i class="material-icons">build</i>
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                    <li>
+                      <a href="#action">Not Started</a>
+                    </li>
+                    <li>
+                      <a href="#action">In Progress</a>
+                    </li>
+                    <li>
+                      <a href="#here">Completed</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                      <a href="#link">Submitted</a>
+                    </li>
+                  </ul>
+                </div>
+            </div>
+          </li>
+          <li class="timeline-inverted">
+            <div class="timeline-badge info">
+              <i class="material-icons">science</i>
+            </div>
+            <div class="timeline-panel">
+              <div class="timeline-heading">
+                <span class="badge badge-info">Homework #4 Regular Expressions</span>
+              </div>
+              <div class="timeline-body">
+                <p>Complete Homework #4 and upload a pdf of your answers to Black Board before the due date.</p>
+              </div>
+              <h4>
+                <i class="ti-time"></i> Due 10/7/2020
               </h4>
               <hr>
               <div class="dropdown pull-right">
@@ -114,9 +84,47 @@
                 </ul>
               </div>
             </div>
-          </div>
-        </li>
-      </ul>
+          </li>
+          <li class="timeline-inverted">
+            <div class="timeline-badge info">
+              <i class="material-icons">book</i>
+            </div>
+            <div class="timeline-panel">
+              <div class="timeline-heading">
+                <span class="badge badge-info">Homework #2 CriminalIntent App</span>
+              </div>
+              <div class="timeline-body">
+                <p>Create the CriminalIntent application by following Chapters 7-11 from the textbook. Try and complete one chapter every two days.</p>
+                <h4>
+                  <i class="ti-time"></i> Due 9/20/2020
+                </h4>
+                <hr>
+                <div class="dropdown pull-right">
+                  <button mat-raised-button type="button" class="btn btn-round btn-info dropdown-toggle" data-toggle="dropdown">
+                    <i class="material-icons">build</i>
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                    <li>
+                      <a href="#action">Not Started</a>
+                    </li>
+                    <li>
+                      <a href="#action">In Progress</a>
+                    </li>
+                    <li>
+                      <a href="#here">Completed</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                      <a href="#link">Submitted</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>

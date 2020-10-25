@@ -31,6 +31,13 @@ import { FieldErrorDisplayComponent } from './validationforms/field-error-displa
       ValidationFormsComponent,
       WizardComponent,
       FieldErrorDisplayComponent
+  ],
+  exports: [
+    ExtendedFormsComponent,
+    RegularFormsComponent,
+    ValidationFormsComponent,
+    FieldErrorDisplayComponent,
+    WizardComponent
   ]
 })
 

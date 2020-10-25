@@ -2,3 +2,18 @@ h4 {
   font-weight: bold;
   color: #00bcd4;
 }
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+app-validationforms-cmp {
+  width: 80%;
+}
+
+/* adds breaks to the mat-checkboxes with long labels */
+::ng-deep .mat-checkbox-layout {
+  white-space: normal !important;
+}

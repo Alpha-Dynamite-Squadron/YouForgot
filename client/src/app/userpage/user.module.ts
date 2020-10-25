@@ -8,17 +8,20 @@ import { UserComponent } from './user.component';
 import { UserRoutes } from './user.routing';
 import { CoursesComponent } from './courses/courses.component';
 import { AssignmentsComponent } from './assignments/assignments.component';
+import { Forms } from '../forms/forms.module';
 
 @NgModule({
     imports: [
         CommonModule,
         RouterModule.forChild(UserRoutes),
         FormsModule,
-        MaterialModule
+        MaterialModule,
+        Forms
     ],
     declarations: [
       UserComponent, 
-      CoursesComponent, AssignmentsComponent
+      CoursesComponent, 
+      AssignmentsComponent
     ]
 })
 

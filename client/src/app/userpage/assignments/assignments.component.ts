@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-assignments',
@@ -7,7 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AssignmentsComponent implements OnInit {
 
+  createNewAssignment: boolean = false
+
   constructor() { }
+
+  @HostListener('click', ['$event.target']) onClick(btn: HTMLButtonElement) {
+    if(btn.textContent === 'Cancel'){
+      this.createNewAssignment = !this.createNewAssignment
+    }
+  }
 
   ngOnInit(): void {
   }
