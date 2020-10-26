@@ -12,6 +12,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSliderModule} from '@angular/material/slider';
@@ -69,6 +70,8 @@ import { AppRoutes } from './app.routing';
     MatProgressSpinnerModule,
     MatRadioModule,
     MatSelectModule,
+    MatFormFieldModule,
+    NgxMatSelectSearchModule,
     MatDatepickerModule,
     MatButtonModule,
     MatSidenavModule,

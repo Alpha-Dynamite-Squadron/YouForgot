@@ -1,5 +1,6 @@
 .profile-information,
-.profile-summary {
+.profile-summary,
+.ng-star-inserted {
   display: flex;
   align-items: center;
   justify-content: center;

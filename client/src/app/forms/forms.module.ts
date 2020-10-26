@@ -16,6 +16,7 @@ import { FieldErrorDisplayComponent } from './validationforms/field-error-displa
 import { NewAssignmentComponent } from './new-assignment/new-assignment.component';
 import { PasswordValidation } from './validationforms/password-validator.component';
 import { NewCourseComponent } from './new-course/new-course.component';
+import { NewInstitutionComponent } from './new-institution/new-institution.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import { NewCourseComponent } from './new-course/new-course.component';
       WizardComponent,
       FieldErrorDisplayComponent,
       NewAssignmentComponent,
-      NewCourseComponent
+      NewCourseComponent,
+      NewInstitutionComponent
   ],
   exports: [
     ExtendedFormsComponent,
@@ -44,6 +46,8 @@ import { NewCourseComponent } from './new-course/new-course.component';
     FieldErrorDisplayComponent,
     NewAssignmentComponent,
     NewCourseComponent,
+    NewAssignmentComponent,
+    NewInstitutionComponent,
     WizardComponent
   ]
 })

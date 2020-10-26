@@ -44,7 +44,7 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-group">
-                    <label class="bmd-label-floating">Academic Institution (School)</label>
+                    <label class="bmd-label-floating">Institution Name</label>
                     <input type="text" class="form-control">
                   </div>
                 </div>
@@ -79,15 +79,22 @@
                   </div>
                 </div>
               </div>
-              <button mat-raised-button type="submit" class="btn btn-info pull-right">Update Profile</button>
+              <button 
+                mat-raised-button type="button" 
+                class="btn btn-info pull-left" 
+                (click)="addNewInstitution = !addNewInstitution">
+                Add Institution
+              </button>
+              <button mat-raised-button type="button" class="btn btn-info pull-right">Update Profile</button>
               <div class="clearfix"></div>
             </form>
           </div>
         </div>
       </div>
     </div>
+    <app-new-institution *ngIf="addNewInstitution"></app-new-institution>
     <div class="row profile-summary">
-      <div class="col-md-4">
+      <div class="col-md-8">
         <div class="card card-profile">
           <div class="card-avatar">
             <img class="img" src="../../assets/img/developers/ryan_ramos.jpg" />

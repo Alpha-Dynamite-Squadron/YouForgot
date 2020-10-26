@@ -1,0 +1,44 @@
+<div class="col-md-8">
+  <div class="card">
+    <form [formGroup]="type" class="form-horizontal">
+      <div class="card-header card-header-info card-header-text">
+        <div class="card-text">
+          <h4 class="card-title">Add Institution</h4>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <mat-form-field>
+                <label class="bmd-label-floating">Institution</label>
+                <mat-select [formControl]="institutionCtrl" #singleSelect>
+                  <mat-option>
+                    <ngx-mat-select-search 
+                      [formControl]="institutionFilterCtrl"
+                      placeholderLabel="Search for Institution..." 
+                      noEntriesFoundLabel="No Institutions Found">
+                    </ngx-mat-select-search>
+                  </mat-option>
+                  <mat-option *ngFor="let institution of filteredInstitutions | async" [value]="institution">
+                    {{institution.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer text-center">
+        <div class="col-md-12">
+          <button mat-raised-button type="button" class="btn btn-info"
+          (click)="onType()">Add</button>
+          <button mat-raised-button type="button" class="btn btn-info"
+            (click)="onType()">Remove</button>
+          <button mat-raised-button type="button" class="btn btn-info"
+            (click)="$event">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

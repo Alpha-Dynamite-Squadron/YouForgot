@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 @Component({
     selector: 'app-user-cmp',
@@ -6,4 +6,16 @@ import { Component } from '@angular/core';
     styleUrls: ['user.component.css']
 })
 
-export class UserComponent {}
+export class UserComponent {
+
+  addNewInstitution: boolean = false;
+
+  constructor() {}
+
+  @HostListener('click', ['$event.target']) onClick(btn: HTMLButtonElement) {
+    if(btn.textContent === 'Cancel'){
+      this.addNewInstitution = !this.addNewInstitution
+    }
+  }
+
+}
