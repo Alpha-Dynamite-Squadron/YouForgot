@@ -12,9 +12,9 @@
           <div class="col-sm-7">
             <mat-form-field class="example-full-width has-label" [ngClass]="{'has-success':validTextType===true}"
               [ngClass]="displayFieldCss(type, 'text')">
-              <input type="text" matInput id="text" (ngModelChange)="textValidationType($event)"
+              <input type="text" matInput id="title" (ngModelChange)="textValidationType($event)"
                 formControlName="text">
-              <app-field-error-display [displayError]="isFieldValid(type, 'text')" errorMsg="Required text">
+              <app-field-error-display [displayError]="isFieldValid(type, 'text')" errorMsg="You must provide an assignment title!">
               </app-field-error-display>
             </mat-form-field>
           </div>
@@ -24,9 +24,9 @@
           <div class="col-sm-7">
             <mat-form-field class="example-full-width has-label" [ngClass]="{'has-success':validTextType===true}"
               [ngClass]="displayFieldCss(type, 'text')">
-              <input type="text" matInput id="text" (ngModelChange)="textValidationType($event)"
+              <input type="text" matInput id="description" (ngModelChange)="textValidationType($event)"
                 formControlName="text">
-              <app-field-error-display [displayError]="isFieldValid(type, 'text')" errorMsg="Required text">
+              <app-field-error-display [displayError]="isFieldValid(type, 'text')" errorMsg="You must provide an assignment description!">
               </app-field-error-display>
             </mat-form-field>
           </div>

@@ -1,0 +1,13 @@
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-course-btn {
+  margin-bottom: 2rem;
+}
+
+app-new-course {
+  width: 80%;
+}
