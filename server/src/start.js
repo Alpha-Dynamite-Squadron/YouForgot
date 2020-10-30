@@ -6,15 +6,25 @@ var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
 
-var connection = mysql.createConnection({
-  host  : 'localhost',
-  user  : 'me',
-  password : 'yeet',
-  database : 'yuh'
-});
-connection.connect();
-connection.end();
+const allowedExt = [
+  '.js',
+  '.ico',
+  '.css',
+   '.png',
+   '.jpg',
+   '.jpeg',
+   '.gif'
+];
 
+app.get('*', (req, res) => {
+  if(allowedExt.filter(ext => req.url.indexOf(ext) > 0).length > 0) {
+    console.log('Finding Resources...');
+    res.sendFile(path.resolve(`../../dist/${req.url}`));
+  } else {
+    console.log('Finding index.html');
+    res.sendFile(path.resolve('../../dist/index.html'));
+  }
+});
 
 //Christian Devile's Simple API Request Assignment 3
 app.get('/test1', (req, res) => {
@@ -35,7 +45,7 @@ app.get('/nicholas', (req, res) => {
 
 var http = require('http');
 
-var port = '8000';
+var port = '8080';
 app.set('port', port);
 
 var server = http.createServer(app);

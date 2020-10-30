@@ -12,17 +12,18 @@ var dbPool;
 if(process.env.NODE_ENV === 'production') {
   dbPool = mysqllib.createPool({
     connectionLimit: 3,
-    socketPath: '',
-    user: "",
+    host: 'youforgot-db.cvswxw7acwlp.us-east-2.rds.amazonaws.com',
+    user: "server",
     password: dbpassword,
-    database: "yfdb"
+    database: "yfdb",
+    multipleStatements: true
   });
 }
 else {
   dbPool = mysqllib.createPool({
     connectionLimit: 3,
     host: 'localhost',
-    user: "yfAdmin",
+    user: "server",
     password: dbpassword,
     database: "yfdb",
     multipleStatements: true
