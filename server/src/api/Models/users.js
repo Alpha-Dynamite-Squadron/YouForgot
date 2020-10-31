@@ -98,7 +98,7 @@ export const registerUser = function(accessKey, emailAddress, userName, imageID,
                 let hash = saltSteak.hash;
                 let salt = saltSteak.salt;
                 let createUserQuery = 'UPDATE User SET username = ?, imageID = ?, hash = ?, salt = ?, accessKey = NULL WHERE emailAddress = ? '
-                dbPool.query(createUserQuery, [userName, imageID, salt, hash, emailAddress], function(err, result){
+                dbPool.query(createUserQuery, [userName, imageID, hash, salt, emailAddress], function(err, result){
                     if(err){
                         resultCallback(err, null);
                     }
