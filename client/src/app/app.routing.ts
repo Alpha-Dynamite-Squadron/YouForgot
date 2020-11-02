@@ -13,7 +13,7 @@ export const AppRoutes: Routes = [
     component: HomeLayoutComponent,
     children: [
       {
-        path: '',
+        path: 'dashboard',
         loadChildren: './dashboard/dashboard.module#DashboardModule'
       }, {
         path: 'components',
@@ -33,6 +33,9 @@ export const AppRoutes: Routes = [
       }, {
         path: 'calendar',
         loadChildren: './calendar/calendar.module#CalendarModule'
+      }, {
+        path: 'coursesearch',
+        loadChildren: './course-search/course-search.module#CourseSearchModule'
       }, {
         path: '',
         loadChildren: './userpage/user.module#UserModule'

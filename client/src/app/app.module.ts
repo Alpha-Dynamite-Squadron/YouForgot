@@ -49,6 +49,7 @@ import { HomeLayoutComponent } from './layouts/home/home-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 
 import { AppRoutes } from './app.routing';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   exports: [
@@ -91,7 +92,7 @@ export class MaterialModule {}
 
 @NgModule({
     imports: [
-      CommonModule,
+      BrowserModule,
       BrowserAnimationsModule,
       FormsModule,
       RouterModule.forRoot(AppRoutes,{

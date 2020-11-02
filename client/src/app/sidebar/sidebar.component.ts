@@ -28,7 +28,7 @@ export const ROUTES: RouteInfo[] = [
     type: 'link',
     icontype: 'dashboard'
   }, {
-    path: '/forms/validation',
+    path: '/coursesearch',
     title: 'Find Courses',
     type: 'link',
     icontype: 'search'
