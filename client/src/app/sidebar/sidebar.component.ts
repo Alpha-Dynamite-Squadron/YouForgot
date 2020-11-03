@@ -23,12 +23,12 @@ export interface ChildrenItems {
 //Menu Items
 export const ROUTES: RouteInfo[] = [
   {
-    path: '/dashboard',
+    path: '/home',
     title: 'Home',
     type: 'link',
     icontype: 'dashboard'
   }, {
-    path: '/forms/validation',
+    path: '/coursesearch',
     title: 'Find Courses',
     type: 'link',
     icontype: 'search'

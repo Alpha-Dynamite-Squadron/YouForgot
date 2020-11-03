@@ -10,11 +10,11 @@ import PerfectScrollbar from 'perfect-scrollbar';
 declare const $: any;
 
 @Component({
-  selector: 'app-home-layout',
-  templateUrl: './home-layout.component.html'
+  selector: 'app-dashboard-layout',
+  templateUrl: './dashboard-layout.component.html'
 })
 
-export class HomeLayoutComponent implements OnInit, AfterViewInit {
+export class DashboardLayoutComponent implements OnInit, AfterViewInit {
     public navItems: NavItem[];
     private _router: Subscription;
     private lastPoppedUrl: string;

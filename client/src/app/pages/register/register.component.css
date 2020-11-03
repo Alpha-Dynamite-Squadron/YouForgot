@@ -3,3 +3,8 @@
   align-items: center;
   justify-content: center;
 }
+
+.login-link {
+  text-align: center;
+  margin-top: 10px;
+}

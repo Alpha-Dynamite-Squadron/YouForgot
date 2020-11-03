@@ -45,10 +45,11 @@ import { SidebarModule } from './sidebar/sidebar.module';
 import { FooterModule } from './shared/footer/footer.module';
 import { NavbarModule} from './shared/navbar/navbar.module';
 import { FixedpluginModule} from './shared/fixedplugin/fixedplugin.module';
-import { HomeLayoutComponent } from './layouts/home/home-layout.component';
+import { DashboardLayoutComponent } from './layouts/dashboard/dashboard-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 
 import { AppRoutes } from './app.routing';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   exports: [
@@ -91,7 +92,7 @@ export class MaterialModule {}
 
 @NgModule({
     imports: [
-      CommonModule,
+      BrowserModule,
       BrowserAnimationsModule,
       FormsModule,
       RouterModule.forRoot(AppRoutes,{
@@ -106,7 +107,7 @@ export class MaterialModule {}
     ],
     declarations: [
         AppComponent,
-        HomeLayoutComponent,
+        DashboardLayoutComponent,
         AuthLayoutComponent
     ],
     providers : [
