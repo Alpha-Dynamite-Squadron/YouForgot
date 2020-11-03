@@ -1,19 +1,19 @@
 import { Routes } from '@angular/router';
 
-import { HomeLayoutComponent } from './layouts/home/home-layout.component';
+import { DashboardLayoutComponent } from './layouts/dashboard/dashboard-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 
 export const AppRoutes: Routes = [
   {
     path: '',
-    redirectTo: '/pages/login',
+    redirectTo: '/login',
     pathMatch: 'full',
   }, {
     path: '',
-    component: HomeLayoutComponent,
+    component: DashboardLayoutComponent,
     children: [
       {
-        path: 'dashboard',
+        path: 'home',
         loadChildren: './dashboard/dashboard.module#DashboardModule'
       }, {
         path: 'components',
@@ -37,7 +37,7 @@ export const AppRoutes: Routes = [
         path: 'coursesearch',
         loadChildren: './course-search/course-search.module#CourseSearchModule'
       }, {
-        path: '',
+        path: 'user',
         loadChildren: './userpage/user.module#UserModule'
       }
     ]
@@ -45,7 +45,7 @@ export const AppRoutes: Routes = [
     path: '',
     component: AuthLayoutComponent,
     children: [{
-      path: 'pages',
+      path: '',
       loadChildren: './pages/pages.module#PagesModule'
     }]
   }

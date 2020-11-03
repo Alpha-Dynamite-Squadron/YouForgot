@@ -8,9 +8,9 @@ export const UserRoutes: Routes = [
   {
     path: '',
     children: [ 
-      { path: 'pages/user', component: UserComponent },
-      { path: 'pages/courses', component: CoursesComponent },
-      { path: 'pages/assignments', component: AssignmentsComponent }
+      { path: 'myprofile', component: UserComponent },
+      { path: 'mycourses', component: CoursesComponent },
+      { path: 'myassignments', component: AssignmentsComponent }
     ]
   }
 ];
