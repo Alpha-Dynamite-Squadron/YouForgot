@@ -1,7 +1,7 @@
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
-var mysql = require('mysql');
+var routesApi = require('../src/api/routes/index.js')
 var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
@@ -16,13 +16,15 @@ const allowedExt = [
    '.gif'
 ];
 
+app.use('/api', routesApi);
+
 app.get('*', (req, res) => {
   if(allowedExt.filter(ext => req.url.indexOf(ext) > 0).length > 0) {
     console.log('Finding Resources...');
-    res.sendFile(path.resolve(`../../dist/${req.url}`));
+    res.sendFile(path.resolve(`../client/dist/${req.url}`));
   } else {
     console.log('Finding index.html');
-    res.sendFile(path.resolve('../../dist/index.html'));
+    res.sendFile(path.resolve('../client/dist/index.html'));
   }
 });
 

@@ -1,10 +1,10 @@
 const csv = require('csv-parser');
 const fs = require('fs');
-let dbPool = require('../src/database.js');
+let dbPool = require('../src/api/Models/database.js');
 
 let valueArray = [];
 //Should have Code to manually download CSV file from server to run completely autonomously
-fs.createReadStream('/mnt/Nexus-Titanium/Archived Documents/CPP/Y4_S1/CS_4800/YouForgot/InstitutionCampus.csv')
+fs.createReadStream('../database/InstitutionCampus.csv')
   .pipe(csv())
   .on('data', (row) => {
     if(row.LocationType === 'Institution') {
