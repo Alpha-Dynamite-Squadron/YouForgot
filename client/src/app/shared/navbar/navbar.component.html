@@ -2,9 +2,9 @@
   <div class="container-fluid">
     <div class="navbar-wrapper">
       <div class="navbar-minimize">
-        <button 
-          mat-raised-button 
-          (click)="minimizeSidebar()" 
+        <button
+          mat-raised-button
+          (click)="minimizeSidebar()"
           class="btn btn-just-icon btn-white btn-fab btn-round">
           <i class="material-icons text_align-center visible-on-sidebar-regular">more_vert</i>
           <i class="material-icons design_bullet-list-67 visible-on-sidebar-mini">view_list</i>
@@ -52,8 +52,8 @@
             </p>
           </a>
         </li>
-        <li routerLinkActive="true" class="nav-item">
-          <a routerLink="/login" class="nav-link" href="#">
+        <li class="nav-item">
+          <a (click)="logout()" class="nav-link">
             <i class="material-icons">exit_to_app</i>
             <p>
               <span class="d-lg-none d-md-block">Logout</span>

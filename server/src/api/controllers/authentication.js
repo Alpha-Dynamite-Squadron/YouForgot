@@ -52,14 +52,14 @@ module.exports.register = function(req, res) {
           "message" : "emailAddress required"
         });
     }
-    else if(!req.body.userName) {
+    else if(!req.body.username) {
         res.status(400).json({
-          "message" : "userName required"
+          "message" : "username required"
         });
     }
     else {
       //Verify Password usable
-        users.registerUser(req.body.accessKey, req.body.emailAddress, req.body.userName, req.body.imageID, req.body.password, function(err, code, data) {
+        users.registerUser(req.body.accessKey, req.body.emailAddress, req.body.username, req.body.imageID, req.body.password, function(err, code, data) {
             if(err) {
                 console.log("Error Registering User: " + req.body.accessKey);
                 console.log(err);
@@ -68,26 +68,26 @@ module.exports.register = function(req, res) {
                 });
             }
             else if(code == 0){
-                console.log("Successfully Registered User: " + req.body.userName);
+                console.log("Successfully Registered User: " + req.body.username);
                 let token = data.generateJwt();
                 res.status(200).json({
                     "token" : token
                 });
             }
             else if(code == 1){
-                console.log("Error unauthorized access key for user: " + req.body.userName);
+                console.log("Error unauthorized access key for user: " + req.body.username);
                 res.status(401).json({
                     "message" : "Bad access key provided"
                 });
             }
             else if(code == 2){
-                console.log("Error email not found for user: " + req.body.userName);
+                console.log("Error email not found for user: " + req.body.username);
                 res.status(403).json({
                     "message" : "Bad email provided"
                 });
             }
             else if(code == 3){
-                console.log("Error the email was found the the query did not complete for user: " + req.body.userName);
+                console.log("Error the email was found the the query did not complete for user: " + req.body.username);
                 res.status(500).json({
                     "message" : "Unknown database error occurred"
                 });

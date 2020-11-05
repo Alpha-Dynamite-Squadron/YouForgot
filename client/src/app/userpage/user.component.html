@@ -79,9 +79,9 @@
                   </div>
                 </div>
               </div>
-              <button 
-                mat-raised-button type="button" 
-                class="btn btn-info pull-left" 
+              <button
+                mat-raised-button type="button"
+                class="btn btn-info pull-left"
                 (click)="addNewInstitution = !addNewInstitution">
                 Add Institution
               </button>
@@ -99,11 +99,11 @@
           <div class="card-avatar">
             <img class="img" src="../../assets/img/default-avatar.png" />
           </div>
-          <div routerLinkActive="active" class="card-body">
+          <div class="card-body">
             <h6 class="card-category text-gray">Major</h6>
             <h4 class="card-title">Username</h4>
             <p class="card-description">Academic Institution Name</p>
-            <a routerLink="/login" class="btn btn-info btn-round">Logout</a>
+            <button (click)="logout()" class="btn btn-info btn-round">Logout</button>
           </div>
         </div>
       </div>

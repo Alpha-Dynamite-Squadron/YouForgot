@@ -23,7 +23,7 @@ let funcGenerateJwt = function() {
     expiry.setDate(expiry.getDate() + 1);
     return jwt.sign({
       emailAddress: this.emailAddress,
-      userName: this.userName,
+      username: this.username,
       imageID: this.imageID,
       getPostReminderNotifications: this.getPostReminderNotifications,
       getHomeworkReminderNotifications: this.getHomeworkReminderNotifications,
@@ -40,10 +40,10 @@ module.exports.findAccountByEmail = function(email, resultCallback) {
             resultCallback(err, null);
         }
         else if(result.length === 1) {
-            console.log('Found User: ' + result[0].userName);
+            console.log('Found User: ' + result[0].username);
             var user = {
                 emailAddress: result[0].emailAddress,
-                userName: result[0].userName,
+                username: result[0].username,
                 imageID: result[0].imageID,
                 hash: result[0].hash,
                 salt: result[0].salt,
@@ -54,6 +54,7 @@ module.exports.findAccountByEmail = function(email, resultCallback) {
                 validPassword: funcCheckPassword,
                 generateJwt: funcGenerateJwt
             }
+            console.log(user);
             resultCallback(null, user);
         }
         else {
@@ -85,7 +86,7 @@ module.exports.findNewUser = function(accessKey, resultCallback) {
     * error code 2 no email address is found
     * error code 3 is that the query failed because the email dissapeared
     */
-module.exports.registerUser = function(accessKey, emailAddress, userName, imageID, password, resultCallback) {
+module.exports.registerUser = function(accessKey, emailAddress, username, imageID, password, resultCallback) {
     let findInactiveUserQuery = 'SELECT emailAddress, accessKey FROM Personnel WHERE emailAddress = ? LIMIT 1';
     dbPool.query(findInactiveUserQuery, emailAddress, function(err, result) {
         if(err) {
@@ -98,7 +99,7 @@ module.exports.registerUser = function(accessKey, emailAddress, userName, imageI
                 let hash = saltSteak.hash;
                 let salt = saltSteak.salt;
                 let createUserQuery = 'UPDATE User SET username = ?, imageID = ?, hash = ?, salt = ?, accessKey = NULL WHERE emailAddress = ? '
-                dbPool.query(createUserQuery, [userName, imageID, hash, salt, emailAddress], function(err, result){
+                dbPool.query(createUserQuery, [username, imageID, hash, salt, emailAddress], function(err, result){
                     if(err){
                         resultCallback(err, null);
                     }
@@ -110,7 +111,7 @@ module.exports.registerUser = function(accessKey, emailAddress, userName, imageI
                         console.log("New user registered.");
                         let user = {
                             emailAddress: emailAddress,
-                            userName: userName,
+                            username: username,
                             imageID: imageID,
                             getPostReminderNotifications: true,
                             getHomeworkReminderNotifications: true,

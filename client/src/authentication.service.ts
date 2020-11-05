@@ -29,10 +29,10 @@ export class AuthenticationService {
     });
   }
 
-  public completeRegistration(emailAddress: string, userName: string, imageID: string, password: string, accessKey: string): Observable<any> {
+  public completeRegistration(emailAddress: string, username: string, imageID: string, password: string, accessKey: string): Observable<any> {
     return this.requestData('post', 'completeRegistration', {
       emailAddress: emailAddress,
-      userName: userName,
+      username: username,
       imageID: imageID,
       password: password,
       accessKey: accessKey
