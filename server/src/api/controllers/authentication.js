@@ -101,10 +101,11 @@ module.exports.register = function(req, res) {
     }
 }
 
-module.exports.login = function(req, res) {
-  passport.authenticate('user-local', function(err, user, info) {
+module.exports.login = function(req, res, next) {
+  let authenticationFunction = passport.authenticate('user-local', function(err, user, info) {
     var token;
     if(err) {//Passport Error
+      console.error("Failed to Authenticate User", err);
       res.status(500).json(err);
       return;
     }
@@ -117,7 +118,8 @@ module.exports.login = function(req, res) {
     } else {//If user is not found
       res.status(401).json(info);
     }
-  })(req, res);
+  });
+  authenticationFunction(req, res, next);
 };
 
 module.exports.hashContent = function(req, res) {

@@ -15,7 +15,7 @@ var auth = jwt({
 });
 
 
-var controllerAuthentication = require('../src/api/controllers/authentication.js');
+var controllerAuthentication = require('../controllers/authentication.js');
 
 //router.post('/preregister', controllerAuthentication.preregister);
 router.post('/login', controllerAuthentication.login);

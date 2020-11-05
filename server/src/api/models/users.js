@@ -31,10 +31,10 @@ let funcGenerateJwt = function() {
     }, secretString);
 };
 
-/* This is the database call to pull data for the user. 
+/* This is the database call to pull data for the user.
 */
-export const findAccountByEmail = function(email, resultCallback) {
-    var queryString = 'SELECT User.emailAddress, username, imageID, hash, salt, profileRating, getPostReminderNotifications, getHomeworkReminderNotifications, FROM User WHERE accessKey IS NULL AND emailAddress = ?';
+module.exports.findAccountByEmail = function(email, resultCallback) {
+    var queryString = 'SELECT emailAddress, username, imageID, hash, salt, profileRating, getPostReminderNotifications, getHomeworkReminderNotifications FROM User WHERE accessKey IS NULL AND emailAddress = ?';
     dbPool.query(queryString, email, function (err, result) {
         if(err) {
             resultCallback(err, null);
@@ -55,7 +55,7 @@ export const findAccountByEmail = function(email, resultCallback) {
                 generateJwt: funcGenerateJwt
             }
             resultCallback(null, user);
-        } 
+        }
         else {
             console.log("No User found for email: " + email);
             resultCallback(null, null);
@@ -63,7 +63,7 @@ export const findAccountByEmail = function(email, resultCallback) {
     });
 };
 // Check that the user exists in the DB once the user has clicked on the link with the access key so that registration can continue.
-export const findNewUser = function(accessKey, resultCallback) {
+module.exports.findNewUser = function(accessKey, resultCallback) {
     var findInactiveUserQuery = 'SELECT accessKey, emailAddress, FROM User WHERE accessKey = ? LIMIT 1';
     dbPool.query(findInactiveUserQuery, accessKey, function(err, result) {
         if(err) {
@@ -85,7 +85,7 @@ export const findNewUser = function(accessKey, resultCallback) {
     * error code 2 no email address is found
     * error code 3 is that the query failed because the email dissapeared
     */
-export const registerUser = function(accessKey, emailAddress, userName, imageID, password, resultCallback) {
+module.exports.registerUser = function(accessKey, emailAddress, userName, imageID, password, resultCallback) {
     let findInactiveUserQuery = 'SELECT emailAddress, accessKey FROM Personnel WHERE emailAddress = ? LIMIT 1';
     dbPool.query(findInactiveUserQuery, emailAddress, function(err, result) {
         if(err) {
@@ -130,4 +130,3 @@ export const registerUser = function(accessKey, emailAddress, userName, imageID,
         }
     });
 }
-  
