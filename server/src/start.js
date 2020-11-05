@@ -5,6 +5,26 @@ var mysql = require('mysql');
 var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
+var http = require('http');
+var port = '8080';
+app.set('port', port);
+var server = http.createServer(app);
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+// import clean from './api/Models/maintenance.js';
+// import notificationMailer from './api/Models/sendNotifications.js';
+// import nodemailer from 'nodemailer';
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+  console.log('Listening on ' + bind);
+}
+
 
 const allowedExt = [
   '.js',
@@ -26,33 +46,6 @@ app.get('*', (req, res) => {
   }
 });
 
-//Christian Devile's Simple API Request Assignment 3
-app.get('/test1', (req, res) => {
-  res.send("Hello world");
-});
-//Kenny Lee's Simple API Request for Assignment 3
-app.get('/yeet', (req, res) => {
-  res.send("yeet");
-});
-//Ryan Dimitri Ramos's Simple API Request for Assignment 3
-app.get('/dimitri', (req, res) => {
-  res.send("Hi, this is Dimitri's test");
-});
-//Nicholas Stewart's Simple API Request for Assignment 3
-app.get('/nicholas', (req, res) => {
-  res.send("I like Moose.");
-});
-
-var http = require('http');
-
-var port = '8080';
-app.set('port', port);
-
-var server = http.createServer(app);
-
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
 
 
 /**
@@ -80,13 +73,26 @@ function onError(error) {
       throw error;
   }
 }
+//run clean every hour
+//setInterval(clean, 3600000);
+//send notifications every 5 minutes
+//setInterval(notificationMailer, 300000);
 
-/**
- * Event listener for HTTP server "listening" event.
- */
 
-function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-  console.log('Listening on ' + bind);
-}
+
+//Christian Devile's Simple API Request Assignment 3
+app.get('/test1', (req, res) => {
+  res.send("Hello world");
+});
+//Kenny Lee's Simple API Request for Assignment 3
+app.get('/yeet', (req, res) => {
+  res.send("yeet");
+});
+//Ryan Dimitri Ramos's Simple API Request for Assignment 3
+app.get('/dimitri', (req, res) => {
+  res.send("Hi, this is Dimitri's test");
+});
+//Nicholas Stewart's Simple API Request for Assignment 3
+app.get('/nicholas', (req, res) => {
+  res.send("I like Moose.");
+});
