@@ -2,7 +2,7 @@ let passport = require('passport');
 let users = require('../models/users');
 let crypto = require('crypto');
 
-export const findNewUser = function(req, res)   {
+module.exports.findNewUser = function(req, res)   {
   console.log("Find User by AccessKey Request Receieved");
   if(!req.body.accessKey) {
     res.status(400).json({
@@ -30,7 +30,7 @@ export const findNewUser = function(req, res)   {
     });
   }
 }
-export const register = function(req, res) {
+module.exports.register = function(req, res) {
     console.log("AccessKey Registration Request Receieved");
     if(!req.body.accessKey) {
       res.status(400).json({
@@ -101,7 +101,7 @@ export const register = function(req, res) {
     }
 }
 
-export const login = function(req, res) {
+module.exports.login = function(req, res) {
   passport.authenticate('user-local', function(err, user, info) {
     var token;
     if(err) {//Passport Error
@@ -120,7 +120,7 @@ export const login = function(req, res) {
   })(req, res);
 };
 
-export const hashContent = function(req, res) {
+module.exports.hashContent = function(req, res) {
   var salt = crypto.randomBytes(20).toString('hex');
   var hash = crypto.pbkdf2Sync(req.body.password, salt, 1000, 512, 'sha512').toString('hex');
   res.status(200).json({
