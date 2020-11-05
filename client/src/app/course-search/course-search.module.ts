@@ -7,15 +7,20 @@ import { Forms } from '../forms/forms.module';
 
 import { CourseSearchRoutes } from './course-search.routing';
 import { CourseSearchComponent } from './course-search.component';
+import { TablesModule } from '../tables/tables.module';
 
 @NgModule({
   imports: [
       CommonModule,
       RouterModule.forChild(CourseSearchRoutes),
       FormsModule,
-      MaterialModule
+      MaterialModule,
+      Forms,
+      TablesModule
   ],
-  declarations: [CourseSearchComponent],
+  declarations: [
+    CourseSearchComponent
+  ],
   exports: [CourseSearchComponent]
 })
 

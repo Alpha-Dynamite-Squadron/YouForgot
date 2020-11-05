@@ -7,15 +7,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 })
 export class CoursesComponent implements OnInit {
 
-  findNewCourse: boolean = false;
-
   constructor() { }
-
-  @HostListener('click', ['$event.target']) onClick(btn: HTMLButtonElement) {
-    if(btn.textContent === 'Cancel'){
-      this.findNewCourse = !this.findNewCourse
-    }
-  }
 
   ngOnInit(): void {
   }

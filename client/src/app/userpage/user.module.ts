@@ -22,6 +22,10 @@ import { Forms } from '../forms/forms.module';
       UserComponent, 
       CoursesComponent, 
       AssignmentsComponent
+    ],
+    exports: [
+      CoursesComponent,
+      AssignmentsComponent
     ]
 })
 

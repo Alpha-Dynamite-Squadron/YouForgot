@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-course-search',
@@ -7,10 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CourseSearchComponent implements OnInit {
 
-  constructor() { }
+  createNewCourse: boolean = false;
+
+  constructor() {}
+
+  @HostListener('click', ['$event.target']) onClick(btn: HTMLButtonElement) {
+    if (btn.textContent === 'Cancel') {
+      this.createNewCourse = !this.createNewCourse;
+    }
+  }
 
   ngOnInit(): void {
-    console.log("Initializing CourseSearch Component...");
   }
 
 }

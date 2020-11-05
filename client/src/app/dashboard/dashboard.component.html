@@ -1,5 +1,6 @@
 <div class="main-content">
     <div class="container-fluid">
+      <h3>My Metrics</h3>
       <div class="row">
         <div class="col-md-4">
           <div class="card card-chart">
@@ -97,7 +98,7 @@
             <div class="card-footer">
               <div class="stats">
                 <i class="material-icons text-danger">warning</i>
-                <a href="#">View Assignments...</a>
+                <a routerLinkActive="true" routerLink="/user/myassignments">View Assignments...</a>
               </div>
             </div>
           </div>
@@ -152,125 +153,8 @@
         </div>
       </div>
       <h3>My Courses</h3>
-      <br>
-      <div class="row">
-        <div class="col-md-4">
-          <div class="card card-product">
-            <div class="card-header card-header-image" data-header-animation="true">
-              <a href="#">
-                <img class="img" src="../../assets/img/assignments/android.jpeg">
-              </a>
-            </div>
-            <div class="card-body">
-              <div class="card-actions text-center">
-                <button mat-raised-button type="button" class="btn btn-danger btn-link fix-broken-card">
-                  <i class="material-icons">build</i> Fix Header!
-                </button>
-                <button mat-raised-button type="button" class="btn btn-default btn-link" matTooltip="View" [matTooltipPosition]="'below'">
-                  <i class="material-icons">art_track</i>
-                </button>
-                <button mat-raised-button type="button" class="btn btn-success btn-link" matTooltip="Edit" [matTooltipPosition]="'below'">
-                  <i class="material-icons">edit</i>
-                </button>
-                <button mat-raised-button type="button" class="btn btn-danger btn-link" matTooltip="Remove" [matTooltipPosition]="'below'">
-                  <i class="material-icons">close</i>
-                </button>
-              </div>
-              <h4 class="card-title">
-                <a href="#">CS4750</a>
-              </h4>
-              <div class="card-description">
-                Mobile Applications Development
-              </div>
-            </div>
-            <div class="card-footer">
-              <div class="price">
-                <h4>David Johansenn</h4>
-              </div>
-              <div class="stats">
-                <p class="card-category"><i class="material-icons">date_range</i>Fall Semester 2020</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card card-product">
-            <div class="card-header card-header-image" data-header-animation="true">
-              <a href="#">
-                <img class="img" src="../../assets/img/assignments/regex_example.jpg">
-              </a>
-            </div>
-            <div class="card-body">
-              <div class="card-actions text-center">
-                <button mat-raised-button type="button" class="btn btn-danger btn-link fix-broken-card">
-                  <i class="material-icons">build</i> Fix Header!
-                </button>
-                <button mat-raised-button type="button" class="btn btn-default btn-link" matTooltip="View" [matTooltipPosition]="'below'">
-                  <i class="material-icons">art_track</i>
-                </button>
-                <button mat-raised-button type="button" class="btn btn-success btn-link" matTooltip="Edit" [matTooltipPosition]="'below'">
-                  <i class="material-icons">edit</i>
-                </button>
-                <button mat-raised-button type="button" class="btn btn-danger btn-link" matTooltip="Remove" [matTooltipPosition]="'below'">
-                  <i class="material-icons">close</i>
-                </button>
-              </div>
-              <h4 class="card-title">
-                <a href="#">CS3110</a>
-              </h4>
-              <div class="card-description">
-                Formal Languages and Automata
-              </div>
-            </div>
-            <div class="card-footer">
-              <div class="price">
-                <h4>Fuh Sang</h4>
-              </div>
-              <div class="stats">
-                <p class="card-category"><i class="material-icons">date_range</i>Fall Semester 2020</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card card-product">
-            <div class="card-header card-header-image" data-header-animation="true">
-              <a href="#">
-                <img class="img" src="../../assets/img/assignments/physics_chalkboard.png">
-              </a>
-            </div>
-            <div class="card-body">
-              <div class="card-actions text-center">
-                <button mat-raised-button type="button" class="btn btn-danger btn-link fix-broken-card">
-                  <i class="material-icons">build</i> Fix Header!
-                </button>
-                <button mat-raised-button type="button" class="btn btn-default btn-link" matTooltip="View" [matTooltipPosition]="'below'">
-                  <i class="material-icons">art_track</i>
-                </button>
-                <button mat-raised-button type="button" class="btn btn-success btn-link" matTooltip="Edit" [matTooltipPosition]="'below'">
-                  <i class="material-icons">edit</i>
-                </button>
-                <button mat-raised-button type="button" class="btn btn-danger btn-link" matTooltip="Remove" [matTooltipPosition]="'below'">
-                  <i class="material-icons">close</i>
-                </button>
-              </div>
-              <h4 class="card-title">
-                <a href="#">PHY1520</a>
-              </h4>
-              <div class="card-description">
-                Electronegativity and Magnetism
-              </div>
-            </div>
-            <div class="card-footer">
-              <div class="price">
-                <h4>Sidi Benzhara</h4>
-              </div>
-              <div class="stats">
-                <p class="card-category"><i class="material-icons">date_range</i>Fall Semester 2020</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <app-courses></app-courses>
+      <h3>My Assignments</h3>
+      <app-assignments></app-assignments>
     </div>
 </div>

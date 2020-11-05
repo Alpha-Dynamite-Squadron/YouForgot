@@ -34,7 +34,7 @@ export const AppRoutes: Routes = [
         path: 'calendar',
         loadChildren: './calendar/calendar.module#CalendarModule'
       }, {
-        path: 'coursesearch',
+        path: 'courses',
         loadChildren: './course-search/course-search.module#CourseSearchModule'
       }, {
         path: 'user',

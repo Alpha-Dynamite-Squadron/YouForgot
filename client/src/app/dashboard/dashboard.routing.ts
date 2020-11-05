@@ -3,10 +3,7 @@ import { DashboardComponent } from './dashboard.component';
 
 export const DashboardRoutes: Routes = [
   {
-    path: '',
-    children: [{
-      path: '',
-      component: DashboardComponent
-    }]
+    path: 'main',
+    component: DashboardComponent
   }
 ];

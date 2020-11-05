@@ -9,6 +9,7 @@ import { TablesRoutes } from './tables.routing';
 import { ExtendedTableComponent } from './extendedtable/extendedtable.component';
 import { RegularTableComponent } from './regulartable/regulartable.component';
 import { DataTableComponent } from './datatable.net/datatable.component';
+import { CourseTableComponent } from './course-table/course-table.component';
 
 
 @NgModule({
@@ -21,7 +22,14 @@ import { DataTableComponent } from './datatable.net/datatable.component';
   declarations: [
       ExtendedTableComponent,
       DataTableComponent,
-      RegularTableComponent
+      RegularTableComponent,
+      CourseTableComponent
+  ],
+  exports: [
+    ExtendedTableComponent,
+    DataTableComponent,
+    RegularTableComponent,
+    CourseTableComponent
   ]
 })
 

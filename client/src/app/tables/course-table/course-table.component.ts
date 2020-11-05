@@ -11,17 +11,18 @@ declare interface DataTable {
 declare const $: any;
 
 @Component({
-  selector: 'app-data-table-cmp',
-  templateUrl: 'datatable.component.html'
+  selector: 'app-course-table',
+  templateUrl: './course-table.component.html',
+  styleUrls: ['./course-table.component.css']
 })
+export class CourseTableComponent implements OnInit, AfterViewInit {
 
-export class DataTableComponent implements OnInit, AfterViewInit {
   public dataTable: DataTable;
 
   ngOnInit() {
     this.dataTable = {
-      headerRow: ['Name', 'Position', 'Office', 'Age', 'Date', 'Actions'],
-      footerRow: ['Name', 'Position', 'Office', 'Age', 'Start Date', 'Actions'],
+      headerRow: ['Course Name', 'Course Number', 'Course Instructor', 'Course Term', 'Current Enrollment', 'Enroll'],
+      footerRow: ['Course Name', 'Course Number', 'Course Instructor', 'Course Term', 'Current Enrollment', 'Enroll'],
 
       dataRows: [
         ['Airi Satou', 'Andrew Mike', 'Develop', '2013', '99,225', ''],
@@ -79,7 +80,7 @@ export class DataTableComponent implements OnInit, AfterViewInit {
       responsive: true,
       language: {
         search: "_INPUT_",
-        searchPlaceholder: "Search records",
+        searchPlaceholder: "Search Courses...",
       }
 
     });
@@ -107,7 +108,7 @@ export class DataTableComponent implements OnInit, AfterViewInit {
 
     //Like record
     table.on('click', '.like', function (e) {
-      alert('You clicked on Like button');
+      alert('You enrolled in the course.');
       e.preventDefault();
     });
 

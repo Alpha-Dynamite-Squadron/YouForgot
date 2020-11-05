@@ -3,7 +3,7 @@ import { CourseSearchComponent } from './course-search.component';
 
 export const CourseSearchRoutes: Routes = [
   {
-    path: '',  
+    path: 'search',  
     component: CourseSearchComponent
   }
 ];

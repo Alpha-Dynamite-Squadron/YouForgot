@@ -1,10 +1,13 @@
 <div class="main-content">
   <div class="container-fluid">
-    <p>course-search works!</p>
-    <p>course-search works!</p>
-    <p>course-search works!</p>
-    <p>course-search works!</p>
-    <p>course-search works!</p>
-    <!-- <app-new-course></app-new-course> -->
+    <div class="row" *ngIf="createNewCourse">
+      <app-new-course></app-new-course>
+    </div>
+    <div class="row add-course-btn mb-0" *ngIf="!createNewCourse">
+      <button mat-raised-button class="btn btn-info btn-fill" (click)="createNewCourse = !createNewCourse">
+        Add New Course
+      </button>
+    </div>
+    <hr>
+    <app-course-table></app-course-table>
   </div>
-</div>

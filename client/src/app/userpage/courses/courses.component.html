@@ -1,16 +1,13 @@
 <div class="main-content">
   <div class="container-fluid">
-    <div class="row" *ngIf="findNewCourse">
-      <app-new-course></app-new-course>
-    </div>
-    <div class="row add-course-btn" *ngIf="!findNewCourse">
-      <button mat-raised-button class="btn btn-info btn-fill" (click)="findNewCourse = !findNewCourse">Find Courses</button>
+    <div class="row">
+      <button mat-raised-button class="btn btn-info btn-fill" routerLinkActive="active" routerLink="/courses/search">Find More Courses</button>
     </div>
     <hr>
     <div class="row">
       <div class="col-md-4">
         <div class="card card-product">
-          <div class="card-header card-header-image" data-header-animation="true">
+          <div class="card-header card-header-image" data-header-animation="false">
             <a href="#">
               <img class="img" src="../../assets/img/assignments/android.jpeg">
             </a>
@@ -49,7 +46,7 @@
       </div>
       <div class="col-md-4">
         <div class="card card-product">
-          <div class="card-header card-header-image" data-header-animation="true">
+          <div class="card-header card-header-image" data-header-animation="false">
             <a href="#">
               <img class="img" src="../../assets/img/assignments/regex_example.jpg">
             </a>
@@ -88,7 +85,7 @@
       </div>
       <div class="col-md-4">
         <div class="card card-product">
-          <div class="card-header card-header-image" data-header-animation="true">
+          <div class="card-header card-header-image" data-header-animation="false">
             <a href="#">
               <img class="img" src="../../assets/img/assignments/physics_chalkboard.png">
             </a>
