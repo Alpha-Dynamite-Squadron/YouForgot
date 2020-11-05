@@ -50,6 +50,7 @@ import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 
 import { AppRoutes } from './app.routing';
 import { BrowserModule } from '@angular/platform-browser';
+import { AuthenticationService } from 'src/authentication.service';
 
 @NgModule({
   exports: [
@@ -111,7 +112,8 @@ export class MaterialModule { }
     AuthLayoutComponent
   ],
   providers: [
-    MatNativeDateModule
+    MatNativeDateModule,
+    AuthenticationService
   ],
   bootstrap: [AppComponent]
 })

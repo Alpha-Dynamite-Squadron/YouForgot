@@ -1,4 +1,6 @@
 import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthenticationService, TokenPayload } from 'src/authentication.service';
 
 declare var $: any;
 
@@ -14,8 +16,12 @@ export class LoginComponent implements OnInit, OnDestroy {
     private sidebarVisible: boolean;
     private nativeElement: Node;
     public userResponse: string;
+    public loginInfo: TokenPayload = {email: '', password: ''};
 
-    constructor(private element: ElementRef) {
+    constructor(
+      private element: ElementRef, 
+      private authService: AuthenticationService,
+      private router: Router) {
         this.nativeElement = element.nativeElement;
         this.sidebarVisible = false;
     }
@@ -27,11 +33,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         body.classList.add('login-page');
         body.classList.add('off-canvas-sidebar');
         const card = document.getElementsByClassName('card')[0];
-        console.log("Initializing Login Component...")
-        // setTimeout(function() {
-        //     // after 1000 ms we add the class animated to the login/register card
-        //     card.classList.remove('card-hidden');
-        // }, 700);
     }
     sidebarToggle() {
         var toggleButton = this.toggleButton;
@@ -57,5 +58,14 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     public login(){
         this.userResponse = "login";
+        console.log("Attempting to Login...");
+        console.log("Logging in with email: " + this.loginInfo.email);
+        console.log("Logging in with password: " + this.loginInfo.password);
+        this.authService.requestLogin(this.loginInfo)
+          .subscribe(() => {
+            this.router.navigateByUrl('/home/main');
+          }, (error) => {
+            console.log(error);
+          });
     }
 }
