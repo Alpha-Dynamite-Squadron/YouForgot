@@ -6,7 +6,7 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-6 ml-auto mr-auto">
-          <form class="form" method="" action="">
+          <form class="form" (submit)="login()">
             <div class="card card-login">
               <div class="card-header card-header-info text-center">
                 <h4 class="card-title">Login Page</h4>
@@ -20,7 +20,13 @@
                         <i class="material-icons">email</i>
                       </span>
                     </div>
-                    <input type="email" class="form-control" placeholder="Academic Email...">
+                    <input 
+                      type="email" 
+                      class="form-control" 
+                      placeholder="Academic Email..."
+                      name="email"
+                      [(ngModel)]="loginInfo.email" 
+                      required>
                   </div>
                 </span>
                 <span class="bmd-form-group">
@@ -30,13 +36,19 @@
                         <i class="material-icons">lock_outline</i>
                       </span>
                     </div>
-                    <input type="password" class="form-control" placeholder="Password...">
+                    <input 
+                      type="password" 
+                      class="form-control" 
+                      placeholder="Password..."
+                      name="password"
+                      [(ngModel)]="loginInfo.password"  
+                      required>
                   </div>
                 </span>
               </div>
               <span class="text-center"><a href="#something">Forgot Password?</a></span>
-              <div routerLinkActive="active" class="card-footer justify-content-center">
-                <a routerLink="/home/main" (click)="login()" class="btn btn-info btn-primary btn-round">Login</a>
+              <div class="card-footer justify-content-center">
+                <button class="btn btn-info btn-primary btn-round" type="submit">Login</button>
               </div>
               <span 
                 routerLinkActive="active" 
