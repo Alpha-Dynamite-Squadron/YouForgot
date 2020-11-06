@@ -3,7 +3,7 @@ import { Component, Injectable, OnInit } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormBuilder, AbstractControl } from '@angular/forms';
-import { PasswordValidation } from '../validationforms/password-validator.component';
+import { PasswordValidation } from '../validationforms/password-validator';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {

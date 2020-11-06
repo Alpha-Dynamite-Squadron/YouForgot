@@ -3,7 +3,7 @@ let users = require('../models/users');
 let crypto = require('crypto');
 
 module.exports.preRegistration = function(req, res)   {
-  console.log("Attempting to insert new user");
+  console.log("Attempting to Preregister user");
   if(!req.body.email) {
     res.status(400).json({
       "message" : "email required"
@@ -34,6 +34,11 @@ module.exports.preRegistration = function(req, res)   {
       }else if(code == 2) {// the email failed to send
         res.status(500).json({
           "message" : "The email failed to send."
+        });
+      }else if (code == 3){
+        console.log("Attempted to register email already registered");
+        res.status(406).json({
+          "message" : "Email already registered"
         });
       }else{ // code 0 the user was successfully added
         res.status(200).end();
@@ -132,6 +137,42 @@ module.exports.login = function(req, res, next) {
   });
   authenticationFunction(req, res, next);
 };
+
+module.exports.verifyAccessKey = function(req, res)   {
+  console.log("Attempting to verify Access Key");
+  if(!req.body.accessKey) {
+    res.status(400).json({
+      "message" : "email required"
+    });
+  }
+  else {
+    users.verifyAccessKey(req.body.accessKey, function(err, data) {
+      if(err) {
+        console.log("Error Trying to verify Access Key: " + req.body.accessKey);
+        console.log(err);
+        res.status(500).json({
+          "message" : "Unknown Database Error"
+        });
+      }
+      else if(data) { //AccessKey Found
+        if(data.hash == undefined) {
+          res.status(200).json(data.emailAddress);
+        }
+        else {
+          console.log("AccessKey Requested was for PasswordChange, not FinishingRegistration");
+          res.status(406).json({
+            "message" : "Access Key not found."
+          });
+        }
+      }else{ //User was not found
+        console.log("This accessKey was not Found");
+        res.status(406).json({
+          "message" : "Access Key not found."
+        });
+      }
+    });
+  }
+}
 
 module.exports.hashContent = function(req, res) {
   var salt = crypto.randomBytes(20).toString('hex');

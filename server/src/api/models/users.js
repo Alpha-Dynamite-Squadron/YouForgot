@@ -1,7 +1,14 @@
 let crypto = require('crypto');
 let jwt = require('jsonwebtoken');
 let dbPool = require('../models/database');
-let nodeMailerTransport = require('../config/nodeMailerTransport.js')
+let nodeMailerTransport = require('../config/nodeMailerTransport.js');
+
+let baseMailUrl;
+if(process.env.NODE_ENV === 'production') {
+  baseUrl = 'http://youforgot.school';
+} else {
+  baseUrl = 'http://localhost:8080';
+}
 
 //kwqmeposdms1dsnfd812j312nj38sdvh
 let secretString = process.env.LOGIN_SECRET;
@@ -93,7 +100,7 @@ module.exports.findNewUser = function(accessKey, resultCallback) {
     * error code 3 is that the query failed because the email dissapeared
     */
 module.exports.registerUser = function(accessKey, emailAddress, username, imageID, password, resultCallback) {
-    let findInactiveUserQuery = 'SELECT emailAddress, accessKey FROM Personnel WHERE emailAddress = ? LIMIT 1';
+    let findInactiveUserQuery = 'SELECT emailAddress, accessKey FROM User WHERE emailAddress = ? LIMIT 1';
     dbPool.query(findInactiveUserQuery, emailAddress, function(err, result) {
         if(err) {
         resultCallback(err, null);
@@ -101,9 +108,12 @@ module.exports.registerUser = function(accessKey, emailAddress, username, imageI
         else if(result.length === 1) {
             if(result[0].accessKey === accessKey){
                 console.log('Registering Inactive User:' + result[0].emailAddress);
-                let saltSteak = setPassword(password);
-                let hash = saltSteak.hash;
-                let salt = saltSteak.salt;
+                let user = {
+                  setPassword: funcSetPassword
+                };
+                user.setPassword(password);
+                let hash = user.hash;
+                let salt = user.salt;
                 let createUserQuery = 'UPDATE User SET username = ?, imageID = ?, hash = ?, salt = ?, accessKey = NULL WHERE emailAddress = ? '
                 dbPool.query(createUserQuery, [username, imageID, hash, salt, emailAddress], function(err, result){
                     if(err){
@@ -140,6 +150,7 @@ module.exports.registerUser = function(accessKey, emailAddress, username, imageI
 // 0 is that the user was successfully inserted
 // 1 the email is not a vaild edu email
 // 2 the email failed to send
+// 3 the email already exists
 module.exports.preRegistration = function(email, resultCallback){
     let validEmail = validateEmail(email);
     let validEdu = false;
@@ -148,35 +159,64 @@ module.exports.preRegistration = function(email, resultCallback){
         if(edu === '.edu'){
             validEdu = true;
         }
-    } 
+    }
     if(validEdu){
         let accessKey = crypto.randomBytes(20).toString('hex');
-        const url = 'http://localhost:8080/' + accessKey;
+        const url = baseUrl + '/finish_registration/' + accessKey;
         let setAccessKeyQuery = 'INSERT INTO User (emailAddress, accessKey) VALUES (?, ?);';
         dbPool.query(setAccessKeyQuery, [email, accessKey], function(err, result) {
             if(err) {
+              if(err.code === "ER_DUP_ENTRY") {
+                resultCallback(null, 3);
+              }
+              else {
                 resultCallback(err, null);
-                // need to account for duplicate emails
+              }
             }
             else{
-                let info = transporter.sendMail({
+                let info = nodeMailerTransport.sendMail({
                     from: '"YouForgot Admin" <admin@youforgot.school>', // sender address
                     to: email, // list of receivers
                     subject: "Register Your Account on YouForgot.school", // Subject line
-                    html: `Please click this email to confirm  your email address on YouForgot.school: <a href="${url}">Finish Registration</a>`, // html body
+                    html: `Please click this email to confirm your email address on YouForgot.school: <a href="${url}">Finish Registration</a>` // html body
                   }, function(error, result){
                       if(error){
                            console.log("Failed to send email to " + email);
+                           console.log(error);
                            resultCallback(error, 2); //failed to send email
                       }else{
                           console.log("Successfully sent the email to " + email);
+                          console.log(result);
                           resultCallback(null, 0);
                       }
                   });
-                
+
             }
         });
     }else{
         resultCallback(null, 1); // not a valid edu email address
     }
 }
+
+//If AccessKey exists, provides emailAddress, hash, salt
+module.exports.verifyAccessKey = function(accessKey, resultCallback) {
+    var findAccessKeyQuery = 'SELECT emailAddress FROM User WHERE accessKey = ? LIMIT 1;';
+    dbPool.query(findAccessKeyQuery, accessKey, function (err, result) {
+        if(err) {
+            resultCallback(err, null);
+        }
+        else if(result.length === 1) {
+            console.log('Found User: ' + result[0].emailAddress + " by AccessKey: " + accessKey);
+            var user = {
+                emailAddress: result[0].emailAddress,
+                hash: result[0].hash,
+                salt: result[0].salt,
+            }
+            resultCallback(null, user);
+        }
+        else {
+            console.log("No User found for AccessKey: " + email);
+            resultCallback(null, null);
+        }
+    });
+};

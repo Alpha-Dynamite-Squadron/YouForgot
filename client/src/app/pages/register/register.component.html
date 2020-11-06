@@ -44,7 +44,7 @@
                     </p>
                   </div>
                 </div>
-                <form class="form" (submit)="register()">
+                <form class="form" (ngSubmit)="register()">
                   <div class="form-group has-default">
                     <div class="input-group">
                       <div class="input-group-prepend">
@@ -52,9 +52,9 @@
                           <i class="material-icons">mail</i>
                         </span>
                       </div>
-                      <input 
-                        type="email" 
-                        class="form-control" 
+                      <input
+                        type="email"
+                        class="form-control"
                         placeholder="Academic Email Address..."
                         name="email"
                         [(ngModel)]="registerInfo"
@@ -62,7 +62,7 @@
                     </div>
                   </div>
                   <div class="row register-button text-center">
-                    <button class="btn btn-info btn-primary btn-round" type="submit">Register</button>
+                    <button class="btn btn-info btn-primary btn-round" type="submit" [disabled]="!ngForm.valid">Register</button>
                   </div>
                   <div class="login-link">
                     <span routerLinkActive="active" class="text-center">

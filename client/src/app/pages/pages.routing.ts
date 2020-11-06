@@ -22,7 +22,12 @@ export const PagesRoutes: Routes = [
       component: VerifyComponent
     },
     {
-      path: 'finish_register',
+      path: 'finish_registration',
+      redirectTo: '/login',
+      pathMatch: 'full'
+    },
+    {
+      path: 'finish_registration/:id',
       component: FinishRegisterComponent
     }]
   }

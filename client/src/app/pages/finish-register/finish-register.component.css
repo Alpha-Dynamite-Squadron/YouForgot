@@ -3,3 +3,6 @@
   align-items: center;
   justify-content: center;
 }
+#emailText {
+  font-size: large;
+}

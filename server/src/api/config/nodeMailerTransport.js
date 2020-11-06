@@ -6,12 +6,14 @@ if(emailPassword == undefined) {
   process.exit(1);
 }
 
-module.exports.transport  = nodemailer.createTransport({
+let transporter = nodemailer.createTransport({
     host: "mail.privateemail.com",
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-      user: "admin@youforgot.school", // generated ethereal user
+      user: 'admin@youforgot.school', // generated ethereal user
       pass: emailPassword, // generated ethereal password
     },
-  });
+});
+
+module.exports = transporter;

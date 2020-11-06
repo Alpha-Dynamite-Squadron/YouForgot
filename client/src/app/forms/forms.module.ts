@@ -14,7 +14,6 @@ import { ValidationFormsComponent } from './validationforms/validationforms.comp
 import { WizardComponent } from './wizard/wizard.component';
 import { FieldErrorDisplayComponent } from './validationforms/field-error-display/field-error-display.component';
 import { NewAssignmentComponent } from './new-assignment/new-assignment.component';
-import { PasswordValidation } from './validationforms/password-validator.component';
 import { NewCourseComponent } from './new-course/new-course.component';
 import { NewInstitutionComponent } from './new-institution/new-institution.component';
 
@@ -48,7 +47,7 @@ import { NewInstitutionComponent } from './new-institution/new-institution.compo
     NewCourseComponent,
     NewAssignmentComponent,
     NewInstitutionComponent,
-    WizardComponent
+    WizardComponent,
   ]
 })
 

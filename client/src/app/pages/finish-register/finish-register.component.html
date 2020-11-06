@@ -6,9 +6,12 @@
         <div class="col-md-6 ml-auto mr-auto">
           <div class="card card-signup">
             <h2 class="card-title text-center">Finish Your Profile</h2>
+            <div class="row">
+              <h6 id="emailText" class="text-center text-info">{{ email }}</h6>
+            </div>
             <div class="card-body">
               <div class="col-md-5">
-                <form class="form" (submit)="finishRegistration()">
+                <form class="form" (ngSubmit)="finishRegistration()" #finishRegForm="ngForm">
                   <div class="form-group has-default">
                     <div class="input-group">
                       <div class="input-group-prepend">
@@ -16,12 +19,13 @@
                           <i class="material-icons">person</i>
                         </span>
                       </div>
-                      <input 
-                        type="text" 
-                        class="form-control" 
+                      <input
+                        type="text"
+                        class="form-control"
                         placeholder="Username..."
                         name="username"
                         [(ngModel)]="username"
+                        [ngClass]="{'has-danger': validPasswordRegister===false}"
                         required>
                     </div>
                   </div>
@@ -32,13 +36,17 @@
                           <i class="material-icons">lock_outline</i>
                         </span>
                       </div>
-                      <input 
-                        type="password" 
-                        placeholder="Password..." 
+                      <input
+                        type="password"
+                        matInput
+                        placeholder="Password..."
                         class="form-control"
                         name="password"
                         [(ngModel)]="password"
+                        (ngModelChange)="passwordValidationRegister($event)"
+                        [ngClass]="{'has-danger':validConfirmPasswordRegister===false}"
                         required>
+
                     </div>
                   </div>
                   <div class="form-group has-default">
@@ -48,17 +56,19 @@
                           <i class="material-icons">lock_outline</i>
                         </span>
                       </div>
-                      <input 
-                        type="password" 
-                        placeholder="Confirm Password..." 
+                      <input
+                        type="password"
+                        matInput
+                        placeholder="Confirm Password..."
                         class="form-control"
                         name="confirm"
                         [(ngModel)]="confirmPass"
+                        (ngModelChange)="confirmPasswordValidationRegister($event)"
                         required>
                     </div>
                   </div>
-                  <mat-checkbox 
-                    class="form-check form-group"
+                  <mat-checkbox
+                    class="form-check"
                     type="mat-checkbox"
                     name="terms"
                     [checked]="terms"
@@ -66,17 +76,17 @@
                     required>
                     I agree to the <a href="#something">terms and conditions</a>.
                   </mat-checkbox>
-                  <mat-checkbox 
-                    class="form-check form-group"
+                  <mat-checkbox
+                    class="form-check"
                     type="mat-checkbox"
-                    name="notifications" 
+                    name="notifications"
                     [checked]="notifications"
                     (change)="onNotificationsChange($event)"
                     required>
                     I would like to receive email notifications.
                   </mat-checkbox>
                   <div class="row register-button" class="text-center">
-                    <button class="btn btn-info btn-primary btn-round" type="submit">Create Account</button>
+                    <button class="btn btn-info btn-primary btn-round" type="submit" [disabled]="!finishRegForm.valid">Create Account</button>
                   </div>
                 </form>
               </div>

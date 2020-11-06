@@ -23,5 +23,6 @@ router.post('/login', controllerAuthentication.login);
 router.post('/register', controllerAuthentication.register);
 router.post('/hashContent', controllerAuthentication.hashContent);
 router.post('/preRegistration', controllerAuthentication.preRegistration);
+router.post('/verifyAccessKey', controllerAuthentication.verifyAccessKey);
 
 module.exports = router;

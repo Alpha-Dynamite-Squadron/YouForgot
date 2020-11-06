@@ -44,10 +44,8 @@ app.use('/api', routesApi);
 
 app.get('*', (req, res) => {
   if(allowedExt.filter(ext => req.url.indexOf(ext) > 0).length > 0) {
-    console.log('Finding Resources...');
     res.sendFile(path.resolve(`../client/dist/${req.url}`));
   } else {
-    console.log('Finding index.html');
     res.sendFile(path.resolve('../client/dist/index.html'));
   }
 });
