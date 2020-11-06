@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var jwt = require('express-jwt');
 
+
 var secretString = process.env.LOGIN_SECRET;
 if(secretString == undefined) {
   console.log("User Login Secret Undefined in enviroment `LOGIN_SECRET`");

@@ -1,3 +1,4 @@
+require('dotenv').config();
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
@@ -20,6 +21,7 @@ server.on('listening', onListening);
 /**
  * Event listener for HTTP server "listening" event.
  */
+
 
 function onListening() {
   var addr = server.address();

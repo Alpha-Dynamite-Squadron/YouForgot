@@ -1,9 +1,14 @@
 let dbPool = require('../models/database');
-import nodemailer from 'nodemailer';
+const nodemailer = require("nodemailer");
 
-export const notificationMailer = () => {
-    let queryString = 'SELECT emailAddress, assignmentID FROM PostAssociation WHERE  '
-    let emails = [], assIDs = [];
+module.exports.sendNotification = function() {
+    //SELECT pa.emailAddress, pa.assignmentID, sec.nameOfClass
+    // FROM PostAssociation AS pa INNER JOIN Post as po ON pa.assingmentID = po.assignmentID INNER JOIN ON SectionInstance as sec 
+    // SELECT pa.emailAddress, pa.assignmentID, sec.nameOfClass FROM PostAssociation AS pa INNER JOIN Post as po ON pa.assingmentID = po.assignmentID INNER JOIN ON SectionInstance AS sec ON po.sectionInstance = sec.sectionInstanceID WHERE pa.customDueDate < (NOW() - INTERVAL 1 DAY)
+    // 0 means it has not been sent
+
+    let queryString = 'SELECT pa.emailAddress, pa.assignmentID, pa.customAssignmentName, u.username  FROM PostAssociation AS pa INNER JOIN User as u ON pa.emailAddress = user.emailAddress WHERE pa.customDueDate < (NOW() - INTERVAL 1 DAY  AND pa.sentNotification == 0';
+    let emails = [], assignments = [], assingmentIDs = [], usernames = []; 
 
     dbPool.query(queryString,null, function(err, res){
         if(err){
@@ -13,36 +18,53 @@ export const notificationMailer = () => {
             //Query results in here
             console.log("Sent notifications for assignments < 24 hours till due date");
             emails = res[0].emailAddress;
-            assIDs = res[0].assingmentID;
+            assignments= res[0].customAssignmentName;
+            assignmentIDs = res[0].assignmentID;
+            usernames = res[0].username;
         }
     });
+
     // needed to transport emails across the web
-    let transport = nodemailer.createTransport({
-        host: "smtp.mailtrap.io",
-        port: 2525,
-        auth: {
-          user: "e490d2f812ae9c",
-          pass: "b65fa14ad77a5b"
-        }
-      });
+    let transporter = nodemailer.createTransport({
+      host: "mail.privateemail.com",
+      port: 587,
+      secure: false, // true for 465, false for other ports
+      auth: {
+        user: "admin@youforgot.school", // generated ethereal user
+        pass: "censored", // generated ethereal password
+      },
+    });
+
     //create the emails
     //test the to option, as docs says we can just past in an array
-    let mailOptions = {
-        from: '"Example Team" <from@example.com>',
-        to: emails,
-        subject: 'Nice Nodemailer test',
-        text: 'Hey there, it’s our first message sent with Nodemailer ;) ', 
-        html: '<b>Hey there! </b><br> This is our first message sent with Nodemailer',
-    };
-    
-    //send the emails out
-    transport.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          console.log(error);
-        }
-        console.log('Message sent: %s', info.messageId);
+  
+    for(let i = 0; i < emails.length; i++) {
+      bodyText = "Hello " + usernames[i] + ",\nYou have an assignment due within 24 hours. \nThe Assignment is called " + assignments[i] + " Please make sure to check it off here when you are done.\n" + "https://youforgot.school/assignment";
+      transporter.sendMail({
+        from: '"Kenny Foo 👻" <admin@youforgot.school>', // sender address
+        to: emails[i], // list of receivers
+        subject: "You Forgot an Assignment!", // Subject line
+        text: bodyText, // plain text body
       });
+    }
+    // n * m query
+    //update after sending
+    for(let i = 0; i < emails.length; i++){
+       // 1 means we have sent the email
+      queryString = "UPDATE PostAssociation SET sentNotification = 1 WHERE assignmentID =" + assignments[i] +" AND emailAddress =" + emails[i] ;
+      dbPool.query(queryString,null, function(err, res){
+        if(err){
+            console.log("Error updating email sent notification, after sending the notification");
+        }
+        else {
+            //Query results in here
+            console.log("Updated email notifications");
+        }
+      });
+    }
+   
+  }
 
-}
+  
 
-export default notificationMailer;
+
