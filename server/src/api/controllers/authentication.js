@@ -2,30 +2,41 @@ let passport = require('passport');
 let users = require('../models/users');
 let crypto = require('crypto');
 
-module.exports.findNewUser = function(req, res)   {
-  console.log("Find User by AccessKey Request Receieved");
-  if(!req.body.accessKey) {
+module.exports.preRegistration = function(req, res)   {
+  console.log("Attempting to insert new user");
+  if(!req.body.email) {
     res.status(400).json({
-      "message" : "accessKey required"
+      "message" : "email required"
     });
   }
   else {
-    users.findNewUser(req.body.accessKey, function(err, data) {
+    users.preRegistration(req.body.email, function(err, code) {
       if(err) {
-        console.log("Error Finding User By AccessKey: " + req.body.accessKey);
-        console.log(err);
+        if(code == null){
+          console.log("Error Trying to insert user with email " + req.body.email);
+          console.log(err);
+          res.status(500).json({
+            "message" : "Unknown Database Error"
+          });
+        }else{
+          console.log("Error Trying to send and email to the user" + req.body.email);
+          console.log(err);
+          res.status(500).json({
+            "message" : "Unknown Email Error"
+          })
+        }
+      }
+      else if(code == 1) { //the email is not valid
+        console.log("This email address is not a vaild edu address");
+        res.status(406).json({
+          "message" : "Non-edu address provided."
+        });
+      }else if(code == 2) {// the email failed to send
         res.status(500).json({
-          "message" : "Unknown Database Error"
+          "message" : "The email failed to send."
         });
-      }
-      else if(data == null) {
-        console.log("Invalid Registration AccessKey: " + req.body.accessKey);
-        res.status(403).json({
-          message : "AccessKey Invalid"
-        });
-      }
-      else {//User Found
-        res.status(200).json(data);
+      }else{ // code 0 the user was successfully added
+        res.status(200).end();
       }
     });
   }

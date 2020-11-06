@@ -1,6 +1,7 @@
 let crypto = require('crypto');
 let jwt = require('jsonwebtoken');
 let dbPool = require('../models/database');
+let nodeMailerTransport = require('../config/nodeMailerTransport.js')
 
 //kwqmeposdms1dsnfd812j312nj38sdvh
 let secretString = process.env.LOGIN_SECRET;
@@ -13,6 +14,10 @@ let funcSetPassword = function(password) {
     this.salt = crypto.randomBytes(20).toString('hex');
     this.hash = crypto.pbkdf2Sync(password, this.salt, 1000, 512, 'sha512').toString('hex');
   };
+function validateEmail(mail) {
+    return(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(mail));
+
+}
 
 let funcCheckPassword = function(password) {
 let hash = crypto.pbkdf2Sync(password, this.salt, 1000, 512, 'sha512').toString('hex');
@@ -131,4 +136,47 @@ module.exports.registerUser = function(accessKey, emailAddress, username, imageI
             resultCallback(null, 2);
         }
     });
+}
+// 0 is that the user was successfully inserted
+// 1 the email is not a vaild edu email
+// 2 the email failed to send
+module.exports.preRegistration = function(email, resultCallback){
+    let validEmail = validateEmail(email);
+    let validEdu = false;
+    if(validEmail){
+        let edu = email.substring(email.length - 4);
+        if(edu === '.edu'){
+            validEdu = true;
+        }
+    } 
+    if(validEdu){
+        let accessKey = crypto.randomBytes(20).toString('hex');
+        const url = 'http://localhost:8080/' + accessKey;
+        let setAccessKeyQuery = 'INSERT INTO User (emailAddress, accessKey) VALUES (?, ?);';
+        dbPool.query(setAccessKeyQuery, [email, accessKey], function(err, result) {
+            if(err) {
+                resultCallback(err, null);
+                // need to account for duplicate emails
+            }
+            else{
+                let info = transporter.sendMail({
+                    from: '"YouForgot Admin" <admin@youforgot.school>', // sender address
+                    to: email, // list of receivers
+                    subject: "Register Your Account on YouForgot.school", // Subject line
+                    html: `Please click this email to confirm  your email address on YouForgot.school: <a href="${url}">Finish Registration</a>`, // html body
+                  }, function(error, result){
+                      if(error){
+                           console.log("Failed to send email to " + email);
+                           resultCallback(error, 2); //failed to send email
+                      }else{
+                          console.log("Successfully sent the email to " + email);
+                          resultCallback(null, 0);
+                      }
+                  });
+                
+            }
+        });
+    }else{
+        resultCallback(null, 1); // not a valid edu email address
+    }
 }

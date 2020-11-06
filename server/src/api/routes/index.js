@@ -22,5 +22,6 @@ var controllerAuthentication = require('../controllers/authentication.js');
 router.post('/login', controllerAuthentication.login);
 router.post('/register', controllerAuthentication.register);
 router.post('/hashContent', controllerAuthentication.hashContent);
+router.post('/preRegistration', controllerAuthentication.preRegistration);
 
 module.exports = router;

@@ -1,5 +1,5 @@
 let dbPool = require('../models/database');
-const nodemailer = require("nodemailer");
+let nodeMailerTransporter = require('../config/nodeMailerTransport.js')
 
 module.exports.sendNotification = function() {
     //SELECT pa.emailAddress, pa.assignmentID, sec.nameOfClass
@@ -24,23 +24,11 @@ module.exports.sendNotification = function() {
         }
     });
 
-    // needed to transport emails across the web
-    let transporter = nodemailer.createTransport({
-      host: "mail.privateemail.com",
-      port: 587,
-      secure: false, // true for 465, false for other ports
-      auth: {
-        user: "admin@youforgot.school", // generated ethereal user
-        pass: "censored", // generated ethereal password
-      },
-    });
-
     //create the emails
     //test the to option, as docs says we can just past in an array
-  
     for(let i = 0; i < emails.length; i++) {
       bodyText = "Hello " + usernames[i] + ",\nYou have an assignment due within 24 hours. \nThe Assignment is called " + assignments[i] + " Please make sure to check it off here when you are done.\n" + "https://youforgot.school/assignment";
-      transporter.sendMail({
+      nodeMailerTransporter.sendMail({
         from: '"Kenny Foo 👻" <admin@youforgot.school>', // sender address
         to: emails[i], // list of receivers
         subject: "You Forgot an Assignment!", // Subject line
