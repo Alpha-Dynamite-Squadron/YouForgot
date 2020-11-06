@@ -1,0 +1,89 @@
+<div class="wrapper wrapper-full-page header-filter" filter-color="black"
+  style="background-image: url('../../../assets/img/mountains_login.jpg'); background-size: cover; background-position: top center;">
+  <div class="page-header register-page">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 ml-auto mr-auto">
+          <div class="card card-signup">
+            <h2 class="card-title text-center">Finish Your Profile</h2>
+            <div class="card-body">
+              <div class="col-md-5">
+                <form class="form" (submit)="finishRegistration()">
+                  <div class="form-group has-default">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <i class="material-icons">person</i>
+                        </span>
+                      </div>
+                      <input 
+                        type="text" 
+                        class="form-control" 
+                        placeholder="Username..."
+                        name="username"
+                        [(ngModel)]="username"
+                        required>
+                    </div>
+                  </div>
+                  <div class="form-group has-default">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <i class="material-icons">lock_outline</i>
+                        </span>
+                      </div>
+                      <input 
+                        type="password" 
+                        placeholder="Password..." 
+                        class="form-control"
+                        name="password"
+                        [(ngModel)]="password"
+                        required>
+                    </div>
+                  </div>
+                  <div class="form-group has-default">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <i class="material-icons">lock_outline</i>
+                        </span>
+                      </div>
+                      <input 
+                        type="password" 
+                        placeholder="Confirm Password..." 
+                        class="form-control"
+                        name="confirm"
+                        [(ngModel)]="confirmPass"
+                        required>
+                    </div>
+                  </div>
+                  <mat-checkbox 
+                    class="form-check form-group"
+                    type="mat-checkbox"
+                    name="terms"
+                    [checked]="terms"
+                    (change)="onTermsChange($event)"
+                    required>
+                    I agree to the <a href="#something">terms and conditions</a>.
+                  </mat-checkbox>
+                  <mat-checkbox 
+                    class="form-check form-group"
+                    type="mat-checkbox"
+                    name="notifications" 
+                    [checked]="notifications"
+                    (change)="onNotificationsChange($event)"
+                    required>
+                    I would like to receive email notifications.
+                  </mat-checkbox>
+                  <div class="row register-button" class="text-center">
+                    <button class="btn btn-info btn-primary btn-round" type="submit">Create Account</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

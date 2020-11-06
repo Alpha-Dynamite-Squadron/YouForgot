@@ -3,109 +3,73 @@
   <div class="page-header register-page">
     <div class="container">
       <div class="row">
-        <div class="col-md-10 ml-auto mr-auto">
+        <div class="col-md-8 ml-auto mr-auto">
           <div class="card card-signup">
             <h2 class="card-title text-center">Create an Account</h2>
             <div class="card-body">
-              <div class="row">
-                <div class="col-md-5 ml-auto">
-                  <div class="info info-horizontal">
-                    <div class="icon icon-rose">
-                      <i class="material-icons">timeline</i>
-                    </div>
-                    <div class="description">
-                      <h4 class="info-title">Class Assignment & Performance Metrics</h4>
-                      <p class="description">
-                        We provide you with assignment metrics ranging from class averages, due dates, and
-                        more for all of your courses' assignments and exams.
-                      </p>
-                    </div>
+              <div class="col-md-6 ml-auto mr-auto">
+                <div class="info info-horizontal">
+                  <div class="icon icon-rose">
+                    <i class="material-icons">timeline</i>
                   </div>
-                  <div class="info info-horizontal">
-                    <div class="icon icon-primary">
-                      <i class="material-icons">code</i>
-                    </div>
-                    <div class="description">
-                      <h4 class="info-title">Built with Angular and Node.js</h4>
-                      <p class="description">
-                        We've developed this website using Angular 9, Bootstrap 4, and Material. Our backend utilizes
-                        Node.js to handle
-                        our HTTP Requests.
-                      </p>
-                    </div>
-                  </div>
-                  <div class="info info-horizontal">
-                    <div class="icon icon-info">
-                      <i class="material-icons">group</i>
-                    </div>
-                    <div class="description">
-                      <h4 class="info-title">Target Audience</h4>
-                      <p class="description">
-                        You Forgot is a Homework Reminder Application made by Students for Students.
-                      </p>
-                    </div>
+                  <div class="description">
+                    <h4 class="info-title">Class Assignment & Performance Metrics</h4>
+                    <p class="description">
+                      We provide you with assignment metrics ranging from class averages, due dates, and
+                      more for all of your courses' assignments and exams.
+                    </p>
                   </div>
                 </div>
-                <div class="col-md-5 mr-auto">
-                  <form class="form" method="" action="">
-                    <div class="form-group has-default">
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">
-                            <i class="material-icons">face</i>
-                          </span>
-                        </div>
-                        <input type="text" class="form-control" placeholder="Username...">
-                      </div>
-                    </div>
-                    <div class="form-group has-default">
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">
-                            <i class="material-icons">mail</i>
-                          </span>
-                        </div>
-                        <input type="text" class="form-control" placeholder="Academic Email Address...">
-                      </div>
-                    </div>
-                    <div class="form-group has-default">
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">
-                            <i class="material-icons">lock_outline</i>
-                          </span>
-                        </div>
-                        <input type="password" placeholder="Password..." class="form-control">
-                      </div>
-                    </div>
-                    <div class="form-group has-default">
-                      <div class="input-group">
-                        <div class="input-group-prepend">
-                          <span class="input-group-text">
-                            <i class="material-icons">lock_outline</i>
-                          </span>
-                        </div>
-                        <input type="password" placeholder="Confirm Password..." class="form-control">
-                      </div>
-                    </div>
-                    <mat-checkbox class="form-check">
-                      I agree to the
-                      <a href="#something">terms and conditions</a>.
-                    </mat-checkbox>
-                    <mat-checkbox class="form-check" [checked]="true">
-                      I would like to receive email notifications.
-                    </mat-checkbox>
-                    <div routerLinkActive="true" class="row register-button" class="text-center">
-                      <a routerLink="/home/main" class="btn btn-info btn-primary btn-round">Register</a>
-                    </div>
-
-                    <div class="login-link">
-                      <span routerLinkActive="active" class="text-center">
-                        <a routerLink="/login">Already Have an Account? Click Here to Login!</a>
-                      </span>
-                    </div>
-                  </form>
+                <div class="info info-horizontal">
+                  <div class="icon icon-primary">
+                    <i class="material-icons">code</i>
+                  </div>
+                  <div class="description">
+                    <h4 class="info-title">Built with Angular and Node.js</h4>
+                    <p class="description">
+                      We've developed this website using Angular 9, Bootstrap 4, and Material. Our backend utilizes
+                      Node.js to handle
+                      our HTTP Requests.
+                    </p>
+                  </div>
                 </div>
+                <div class="info info-horizontal">
+                  <div class="icon icon-info">
+                    <i class="material-icons">group</i>
+                  </div>
+                  <div class="description">
+                    <h4 class="info-title">Target Audience</h4>
+                    <p class="description">
+                      You Forgot is a Homework Reminder Application made by Students for Students.
+                    </p>
+                  </div>
+                </div>
+                <form class="form" (submit)="register()">
+                  <div class="form-group has-default">
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">
+                          <i class="material-icons">mail</i>
+                        </span>
+                      </div>
+                      <input 
+                        type="email" 
+                        class="form-control" 
+                        placeholder="Academic Email Address..."
+                        name="email"
+                        [(ngModel)]="registerInfo"
+                        required>
+                    </div>
+                  </div>
+                  <div class="row register-button text-center">
+                    <button class="btn btn-info btn-primary btn-round" type="submit">Register</button>
+                  </div>
+                  <div class="login-link">
+                    <span routerLinkActive="active" class="text-center">
+                      <a routerLink="/login">Already Have an Account? Click Here to Login!</a>
+                    </span>
+                  </div>
+                </form>
               </div>
             </div>
           </div>

@@ -8,6 +8,8 @@ import { PagesRoutes } from './pages.routing';
 
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
+import { VerifyComponent } from './verify/verify.component';
+import { FinishRegisterComponent } from './finish-register/finish-register.component';
 
 @NgModule({
   imports: [
@@ -19,7 +21,9 @@ import { LoginComponent } from './login/login.component';
   ],
   declarations: [
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    VerifyComponent,
+    FinishRegisterComponent
   ]
 })
 

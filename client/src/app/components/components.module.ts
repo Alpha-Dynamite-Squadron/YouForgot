@@ -12,6 +12,8 @@ import { NotificationsComponent } from './notifications/notifications.component'
 import { PanelsComponent } from './panels/panels.component';
 import { SweetAlertComponent } from './sweetalert/sweetalert.component';
 import { TypographyComponent } from './typography/typography.component';
+import { AssignmentComponent } from './assignment/assignment.component';
+import { CourseComponent } from './course/course.component';
 
 @NgModule({
   imports: [
@@ -27,7 +29,13 @@ import { TypographyComponent } from './typography/typography.component';
       NotificationsComponent,
       PanelsComponent,
       SweetAlertComponent,
-      TypographyComponent
+      TypographyComponent,
+      AssignmentComponent,
+      CourseComponent
+  ],
+  exports: [
+    AssignmentComponent,
+    CourseComponent
   ]
 })
 
