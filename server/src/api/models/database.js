@@ -6,7 +6,7 @@ if(dbpassword == undefined) {
   console.log("Database Password Undefined in enviroment `DB_PASSWORD`");
   process.exit(1);
 }
-console.log("Password is '" + dbpassword + "'");
+
 
 var dbPool;
 if(process.env.NODE_ENV === 'production') {
