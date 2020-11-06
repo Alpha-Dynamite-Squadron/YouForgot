@@ -17,3 +17,7 @@ app-new-assignment {
 ::ng-deep .mat-checkbox-layout {
   white-space: normal !important;
 }
+
+span {
+  font-size: large;
+}

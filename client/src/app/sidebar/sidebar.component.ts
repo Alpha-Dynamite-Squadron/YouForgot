@@ -50,7 +50,7 @@ export class SidebarComponent implements OnInit {
   public menuItems: any[];
   ps: any;
 
-  username: string;
+  username: string = 'Username';
 
   constructor(
     private authService: AuthenticationService

@@ -1,0 +1,51 @@
+<ul class="timeline timeline-simple mt-0 mb-0">
+  <li class="timeline-inverted">
+    <div class="timeline-badge info">
+      <i class="material-icons">{{ selectedIcon }}</i>
+    </div>
+    <div class="timeline-panel">
+      <div class="timeline-heading">
+        <span class="badge badge-info">{{ selectedAssignmentName }}</span>
+      </div>
+      <div class="timeline-body">
+        <p>{{ selectedAssignmentDesc }}</p>
+      </div>
+      <h4>
+        <i class="ti-time"></i>Due {{ selectedAssignmentDueDate }}
+      </h4>
+      <hr>
+      <button mat-raised-button class="btn btn-info btn-round">
+        <i class="material-icons">thumb_up</i>  I Forgot! {{ forgotCount }}
+      </button>
+      <button mat-raised-button class="btn btn-info btn-round">
+        <i class="material-icons">thumb_down</i>  Remembered!  {{ rememberedCount }} 
+      </button>
+      <span *ngIf="selectedGradingOption == false" class="text-center text-info pull-right">
+        Assignment is Graded Credit/No Credit
+      </span>
+      <div *ngIf="selectedGradingOption == true" class="dropdown pull-right">
+        <button mat-raised-button type="button" class="btn btn-round btn-info dropdown-toggle" data-toggle="dropdown">
+          <i class="material-icons">grading</i> Grade Received
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+          <li>
+            <a href="#action">A (90.0 - 100.0)</a>
+          </li>
+          <li>
+            <a href="#action">B (80.0 - 89.9)</a>
+          </li>
+          <li>
+            <a href="#action">C (70.0 - 79.9)</a>
+          </li>
+          <li>
+            <a href="#action">D (60.0 - 69.9)</a>
+          </li>
+          <li>
+            <a href="#action">F (0.0 - 59.9)</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </li>
+</ul>

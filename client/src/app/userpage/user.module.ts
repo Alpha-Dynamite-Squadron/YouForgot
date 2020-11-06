@@ -9,6 +9,7 @@ import { UserRoutes } from './user.routing';
 import { CoursesComponent } from './courses/courses.component';
 import { AssignmentsComponent } from './assignments/assignments.component';
 import { Forms } from '../forms/forms.module';
+import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
     imports: [
@@ -16,7 +17,8 @@ import { Forms } from '../forms/forms.module';
         RouterModule.forChild(UserRoutes),
         FormsModule,
         MaterialModule,
-        Forms
+        Forms,
+        ComponentsModule
     ],
     declarations: [
       UserComponent, 
