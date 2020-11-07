@@ -10,3 +10,12 @@ span {
 span.register-link {
   padding-bottom: 10px;
 }
+
+#forgotPassSpan {
+  margin-top: 5px;
+  color: #00bcd4;
+}
+
+#forgotPassSpan:hover {
+  cursor: pointer;
+}

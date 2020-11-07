@@ -9,12 +9,13 @@ import { AuthenticationService } from 'src/authentication.service';
 })
 export class FinishRegisterComponent implements OnInit {
 
-  email: string = '';
+  email: string = 'studentemail@edu.com';
   username: string = '';
   password: string = '';
   confirmPass: string = '';
+  imageId: string = '1';
   terms: boolean = false;
-  notifications: boolean  = true;
+  notifications: boolean = true;
 
   validConfirmPasswordRegister: boolean = false;
   validPasswordRegister: boolean = false;
@@ -41,15 +42,11 @@ export class FinishRegisterComponent implements OnInit {
   }
 
   onTermsChange(e) {
-    console.log(e);
     this.terms = !this.terms;
-    console.log("Terms Accepted: " + this.terms);
   }
 
   onNotificationsChange(e) {
-    console.log(e);
     this.notifications = !this.notifications;
-    console.log("Notifications Enabled: " + this.notifications);
   }
 
   public finishRegistration() {
@@ -60,27 +57,27 @@ export class FinishRegisterComponent implements OnInit {
     this.authService.completeRegistration(
       this.email,
       this.username,
-      1,
+      this.imageId,
       this.password,
       this.route.snapshot.paramMap.get('id')
     ).subscribe(() => {
-        this.router.navigateByUrl('/home/main');
-      }, (error) => {
-         console.log(error);
-      });
+      this.router.navigateByUrl('/home/main');
+    }, (error) => {
+      console.log(error);
+    });
   }
 
-  passwordValidationRegister(e){
-      if (e.length > 8) {
-          this.validPasswordRegister = true;
-      }else{
-        this.validPasswordRegister = false;
-      }
+  passwordValidationRegister(e) {
+    if (e.length > 8) {
+      this.validPasswordRegister = true;
+    } else {
+      this.validPasswordRegister = false;
+    }
   }
-  confirmPasswordValidationRegister(e){
-    if (this.confirmPass === e) {
-        this.validConfirmPasswordRegister = true;
-    }else{
+  confirmPasswordValidationRegister(e) {
+    if (this.password === e) {
+      this.validConfirmPasswordRegister = true;
+    } else {
       this.validConfirmPasswordRegister = false;
     }
   }

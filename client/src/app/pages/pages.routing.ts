@@ -4,6 +4,8 @@ import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { VerifyComponent } from './verify/verify.component';
 import { FinishRegisterComponent } from './finish-register/finish-register.component';
+import { PasswordVerifyComponent } from './password-verify/password-verify.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
 
 export const PagesRoutes: Routes = [
 
@@ -23,12 +25,27 @@ export const PagesRoutes: Routes = [
     },
     {
       path: 'finish_registration',
-      redirectTo: '/login',
-      pathMatch: 'full'
+      component: FinishRegisterComponent
+      // redirectTo: '/login',
+      // pathMatch: 'full'
     },
     {
       path: 'finish_registration/:id',
       component: FinishRegisterComponent
+    },
+    {
+      path: 'verify_password',
+      component: PasswordVerifyComponent
+    },
+    {
+      path: 'reset_password',
+      component: PasswordResetComponent
+      //redirectTo: 'login',
+      //pathMatch: 'full'
+    },
+    {
+      path: 'reset_password/:id',
+      component: PasswordResetComponent
     }]
   }
 ];
