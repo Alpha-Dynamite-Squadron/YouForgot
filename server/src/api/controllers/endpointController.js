@@ -14,6 +14,13 @@ let funcGenerateJwt = function() {
     }, secretString);
 };
 */
+
+/*
+ First use a select query to find all sectionInstance IDS that are tied to a user
+ Given those sectionInstance IDs, we then do a select query on the sectionInstance ID to get the information of every individual course
+ then send back that infromation like nameOfClass, etc
+ We return the semester, course name, teacher name, imageID
+*/
 module.exports.getUserCourses = function(req, res){
     console.log("Fetching the user's courses.");
     if(!req.body.token){
@@ -27,7 +34,7 @@ module.exports.getUserCourses = function(req, res){
         });
     }
 }
-
+// get ALL OF THE USERS ASSINGMENTS
 module.exports.getUserAssignments = function(req, res){
     console.log("Fetching the user's assignments.");
     if(!req.body.token){
@@ -40,4 +47,41 @@ module.exports.getUserAssignments = function(req, res){
 
         });
     }
+}
+
+// get the assingments for a course
+module.exports.getCourseAssignments = function(req, res){
+    console.log("Fetching all the assingments for  course");
+    if(!req.body.token){
+        res.status(401).json({
+            "message" : "no user token provided"
+        });
+    }
+    else {
+        endpoints.getCourseAssignments = function(req, res){
+            
+        }
+    }
+}
+//create an assingment
+module.exports.createAssignment = function(req, res){
+    console.log("Creating Assingment");
+    if(!req.params){
+        res.send("Params Empty!");
+    }
+    else {
+        
+    }
+
+}
+// This is to create a course
+module.exports.createCourse = function(req,res){
+    console.log("Fetching all the assingments for  course");
+    if(!req.params){
+        res.send("Params Empty!");
+    }
+    else {
+
+    }
+
 }
