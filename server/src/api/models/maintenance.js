@@ -3,7 +3,8 @@ let dbPool = require('../models/database');
 //a hour is 3.6 x 10^6 millisecond
 //we delete records that are a day old every hour?
 const clean = () => {
-    var queryString = 'DELETE FROM User WHERE hash IS NULL and salt IS NULL and emailAddress IS NOT NULL and accessKey IS NOT NULL and timestamp < (NOW() - INTERVAL 1 DAY)';
+    // var queryString = 'DELETE FROM User WHERE hash IS NULL and salt IS NULL and emailAddress IS NOT NULL and accessKey IS NOT NULL and creationDate < (NOW() - INTERVAL 1 DAY)';
+    var queryString = 'DELETE FROM User WHERE hash IS NULL and salt IS NULL and emailAddress IS NOT NULL and accessKey IS NOT NULL and creationDate < (NOW())';
     dbPool.query(queryString,null, function(err, res){
         if(err){
             console.log("Error cleaning the db");
