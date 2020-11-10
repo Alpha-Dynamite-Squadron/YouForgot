@@ -43,7 +43,7 @@ module.exports.getUserAssignments = function(req, res){
         });
     }
     else{
-        endpoints.getUserCourses(req.body.token, function(err,code){
+        endpoints.getUserAssignments(req.body.token, function(err,code){
 
         });
     }
