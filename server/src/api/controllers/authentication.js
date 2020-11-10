@@ -111,7 +111,7 @@ module.exports.register = function(req, res) {
             else {//User Found
                 res.status(500).json({
                     "message" : "Unexpected code recieved from database"
-                });;
+                });
             }
         });
     }
