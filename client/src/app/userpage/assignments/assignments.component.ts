@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-assignments',
@@ -8,8 +9,12 @@ import { Component, HostListener, OnInit } from '@angular/core';
 export class AssignmentsComponent implements OnInit {
 
   createNewAssignment: boolean = false
+  myAssignments: boolean = false;
+  location: Location;
 
-  constructor() { }
+  constructor(location: Location) {
+    this.location = location;
+   }
 
   @HostListener('click', ['$event.target']) onClick(btn: HTMLButtonElement) {
     if(btn.textContent === 'Cancel'){
@@ -18,6 +23,12 @@ export class AssignmentsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    var title = this.location.prepareExternalUrl(this.location.path());
+    console.log(title);
+    if(title === '/user/myassignments') {
+      this.myAssignments = true;
+    }
+    console.log(this.myAssignments);
   }
 
 }

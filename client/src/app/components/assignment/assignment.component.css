@@ -6,3 +6,11 @@ h4 {
   font-weight: bold;
   color: #00bcd4;
 }
+
+#forgotBtn {
+  margin-right: 5px;
+}
+
+#rememberBtn {
+  margin-left: 5px;
+}

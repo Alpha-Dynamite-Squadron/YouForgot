@@ -1,0 +1,11 @@
+#courseTitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #00bcd4;
+}
+
+h4 {
+  font-weight: bolder;
+  font-size: larger;
+}

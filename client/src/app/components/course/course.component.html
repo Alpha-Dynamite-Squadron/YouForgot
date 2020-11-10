@@ -1,5 +1,11 @@
 <div class="main-content">
   <div class="container-fluid">
+    <div routerLinkActive="true" id="courseTitle" class="row">
+      <button routerLink="/user/mycourses" mat-raised-button class="btn btn-info btn-fill">
+        Back to My Courses
+      </button>
+    </div>
+    <hr>
     <div class="row">
       <div class="col-md-11" *ngFor="let assignment of assignments"> 
         <app-assignment></app-assignment>

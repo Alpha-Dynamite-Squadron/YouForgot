@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-courses',
@@ -7,9 +8,20 @@ import { Component, HostListener, OnInit } from '@angular/core';
 })
 export class CoursesComponent implements OnInit {
 
-  constructor() { }
+  myCourses: boolean;
+  location: Location;
+
+  constructor(location: Location) { 
+    this.location = location;
+  }
 
   ngOnInit(): void {
+    var title = this.location.prepareExternalUrl(this.location.path());
+    console.log(title);
+    if(title === '/user/mycourses') {
+      this.myCourses = true;
+    }
+    console.log(this.myCourses);
   }
 
 }

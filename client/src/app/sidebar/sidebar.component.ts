@@ -64,7 +64,7 @@ export class SidebarComponent implements OnInit {
   };
 
   ngOnInit() {
-    this.username = this.authService.getUserDetails().username;
+    //this.username = this.authService.getUserDetails().username;
     this.menuItems = ROUTES.filter(menuItem => menuItem);
     if (window.matchMedia(`(min-width: 960px)`).matches && !this.isMac()) {
       const elemSidebar = <HTMLElement>document.querySelector('.sidebar .sidebar-wrapper');

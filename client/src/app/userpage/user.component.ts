@@ -11,7 +11,15 @@ import { Router } from '@angular/router';
 export class UserComponent {
 
   addNewInstitution: boolean = false;
-
+  selectedAvatarValue: string;
+  currentAvatar: string[];
+  //Replace this with a database query and populate list with *ngFor
+  avatars = [
+    { value: 'term-fall', viewValue: 'Fall' },
+    { value: 'term-winter', viewValue: 'Winter' },
+    { value: 'term-spring', viewValue: 'Spring' },
+    { value: 'term-summer', viewValue: 'Summer' },
+  ];
   constructor(
     private authService: AuthenticationService,
     private router: Router
