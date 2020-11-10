@@ -39,6 +39,12 @@ export class AuthenticationService {
     });
   }
 
+  public verifyAccessKey(key: string): Observable<any> {
+    return this.http.post('/api/verifyAccessKey', {
+      accessKey: key
+    });
+  }
+
   //Base Communication Methods
 
   public requestLogin(user: TokenPayload): Observable<any> {

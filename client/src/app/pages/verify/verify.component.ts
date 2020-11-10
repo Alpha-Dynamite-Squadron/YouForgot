@@ -10,7 +10,7 @@ export class VerifyComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log('Awaiting Email Verification...')
+    console.log('Awaiting Register Email Verification...')
   }
 
 }

@@ -66,4 +66,9 @@ export class LoginComponent implements OnInit, OnDestroy {
         console.log(error);
       });
   }
+
+  public forgotPassword() {
+    //Add backend endpoint code here
+    this.router.navigateByUrl('/verify_password');
+  }
 }

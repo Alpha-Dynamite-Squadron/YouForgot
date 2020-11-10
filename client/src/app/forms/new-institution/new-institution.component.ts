@@ -3,7 +3,7 @@ import { Component, Injectable, OnInit, AfterViewInit, ViewChild, OnDestroy, Inp
 import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormBuilder, AbstractControl } from '@angular/forms';
-import { PasswordValidation } from '../validationforms/password-validator.component';
+import { PasswordValidation } from '../validationforms/password-validator';
 import { ReplaySubject, Subject } from 'rxjs';
 import { MatSelect } from '@angular/material/select';
 import { take, takeUntil } from 'rxjs/operators';
@@ -171,7 +171,7 @@ export class NewInstitutionComponent implements OnInit, AfterViewInit, OnDestroy
         // the form control (i.e. _initializeSelection())
         // this needs to be done after the filteredInstitutions are loaded initially
         // and after the mat-option elements are available
-        this.singleSelect.compareWith = (a: Institution, b: Institution) => 
+        this.singleSelect.compareWith = (a: Institution, b: Institution) =>
           a && b && a.id === b.id;
       });
   }
