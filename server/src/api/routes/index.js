@@ -15,7 +15,6 @@ var auth = jwt({
   algorithms: ['HS256']
 });
 
-
 var controllerAuthentication = require('../controllers/authentication.js');
 
 //router.post('/preregister', controllerAuthentication.preregister);

@@ -4,9 +4,8 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var routesApi = require('../src/api/routes/index.js')
 require('../src/api/config/passport');
-
 var app = express();
-app.use(bodyParser.json());
+app.use(bodyParser.json()); // convert requests into json
 app.use(bodyParser.urlencoded({ extended: false}));
 var http = require('http');
 var port = '8080';
@@ -15,8 +14,10 @@ var server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+const yuh = require('../src/api/models/maintenance.js');
+const notify = require('../src/api/models/sendNotifications.js');
 // import clean from './api/Models/maintenance.js';
-// import notificationMailer from './api/Models/sendNotifications.js';
+// import notificationMailer frocm './api/Models/sendNotifications.js';
 // import nodemailer from 'nodemailer';
 /**
  * Event listener for HTTP server "listening" event.
@@ -28,7 +29,6 @@ function onListening() {
   var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
   console.log('Listening on ' + bind);
 }
-
 
 const allowedExt = [
   '.js',
@@ -100,3 +100,9 @@ app.get('/dimitri', (req, res) => {
 app.get('/nicholas', (req, res) => {
   res.send("I like Moose.");
 });
+
+// check every hour to clean the DB 
+// setInterval(yuh.clean, 3600000);
+
+//check every 5 min to send notifications
+//setInterval(notify.sendNotification, 300000);

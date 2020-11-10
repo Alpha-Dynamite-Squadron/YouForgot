@@ -19,14 +19,8 @@
                           <i class="material-icons">person</i>
                         </span>
                       </div>
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Username..."
-                        name="username"
-                        [(ngModel)]="username"
-                        [ngClass]="{'has-danger': validPasswordRegister===false}"
-                        required>
+                      <input type="text" class="form-control" placeholder="Username..." name="username"
+                        [(ngModel)]="username" required>
                     </div>
                   </div>
                   <div class="form-group has-default">
@@ -36,17 +30,9 @@
                           <i class="material-icons">lock_outline</i>
                         </span>
                       </div>
-                      <input
-                        type="password"
-                        matInput
-                        placeholder="Password..."
-                        class="form-control"
-                        name="password"
-                        [(ngModel)]="password"
-                        (ngModelChange)="passwordValidationRegister($event)"
-                        [ngClass]="{'has-danger':validConfirmPasswordRegister===false}"
-                        required>
-
+                      <input id="password" name="password" type="password" placeholder="Password..."
+                        class="form-control" [(ngModel)]="password" #formControlPassword="ngModel"
+                        (ngModelChange)="passwordValidationRegister($event)" required>
                     </div>
                   </div>
                   <div class="form-group has-default">
@@ -56,37 +42,28 @@
                           <i class="material-icons">lock_outline</i>
                         </span>
                       </div>
-                      <input
-                        type="password"
-                        matInput
-                        placeholder="Confirm Password..."
-                        class="form-control"
-                        name="confirm"
-                        [(ngModel)]="confirmPass"
-                        (ngModelChange)="confirmPasswordValidationRegister($event)"
-                        required>
+                      <input id="confirm" type="password" matInput placeholder="Confirm Password..."
+                        class="form-control" name="confirm" [(ngModel)]="confirmPass" #formControlConfirm="ngModel"
+                        (ngModelChange)="confirmPasswordValidationRegister($event)" required>
                     </div>
                   </div>
-                  <mat-checkbox
-                    class="form-check"
-                    type="mat-checkbox"
-                    name="terms"
-                    [checked]="terms"
-                    (change)="onTermsChange($event)"
-                    required>
+                  <mat-checkbox class="form-check" type="mat-checkbox" name="terms" [checked]="terms"
+                    (change)="onTermsChange($event)" required>
                     I agree to the <a href="#something">terms and conditions</a>.
                   </mat-checkbox>
-                  <mat-checkbox
-                    class="form-check"
-                    type="mat-checkbox"
-                    name="notifications"
-                    [checked]="notifications"
-                    (change)="onNotificationsChange($event)"
-                    required>
-                    I would like to receive email notifications.
+                  <mat-checkbox class="form-check" type="mat-checkbox" name="notifications" [checked]="notifications"
+                    (change)="onNotificationsChange($event)" required>
+                    I would like to receive notifications.
                   </mat-checkbox>
+                  <div class="row"
+                    *ngIf="formControlPassword.touched && formControlConfirm.touched && (confirmPass!==password) && validPasswordRegister">
+                    <h6 id="passwordMismatch" class="text-danger">Entered passwords do not match!</h6>
+                  </div>
                   <div class="row register-button" class="text-center">
-                    <button class="btn btn-info btn-primary btn-round" type="submit" [disabled]="!finishRegForm.valid">Create Account</button>
+                    <button class="btn btn-info btn-primary btn-round" type="submit"
+                      [disabled]="!finishRegForm.valid || !validPasswordRegister || !validConfirmPasswordRegister || !terms">
+                      Create Account
+                    </button>
                   </div>
                 </form>
               </div>

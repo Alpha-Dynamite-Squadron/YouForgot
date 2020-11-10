@@ -3,11 +3,11 @@
   <div class="page-header register-page">
     <div class="container">
       <div class="row">
-        <div class="col-md-8 ml-auto mr-auto">
+        <div class="col-md-6 ml-auto mr-auto">
           <div class="card card-signup">
             <h2 class="card-title text-center">Create an Account</h2>
             <div class="card-body">
-              <div class="col-md-6 ml-auto mr-auto">
+              <div class="col-md-10 ml-auto mr-auto">
                 <div class="info info-horizontal">
                   <div class="icon icon-rose">
                     <i class="material-icons">timeline</i>
@@ -44,7 +44,7 @@
                     </p>
                   </div>
                 </div>
-                <form class="form" (ngSubmit)="register()">
+                <form class="form" (ngSubmit)="register()" #preRegForm="ngForm">
                   <div class="form-group has-default">
                     <div class="input-group">
                       <div class="input-group-prepend">
@@ -62,7 +62,7 @@
                     </div>
                   </div>
                   <div class="row register-button text-center">
-                    <button class="btn btn-info btn-primary btn-round" type="submit" [disabled]="!ngForm.valid">Register</button>
+                    <button class="btn btn-info btn-primary btn-round" type="submit" [disabled]="!preRegForm.valid">Register</button>
                   </div>
                   <div class="login-link">
                     <span routerLinkActive="active" class="text-center">
