@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 var routesApi = require('../src/api/routes/index.js')
 require('../src/api/config/passport');
 var app = express();
-app.use(bodyParser.json());
+app.use(bodyParser.json()); // convert requests into json
 app.use(bodyParser.urlencoded({ extended: false}));
 var http = require('http');
 var port = '8080';
