@@ -43,7 +43,7 @@ module.exports.getUserAssignments = function(req, res){
         });
     }
     else{
-        endpoints.getUserAssignments(req.body.token, function(err,code){
+        endpoints.getUserCourses(req.body.token, function(err,code){
 
         });
     }
@@ -58,12 +58,25 @@ module.exports.getCourseAssignments = function(req, res){
         });
     }
     else {
-        endpoints.getCourseAssignments = function(req, res){
+        endpoints.getCourseAssignments
             
-        }
+        
     }
 }
-//create an assingment
+
+// get all possible courses
+module.exports.getAllCourses = function(req, res){
+    console.log("Fetching all possible courses");
+    if(!req.params){
+        res.send("Params Empty!");
+    }
+    else { 
+        endpoints.getAllCourses()
+    }
+}
+
+
+//create an assingment for a class
 module.exports.createAssignment = function(req, res){
     console.log("Creating Assingment");
     if(!req.params){
@@ -85,3 +98,9 @@ module.exports.createCourse = function(req,res){
     }
 
 }
+
+/*
+Get AVG grade/ get # of upvotes
+Join PostASsociation on Posts where assingmnetID == AssignmentID
+Then do a count on the upvotes and an avg on the grade
+*/
