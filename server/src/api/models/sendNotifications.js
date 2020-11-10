@@ -7,7 +7,7 @@ const sendNotification = () =>  {
     // SELECT pa.emailAddress, pa.assignmentID, sec.nameOfClass FROM PostAssociation AS pa INNER JOIN Post as po ON pa.assingmentID = po.assignmentID INNER JOIN ON SectionInstance AS sec ON po.sectionInstance = sec.sectionInstanceID WHERE pa.customDueDate < (NOW() - INTERVAL 1 DAY)
     // 0 means it has not been sent
 
-    let queryString = 'SELECT pa.emailAddress, pa.assignmentID, pa.customAssignmentName, u.username  FROM PostAssociation AS pa INNER JOIN User as u ON pa.emailAddress = u.emailAddress WHERE pa.customDueDate < (NOW() - INTERVAL 1 DAY  AND pa.sentNotification == 0';
+    let queryString = 'SELECT pa.emailAddress, pa.assignmentID, pa.customAssignmentName, u.username  FROM PostAssociation AS pa INNER JOIN User as u ON pa.emailAddress = u.emailAddress WHERE pa.customDueDate < (NOW() - INTERVAL 1 DAY  AND pa.sentNotification == 0;';
     let emails = [], assignments = [], assingmentIDs = [], usernames = []; 
 
     dbPool.query(queryString,null, function(err, res){
@@ -41,7 +41,7 @@ const sendNotification = () =>  {
        // 1 means we have sent the email
        // let queryString = "UPDATE PostAssociation SET sentNotification = 1 WHERE assignmentID = '"+ assignments[0] +"' AND emailAddress = '" + emails[0] + "''";
        // UPDATE PostAssociation SET sentNotification = 1 WHERE assignmentID = 'YES' AND emailAddress ='YES'"
-      queryString = "UPDATE PostAssociation SET sentNotification = 1 WHERE assignmentID =' "+ assignments[i] +"' AND emailAddress ='" + emails[i] + "'";
+      queryString = 'UPDATE PostAssociation SET sentNotification = 1 WHERE assignmentID =' + assignments[i] +' AND emailAddress = ' + emails[i] + ";";
       dbPool.query(queryString,null, function(err, res){
         if(err){
             console.log("Error updating email sent notification, after sending the notification");

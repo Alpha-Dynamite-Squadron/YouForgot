@@ -47,7 +47,7 @@ let funcGenerateJwt = function() {
 /* This is the database call to pull data for the user.
 */
 module.exports.findAccountByEmail = function(email, resultCallback) {
-    var queryString = 'SELECT emailAddress, username, imageID, hash, salt, profileRating, getPostReminderNotifications, getHomeworkReminderNotifications FROM User WHERE accessKey IS NULL AND emailAddress = ?';
+    var queryString = 'SELECT emailAddress, username, imageID, hash, salt, profileRating, getPostReminderNotifications, getHomeworkReminderNotifications FROM User WHERE accessKey IS NULL AND emailAddress = ?;';
     dbPool.query(queryString, email, function (err, result) {
         if(err) {
             resultCallback(err, null);
@@ -78,7 +78,7 @@ module.exports.findAccountByEmail = function(email, resultCallback) {
 };
 // Check that the user exists in the DB once the user has clicked on the link with the access key so that registration can continue.
 module.exports.findNewUser = function(accessKey, resultCallback) {
-    var findInactiveUserQuery = 'SELECT accessKey, emailAddress, FROM User WHERE accessKey = ? LIMIT 1';
+    var findInactiveUserQuery = 'SELECT accessKey, emailAddress, FROM User WHERE accessKey = ? LIMIT 1;';
     dbPool.query(findInactiveUserQuery, accessKey, function(err, result) {
         if(err) {
         resultCallback(err, null);
@@ -100,7 +100,7 @@ module.exports.findNewUser = function(accessKey, resultCallback) {
     * error code 3 is that the query failed because the email dissapeared
     */
 module.exports.registerUser = function(accessKey, emailAddress, username, imageID, password, resultCallback) {
-    let findInactiveUserQuery = 'SELECT emailAddress, accessKey FROM User WHERE emailAddress = ? LIMIT 1';
+    let findInactiveUserQuery = 'SELECT emailAddress, accessKey FROM User WHERE emailAddress = ? LIMIT 1;';
     dbPool.query(findInactiveUserQuery, emailAddress, function(err, result) {
         if(err) {
         resultCallback(err, null);
@@ -114,7 +114,7 @@ module.exports.registerUser = function(accessKey, emailAddress, username, imageI
                 user.setPassword(password);
                 let hash = user.hash;
                 let salt = user.salt;
-                let createUserQuery = 'UPDATE User SET username = ?, imageID = ?, hash = ?, salt = ?, accessKey = NULL WHERE emailAddress = ? '
+                let createUserQuery = 'UPDATE User SET username = ?, imageID = ?, hash = ?, salt = ?, accessKey = NULL WHERE emailAddress = ?;';
                 dbPool.query(createUserQuery, [username, imageID, hash, salt, emailAddress], function(err, result){
                     if(err){
                         resultCallback(err, null);
