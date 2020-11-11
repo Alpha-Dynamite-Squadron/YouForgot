@@ -35,16 +35,46 @@ module.exports.getUserCourses = function(req, res){
     }
 }
 // get ALL OF THE USERS ASSINGMENTS
+// 0 Success
+// 1 No Assignments Found
+// Null DB error
 module.exports.getUserAssignments = function(req, res){
     console.log("Fetching the user's assignments.");
-    if(!req.body.token){
+    //if no token is provided, we can't get their courses
+    if(!req.payload){
         res.status(401).json({
             "message" : "no user token provided"
         });
     }
     else{
-        endpoints.getUserCourses(req.body.token, function(err,code){
-
+        //we have token
+        endpoints.getUserCourses(req.payload.emailAddress, function(err,data){
+            if(err){
+                //DB error
+                if(data == null){
+                    console.log("Database error in PostAssociation getUserAssignments Query");
+                    console.log(err);
+                    res.status(500).json({
+                        "message" : "Unknown database error"
+                    });
+                }
+            }
+            //no error, but there is data meaning we did get data from the query
+            else if(data){
+                //if we have all parameters needed we return a 200 with the object
+                if(data.emailAddress !== undefined && data.assignmentDescriptions !== undefined && assignmentNames !== undefined && dueDates !== undefined){
+                    console.log("Query Successful, we have found the assignments for")
+                    //sends the json object with the results from the querry
+                    res.status(200).json(data);
+                } 
+            }
+            //error and data is null here meaning no assignments found
+            else {
+            // EMAIL IS FOUND BUT NO ROWS
+                 res.status(404).json({
+                     "message" : "Email was valid, but user has no assignments"
+                 });
+            }
         });
     }
 }
