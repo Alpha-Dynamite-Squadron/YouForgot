@@ -1,0 +1,72 @@
+<div class="col-md-12">
+  <div class="card">
+    <form [formGroup]="type" class="form-horizontal">
+      <div class="card-header card-header-info card-header-text">
+        <div class="card-text">
+          <h4 class="card-title">Update Your Profile</h4>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <label class="col-sm-2 col-form-label text-right">Academic Email</label>
+          <div class="col-sm-7">
+            <mat-form-field class="example-full-width has-label" [ngClass]="{'has-success':validTextType===true}"
+              [ngClass]="displayFieldCss(type, 'text')">
+              <input type="text" matInput id="email" [placeholder]='userEmail' (ngModelChange)="textValidationType($event)"
+                formControlName="email">
+              <app-field-error-display [displayError]="isFieldValid(type, 'email')"
+                errorMsg="You must enter an academic email!"></app-field-error-display>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <label class="col-sm-2 col-form-label text-right">Username</label>
+          <div class="col-sm-7">
+            <mat-form-field class="example-full-width has-label" [ngClass]="{'has-success':validTextType===true}"
+              [ngClass]="displayFieldCss(type, 'text')">
+              <input type="text" matInput id="username" [placeholder]='username' (ngModelChange)="textValidationType($event)"
+                formControlName="text">
+              <app-field-error-display [displayError]="isFieldValid(type, 'text')"
+                errorMsg="You must provide a username!"></app-field-error-display>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <label class="col-sm-2 col-form-label text-right">Profile Avatar</label>
+          <div class="col-sm-7">
+            <mat-form-field>
+              <mat-select [placeholder]="defaultAvatar" name="avatar">
+                <mat-option *ngFor="let avatar of avatars" [value]="avatar.value">
+                  {{ avatar.viewValue }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <label class="col-sm-2 col-form-label text-right">Select Institution</label>
+          <div class="col-sm-7">
+            <mat-form-field>
+              <mat-select placeholder="Select an Institution..." name="school">
+                <mat-option *ngFor="let institution of institutions" [value]="institution.value">
+                  {{ institution.viewValue }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer text-center">
+        <button mat-raised-button type="button" class="btn btn-info pull-left"
+          (click)="addNewInstitution = !addNewInstitution">
+          Add Institution
+        </button>
+        <button mat-raised-button type="button" class="btn btn-info pull-right">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Render form to add new institution to user's account -->
+<div *ngIf="addNewInstitution">
+  <app-new-institution></app-new-institution>
+</div>

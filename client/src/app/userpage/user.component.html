@@ -1,71 +1,7 @@
 <div class="main-content">
   <div class="container-fluid">
-    <div class="row profile-information">
-      <div class="col-md-8">
-        <div class="card">
-          <div class="card-header card-header-icon card-header-info">
-            <div class="card-icon">
-              <i class="material-icons">perm_identity</i>
-            </div>
-            <h4 class="card-title">Edit Profile -
-              <small class="category">Tell us about you</small>
-            </h4>
-          </div>
-          <div class="card-body">
-            <form>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="bmd-label-floating">Username</label>
-                    <input type="text" class="form-control">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="bmd-label-floating">Academic Email Address</label>
-                    <input type="email" class="form-control">
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="bmd-label-floating">Profile Avatar</label>
-                    <input type="text" class="form-control">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label class="bmd-label-floating">Profile Rating</label>
-                    <input type="text" class="form-control">
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <mat-checkbox class="form-check" [checked]="true">
-                      <label class="bmd-label-floating">I would like to receive new assignment notifications.</label>
-                    </mat-checkbox>
-                    <mat-checkbox class="form-check" [checked]="true">
-                      <label class="bmd-label-floating">I would like to receive assignment deadline
-                        notifications.</label>
-                    </mat-checkbox>
-                  </div>
-                </div>
-              </div>
-              <button mat-raised-button type="button" class="btn btn-info pull-left"
-                (click)="addNewInstitution = !addNewInstitution">
-                Add Institution
-              </button>
-              <button mat-raised-button type="button" class="btn btn-info pull-right">Update Profile</button>
-              <div class="clearfix"></div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-    <app-new-institution *ngIf="addNewInstitution"></app-new-institution>
+    <app-update-profile></app-update-profile>
+    <br>
     <div class="row profile-summary">
       <div class="col-md-8">
         <div class="card card-profile">
@@ -76,6 +12,7 @@
             <h6 class="card-category text-gray">Major</h6>
             <h4 class="card-title">Username</h4>
             <p class="card-description">Academic Institution Name</p>
+            <h6 id="profileRating" class="card-category text-info">Profile Rating {{ profileRating }}<i class="material-icons text-warning">star_rate</i></h6>
             <button (click)="logout()" class="btn btn-info btn-round">Logout</button>
           </div>
         </div>

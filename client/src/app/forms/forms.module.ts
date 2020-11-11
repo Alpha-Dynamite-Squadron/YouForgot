@@ -16,6 +16,7 @@ import { FieldErrorDisplayComponent } from './validationforms/field-error-displa
 import { NewAssignmentComponent } from './new-assignment/new-assignment.component';
 import { NewCourseComponent } from './new-course/new-course.component';
 import { NewInstitutionComponent } from './new-institution/new-institution.component';
+import { UpdateProfileComponent } from './update-profile/update-profile.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { NewInstitutionComponent } from './new-institution/new-institution.compo
       FieldErrorDisplayComponent,
       NewAssignmentComponent,
       NewCourseComponent,
-      NewInstitutionComponent
+      NewInstitutionComponent,
+      UpdateProfileComponent
   ],
   exports: [
     ExtendedFormsComponent,
@@ -48,6 +50,7 @@ import { NewInstitutionComponent } from './new-institution/new-institution.compo
     NewAssignmentComponent,
     NewInstitutionComponent,
     WizardComponent,
+    UpdateProfileComponent
   ]
 })
 

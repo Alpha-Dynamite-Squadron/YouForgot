@@ -9,3 +9,11 @@
 ::ng-deep .mat-checkbox-layout {
     white-space: normal !important;
 }
+
+#profileRating {
+  font-size: small;
+}
+
+.material-icons {
+  vertical-align: top;
+}
