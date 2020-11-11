@@ -1,4 +1,4 @@
-let endpoints = require('../models/endpoints');
+let endpoints = require('../models/userEndPoints');
 /*
 Json Web token from users for reference for what information we have to use.
 let funcGenerateJwt = function() {
@@ -23,17 +23,37 @@ let funcGenerateJwt = function() {
 */
 module.exports.getUserCourses = function(req, res){
     console.log("Fetching the user's courses.");
-    if(!req.body.token){
+    if(!req.payload.emailAddress){
         res.status(401).json({
-            "message" : "no user token provided"
+            "message" : "Token does not contain an email address"
         });
     }
     else{
-        endpoints.getUserCourses(req.body.token, function(err,code){
+        //we have a valid emailAddress
+        endpoints.getUserCourses(req.payload.emailAddress, function(err,data){
+            if(err){
+                console.log("We have an issue at endpoints.js(getUserCourses) in models");
+                res.status(500).json({
+                    "message" : "Unknown database error"
+                });
+            }
+            //we have data
+            else if(data){
+                if(err){
+                    
+                }
+                //we have incomplete data
+                else{
+                    res.status(422).json({
+                        "message" : "Incomplete data found for that user's email"
+                    });
+                }
+            }
 
         });
     }
 }
+
 // get ALL OF THE USERS ASSINGMENTS
 // 0 Success
 // 1 No Assignments Found
@@ -41,13 +61,15 @@ module.exports.getUserCourses = function(req, res){
 module.exports.getUserAssignments = function(req, res){
     console.log("Fetching the user's assignments.");
     //if no token is provided, we can't get their courses
-    if(!req.payload){
+    //do we need to check email address
+    // req.payload.emailAddress 
+    if(!req.payload.emailAddress){
         res.status(401).json({
-            "message" : "no user token provided"
+            "message" : "User Token does not have an email"
         });
     }
     else{
-        //we have token
+        //we have a valid email address
         endpoints.getUserCourses(req.payload.emailAddress, function(err,data){
             if(err){
                 //DB error
@@ -67,6 +89,12 @@ module.exports.getUserAssignments = function(req, res){
                     //sends the json object with the results from the querry
                     res.status(200).json(data);
                 } 
+                // incomplete date for the given email
+                else{
+                    res.status(422).json({
+                        "message" : "Incomplete data found for that user's email"
+                    });
+                }
             }
             //error and data is null here meaning no assignments found
             else {
@@ -80,7 +108,7 @@ module.exports.getUserAssignments = function(req, res){
 }
 
 // get the assingments for a course
-module.exports.getCourseAssignments = function(req, res){
+module.exports.getUserCourseAssignments = function(req, res){
     console.log("Fetching all the assingments for  course");
     if(!req.body.token){
         res.status(401).json({
@@ -94,40 +122,6 @@ module.exports.getCourseAssignments = function(req, res){
     }
 }
 
-// get all possible courses
-module.exports.getAllCourses = function(req, res){
-    console.log("Fetching all possible courses");
-    if(!req.params){
-        res.send("Params Empty!");
-    }
-    else { 
-        endpoints.getAllCourses()
-    }
-}
-
-
-//create an assingment for a class
-module.exports.createAssignment = function(req, res){
-    console.log("Creating Assingment");
-    if(!req.params){
-        res.send("Params Empty!");
-    }
-    else {
-        
-    }
-
-}
-// This is to create a course
-module.exports.createCourse = function(req,res){
-    console.log("Fetching all the assingments for  course");
-    if(!req.params){
-        res.send("Params Empty!");
-    }
-    else {
-
-    }
-
-}
 
 /*
 Get AVG grade/ get # of upvotes

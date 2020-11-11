@@ -1,4 +1,4 @@
-let dbPool = require('../models/database');
+let dbPool = require('./database');
 
 /*
 let createUserQuery = 'UPDATE User SET username = ?, imageID = ?, hash = ?, salt = ?, accessKey = NULL WHERE userEmail = ?;';
@@ -10,6 +10,7 @@ let createUserQuery = 'UPDATE User SET username = ?, imageID = ?, hash = ?, salt
 module.exports.getUserCourses = function(userEmail, resultCallback) {
     let getUserCourserQuery = 'SELECT * FROM UserEnrollment INNER JOIN SectionInstance ON UserEnrollment.sectionInstanceID = SectionInstance.sectionInstanceID WHERE UserEnrollment.emailAddress = ?;';
     dbPool.query(getUserCourserQuery, userEmail, function(err, res){
+        //db error
         if(err){
             console.log(err);
             resultCallback(err, null);
@@ -41,6 +42,7 @@ module.exports.getUserAssignments = function(userEmail, resultCallback){
     let getAssignmentsQuery = 'SELECT customAssignmentName, customAssignmentDescription, customeDueDate FROM PostAssociation WHERE userEmail = ? AND isIgnored = 0;';
     dbPool.query(getAssignmentsQuery, userEmail, function(err, res){
         if(err) {
+            console.log(err);
             resultCallback(err, null);
         }
         // worked properly
@@ -62,14 +64,5 @@ module.exports.getUserAssignments = function(userEmail, resultCallback){
 
 }
 
-module.exports.getAllCoures = function(req, res){
+// modules.exports.getUserCourseAssignments = function(req,res){}
 
-}
-
-module.exports.createAssignment = function(req, res){
-
-}
-
-module.exports.createCourse = function(req,res){
-
-}

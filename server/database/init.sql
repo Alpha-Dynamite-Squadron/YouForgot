@@ -111,7 +111,7 @@ CREATE INDEX `fk_UserEnrollment_User` ON `yfdb`.`UserEnrollment` (`emailAddress`
 CREATE TABLE IF NOT EXISTS `yfdb`.`Post` (
   `assignmentID` INT NULL AUTO_INCREMENT,
   `postAuthorEmail` VARCHAR(50) NULL,
-  `uploadDate` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `uploadDate` TIMESTAMP NULL,
   `assignmentName` VARCHAR(300) NOT NULL,
   `assignmentDueDate` TIMESTAMP NOT NULL,
   `forGrade` TINYINT NOT NULL,
