@@ -3,3 +3,14 @@ app-new-institution {
   align-items: center;
   justify-content: center;
 }
+
+div.card-footer.text-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+span {
+  color: #00bcd4;
+  font-weight: bolder;
+}

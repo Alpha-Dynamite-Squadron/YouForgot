@@ -44,29 +44,25 @@
           </div>
         </div>
         <div class="row">
-          <label class="col-sm-2 col-form-label text-right">Select Institution</label>
+          <label class="col-sm-2 col-form-label text-right"></label>
           <div class="col-sm-7">
-            <mat-form-field>
-              <mat-select placeholder="Select an Institution..." name="school">
-                <mat-option *ngFor="let institution of institutions" [value]="institution.value">
-                  {{ institution.viewValue }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
+            <mat-checkbox class="form-check" [checked]="true">
+              <label class="bmd-label-floating">I would like to receive new assignment notifications.</label>
+            </mat-checkbox>
+            <mat-checkbox class="form-check" [checked]="true">
+              <label class="bmd-label-floating">I would like to receive assignment deadline
+                notifications. <br><span>(Notifications sent 24 hours before due date)</span></label>
+            </mat-checkbox>
+            <mat-checkbox class="form-check" [checked]="false">
+              <label class="bmd-label-floating">I would like to receive excessive notifications. 
+                <br><span>(Notifications sent every hour until due date)</span></label>
+            </mat-checkbox>
           </div>
         </div>
       </div>
-      <div class="card-footer text-center">
-        <button mat-raised-button type="button" class="btn btn-info pull-left"
-          (click)="addNewInstitution = !addNewInstitution">
-          Add Institution
-        </button>
-        <button mat-raised-button type="button" class="btn btn-info pull-right">Save Changes</button>
+      <div id="saveChangesBtn" class="card-footer text-center">
+        <button mat-raised-button type="button" class="btn btn-info">Save Changes</button>
       </div>
     </form>
   </div>
-</div>
-<!-- Render form to add new institution to user's account -->
-<div *ngIf="addNewInstitution">
-  <app-new-institution></app-new-institution>
 </div>
