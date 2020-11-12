@@ -17,14 +17,21 @@ module.exports.getUserCourses = function(userEmail, resultCallback) {
         }
         else if(res.length === 1){
             console.log("Found Courses for user" + userEmail + ". Course names");
-            let userCourses = {
-                userEmail: userEmail,
-                nameOfClass: res[0].nameOfClass,
-                instructorName: res[0].instructorName,
-                disciplineLetters: res[0].disciplineLetters,
-                courseNumber: res[0].courseNumber,
-                academicSession: res[0].academicSession,
-                sectionInstanceID: res[0].sectionInstanceID
+            let courses = [];
+            let data = [];
+            for(let i = 0; i < res.length; i++){
+                let userCourse = {
+                    userEmail: userEmail,
+                    nameOfClass: res[i].nameOfClass,
+                    instructorName: res[i].instructorName,
+                    disciplineLetters: res[i].disciplineLetters,
+                    courseNumber: res[i].courseNumber,
+                    sectionInstanceID: res[i].sectionInstanceID,
+                    academicSession: res[i].academicSession,
+                    year: res[i].year
+    
+                }
+                data.push(userCourse);
             }
             resultCallback(null, userCourses);
         }

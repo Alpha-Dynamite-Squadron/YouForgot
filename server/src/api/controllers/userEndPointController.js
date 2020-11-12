@@ -79,6 +79,7 @@ module.exports.getUserAssignments = function(req, res){
     else{
         //we have a valid email address
         endpoints.getUserCourses(req.payload.emailAddress, function(err,data){
+            console.log("Fetching all the courses for school: " + req.body.insitutionID);
             if(err){
                 //DB error
                 if(data == null){
@@ -89,28 +90,14 @@ module.exports.getUserAssignments = function(req, res){
                     });
                 }
             }
-            //no error, but there is data meaning we did get data from the query
-            else if(data){
-                //if we have all parameters needed we return a 200 with the object
-                if(data.emailAddress !== undefined && data.assignmentDescriptions !== undefined && data.assignmentNames !== undefined && data.dueDates !== undefined && data.sectionInstanceID !== undefined)
-                {
-                    console.log("Query Successful, we have found the assignments for")
-                    //sends the json object with the results from the querry
-                    res.status(200).json(data);
-                } 
-                // incomplete date for the given email
-                else{
-                    res.status(422).json({
-                        "message" : "Incomplete data found for that user's email"
-                    });
-                }
+            //assume all the data is alright in the field
+            else if(data.length > 0){
+                res.status(200).json(data);
             }
-            //error and data is null here meaning no assignments found
             else {
-            // EMAIL IS FOUND BUT NO ROWS
-                 res.status(404).json({
-                     "message" : "Email was valid, but user has no assignments"
-                 });
+                res.status(404).json({
+                    "message" : "No Courses were found for the requested user."
+                });
             }
         });
     }
