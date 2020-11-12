@@ -31,6 +31,7 @@ module.exports.getUserCourses = function(req, res){
     else{
         //we have a valid emailAddress
         endpoints.getUserCourses(req.payload.emailAddress, function(err,data){
+            //db error
             if(err){
                 console.log("We have an issue at endpoints.js(getUserCourses) in models");
                 res.status(500).json({
@@ -39,8 +40,8 @@ module.exports.getUserCourses = function(req, res){
             }
             //we have data
             else if(data){
-                if(err){
-                    
+                if(data.userEmail !== undefined && data.nameOfClass !== undefined && data.instructorName !== undefined && data.disciplineLetters !== undefined && data.courseNumber !== undefined && data.academicSession !== undefined){
+                    res.status(200).json(data);            
                 }
                 //we have incomplete data
                 else{
@@ -49,7 +50,12 @@ module.exports.getUserCourses = function(req, res){
                     });
                 }
             }
-
+            // no courses found for that user
+            else {
+                res.status(404).json({
+                    "message" : "This user does not have any courses."
+                });
+            }
         });
     }
 }
@@ -58,6 +64,8 @@ module.exports.getUserCourses = function(req, res){
 // 0 Success
 // 1 No Assignments Found
 // Null DB error
+
+
 module.exports.getUserAssignments = function(req, res){
     console.log("Fetching the user's assignments.");
     //if no token is provided, we can't get their courses
@@ -84,7 +92,8 @@ module.exports.getUserAssignments = function(req, res){
             //no error, but there is data meaning we did get data from the query
             else if(data){
                 //if we have all parameters needed we return a 200 with the object
-                if(data.emailAddress !== undefined && data.assignmentDescriptions !== undefined && assignmentNames !== undefined && dueDates !== undefined){
+                if(data.emailAddress !== undefined && data.assignmentDescriptions !== undefined && data.assignmentNames !== undefined && data.dueDates !== undefined && data.sectionInstanceID !== undefined)
+                {
                     console.log("Query Successful, we have found the assignments for")
                     //sends the json object with the results from the querry
                     res.status(200).json(data);
@@ -104,21 +113,6 @@ module.exports.getUserAssignments = function(req, res){
                  });
             }
         });
-    }
-}
-
-// get the assingments for a course
-module.exports.getUserCourseAssignments = function(req, res){
-    console.log("Fetching all the assingments for  course");
-    if(!req.body.token){
-        res.status(401).json({
-            "message" : "no user token provided"
-        });
-    }
-    else {
-        endpoints.getCourseAssignments
-            
-        
     }
 }
 

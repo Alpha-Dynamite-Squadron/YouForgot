@@ -23,7 +23,8 @@ module.exports.getUserCourses = function(userEmail, resultCallback) {
                 instructorName: res[0].instructorName,
                 disciplineLetters: res[0].disciplineLetters,
                 courseNumber: res[0].courseNumber,
-                academicSection: res[0].academicSection
+                academicSession: res[0].academicSession,
+                sectionInstanceID: res[0].sectionInstanceID
             }
             resultCallback(null, userCourses);
         }
