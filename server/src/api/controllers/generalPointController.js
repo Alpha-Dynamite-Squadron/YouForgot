@@ -26,7 +26,7 @@ module.exports.getInstitutionCourses = function(req, res){
         });
     }
     else{
-        generalEndpoints.getInstutionCoures(req.body.insitutionID, function(err, data){     
+        generalEndpoints.getInstutionCourses(req.body.insitutionID, function(err, data){     
             console.log("Fetching all the courses for school: " + req.body.insitutionID);
             if(err){
                 //DB error
@@ -76,6 +76,7 @@ module.exports.getInstitutions = function(req, res){
     }); 
 }
 
+
 //create an assingment for a class
 module.exports.createAssignment = function(req, res){
     console.log("Creating Assingment");
@@ -88,6 +89,7 @@ module.exports.createAssignment = function(req, res){
 
 }
 // This is to create a course
+// course requires 
 module.exports.createCourse = function(req,res){
     console.log("Fetching all the assingments for  course");
     if(!req.params){

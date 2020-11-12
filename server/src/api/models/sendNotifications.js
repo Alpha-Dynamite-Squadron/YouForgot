@@ -7,7 +7,9 @@ const sendNotification = () =>  {
     // SELECT pa.emailAddress, pa.assignmentID, sec.nameOfClass FROM PostAssociation AS pa INNER JOIN Post as po ON pa.assingmentID = po.assignmentID INNER JOIN ON SectionInstance AS sec ON po.sectionInstance = sec.sectionInstanceID WHERE pa.customDueDate < (NOW() - INTERVAL 1 DAY)
     // 0 means it has not been sent
 
-    let queryString = 'SELECT pa.emailAddress, pa.assignmentID, pa.customAssignmentName, u.username  FROM PostAssociation AS pa INNER JOIN User as u ON pa.emailAddress = u.emailAddress WHERE pa.customDueDate < (NOW() - INTERVAL 1 DAY  AND pa.sentNotification == 0;';
+    //how to figure out if its <24
+    //1 means excessive notification is on
+    let queryString = 'SELECT pa.emailAddress, pa.assignmentID, pa.customAssignmentName, u.username  FROM PostAssociation AS pa INNER JOIN User as u ON pa.emailAddress = u.emailAddress WHERE pa.customDueDate < (NOW() - INTERVAL 1 DAY  AND (pa.sentNotification == 0  OR pa.excessiveNotification == 1);';
     let emails = [], assignments = [], assingmentIDs = [], usernames = []; 
 
     dbPool.query(queryString,null, function(err, res){
@@ -17,13 +19,15 @@ const sendNotification = () =>  {
         else {
             //Query results in here
             console.log("Sent notifications for assignments < 24 hours till due date");
-            emails = res[0].emailAddress;
-            assignments= res[0].customAssignmentName;
-            assignmentIDs = res[0].assignmentID;
-            usernames = res[0].username;
+            for(let i = 0; i < res.length; i++){
+                emails.push(res[i].emailAddress);
+                assignments.push(res[i].customAssignmentName);
+                assignmentIDs.push(res[i].assignmentID);
+                usernames.push(res[i].username);
+            }
         }
     });
-
+[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]
     //create the emails
     //test the to option, as docs says we can just past in an array
     for(let i = 0; i < emails.length; i++) {
@@ -41,6 +45,9 @@ const sendNotification = () =>  {
        // 1 means we have sent the email
        // let queryString = "UPDATE PostAssociation SET sentNotification = 1 WHERE assignmentID = '"+ assignments[0] +"' AND emailAddress = '" + emails[0] + "''";
        // UPDATE PostAssociation SET sentNotification = 1 WHERE assignmentID = 'YES' AND emailAddress ='YES'"
+       
+
+       //issues may be here?
       queryString = 'UPDATE PostAssociation SET sentNotification = 1 WHERE assignmentID =' + assignments[i] +' AND emailAddress = ' + emails[i] + ";";
       dbPool.query(queryString,null, function(err, res){
         if(err){

@@ -54,11 +54,16 @@ module.exports.getUserAssignments = function(userEmail, resultCallback){
         // worked properly
         else if(res.length === 1) {
             console.log("Found Assignments for user: " + userEmail + "Assingments Names:  " + res[0].customAssignmentDescription);
-            let userAssignments = {
+            let userAssignments = [];
+
+            for(let i = 0; i < res.length; i++){
+                let userAssignment = {
                 userEmail: userEmail,
-                assignmentDescriptions: res[0].customAssignmentDescription,
+                assignmentDescriptions: res[i].customAssignmentDescription,
                 assignmentNames: res[0].customAssignmentName,
-                dueDates: res[0].customDueDate
+                dueDates: res[i].customDueDate
+                }
+                userAssignments.push(userAssignment);
             }
             resultCallback(null, userAssignments);
         }
@@ -70,5 +75,18 @@ module.exports.getUserAssignments = function(userEmail, resultCallback){
 
 }
 
-// modules.exports.getUserCourseAssignments = function(req,res){}
+// get user instituion 
+/*
+module.exports.getUserInstitution= function(userEmail, resultCallback){
+    let getUserInstitutionQuery = 'SELECT * FROM InstituionAssociation WHERE emailAddress = ?;';
+    dbPool.query(getUserInstitutionQuery, userEmail, function(err, res){
+        if(err){
+            console.log(err);
+            resultCallback(err, null);
+        }
+        else if(res.length == 1){
 
+        }
+    });
+}
+*/

@@ -1,6 +1,6 @@
 let dbPool = require('../models/database');
 
-module.exports.getInstutionCoures = function(institutionID, resultCallback){
+module.exports.getInstutionCourses = function(institutionID, resultCallback){
     let getCoursesQuery = 'SELECT * FROM SectionInstance WHERE sectionInstanceID = ?;';
     dbPool.query(getCoursesQuery, institutionID, function(err, res){
         if(err){
@@ -56,11 +56,14 @@ module.exports.getInsitutions = function(resultCallback){
         }
     });
 }
+// how to creat sectionInstance ID?
+//title, disciplineLetters, number, 
+module.exports.createCourse = function(req,res){
+
+}
 
 module.exports.createAssignment = function(req, res){
 
 }
 
-module.exports.createCourse = function(req,res){
 
-}

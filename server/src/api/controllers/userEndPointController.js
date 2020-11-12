@@ -105,3 +105,21 @@ Get AVG grade/ get # of upvotes
 Join PostASsociation on Posts where assingmnetID == AssignmentID
 Then do a count on the upvotes and an avg on the grade
 */
+
+/*
+module.exports.getUserInstitution = function(req, res){
+    if(!req.payload.emailAddress){
+        res.status(401).json({
+            "message" : "Token does not contain an email address"
+        });   
+    }
+ 
+    else {
+        //we have a valid email and institution ID
+        endpoints.getUserInstitution
+
+    }
+
+}
+
+*/
