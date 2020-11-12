@@ -50,6 +50,31 @@ module.exports.getInstitutionCourses = function(req, res){
         });
     }   
 }
+// get all the insitutions in the table Insitutions.
+module.exports.getInstitutions = function(req, res){
+    generalEndpoints.getInstutions(function(err, data){     
+        console.log("Fetching all instituions");
+        if(err){
+            //DB error
+            if(data == null){
+                console.log("Database error in PostAssociation getUserAssignments Query");
+                console.log(err);
+                res.status(500).json({
+                    "message" : "Unknown database error"
+                });
+            }
+        }
+        //assume all the data is alright in the field
+        else if(data.length > 0){
+            res.status(200).json(data);
+        }
+        else {
+            res.status(404).json({
+                "message" : "No insitutions found"
+            });
+        }
+    }); 
+}
 
 //create an assingment for a class
 module.exports.createAssignment = function(req, res){

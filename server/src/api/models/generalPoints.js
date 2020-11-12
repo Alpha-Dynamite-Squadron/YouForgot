@@ -1,7 +1,7 @@
 let dbPool = require('../models/database');
 
 module.exports.getInstutionCoures = function(institutionID, resultCallback){
-    let getCoursesQuery = 'SELECT * SectionInstance WHERE sectionInstanceID = ?;';
+    let getCoursesQuery = 'SELECT * FROM SectionInstance WHERE sectionInstanceID = ?;';
     dbPool.query(getCoursesQuery, institutionID, function(err, res){
         if(err){
             console.log(err);
@@ -10,9 +10,8 @@ module.exports.getInstutionCoures = function(institutionID, resultCallback){
         else if (res.length === 1){
             console.log("Courses found");
             let courses = [];
-            let data = [];
             for(let i = 0; i < res.length; i++){
-                let userCourse = {
+                let institutionCourse = {
                     sectionInstanceID: res[i].sectionInstanceID,
                     nameOfClass: res[i].nameOfClass,
                     instructorName: res[i].instructorName,
@@ -22,7 +21,7 @@ module.exports.getInstutionCoures = function(institutionID, resultCallback){
                     academicSession: res[i].academicSession,
                     year: res[i].year
                 }
-                data.push(userCourse);
+                courses.push(institutionCourse);
             }
             resultCallback(null, courses);
         }
@@ -31,8 +30,31 @@ module.exports.getInstutionCoures = function(institutionID, resultCallback){
             resultCallback(null,null);
         }
     });
-
-
+}
+module.exports.getInsitutions = function(resultCallback){
+    let getInsitutionsQuery = 'SELECT * FROM Insitution;';
+    dbPool.query(getInsitutionsQuery, function(err, res){
+        if(err){
+            console.log(err);
+            resultCallback(err, null);
+        }
+        else if (res.length === 1){
+            console.log("Courses found.");
+            let institutions = [];
+            for(let i = 0; i < res.length; i++){
+                let instituion = {
+                    instituionID: res[i].instituionID,
+                    schoolName: res[i].schoolName
+                }
+                institutions.push(instituion);
+            }
+            resultCallback(null, institutions);
+        }
+        else{
+            console.log("No institutions found.");
+            resultCallback(null,null);
+        }
+    });
 }
 
 module.exports.createAssignment = function(req, res){

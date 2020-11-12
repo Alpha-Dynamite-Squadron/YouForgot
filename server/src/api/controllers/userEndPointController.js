@@ -61,11 +61,7 @@ module.exports.getUserCourses = function(req, res){
 }
 
 // get ALL OF THE USERS ASSINGMENTS
-// 0 Success
-// 1 No Assignments Found
 // Null DB error
-
-
 module.exports.getUserAssignments = function(req, res){
     console.log("Fetching the user's assignments.");
     //if no token is provided, we can't get their courses

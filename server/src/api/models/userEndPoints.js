@@ -17,8 +17,7 @@ module.exports.getUserCourses = function(userEmail, resultCallback) {
         }
         else if(res.length === 1){
             console.log("Found Courses for user" + userEmail + ". Course names");
-            let courses = [];
-            let data = [];
+            let userCourses = [];
             for(let i = 0; i < res.length; i++){
                 let userCourse = {
                     userEmail: userEmail,
@@ -31,7 +30,7 @@ module.exports.getUserCourses = function(userEmail, resultCallback) {
                     year: res[i].year
     
                 }
-                data.push(userCourse);
+                userCourses.push(userCourse);
             }
             resultCallback(null, userCourses);
         }
@@ -39,7 +38,6 @@ module.exports.getUserCourses = function(userEmail, resultCallback) {
             console.log("This user does not have any courses:" + userEmail);
             resultCallback(null,null);
         }
-
     });
     
 }
