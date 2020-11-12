@@ -27,7 +27,6 @@ const sendNotification = () =>  {
             }
         }
     });
-[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]
     //create the emails
     //test the to option, as docs says we can just past in an array
     for(let i = 0; i < emails.length; i++) {
