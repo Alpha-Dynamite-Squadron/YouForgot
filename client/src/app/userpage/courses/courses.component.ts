@@ -10,6 +10,7 @@ export class CoursesComponent implements OnInit {
 
   myCourses: boolean;
   location: Location;
+  courses: number[] = [1, 2, 3, 4, 5];
 
   constructor(location: Location) { 
     this.location = location;
@@ -17,11 +18,9 @@ export class CoursesComponent implements OnInit {
 
   ngOnInit(): void {
     var title = this.location.prepareExternalUrl(this.location.path());
-    console.log(title);
     if(title === '/user/mycourses') {
       this.myCourses = true;
     }
-    console.log(this.myCourses);
   }
 
 }

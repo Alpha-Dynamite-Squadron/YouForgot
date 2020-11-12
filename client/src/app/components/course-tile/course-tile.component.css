@@ -1,0 +1,25 @@
+div.card-header.card-header-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #00bcd4;
+}
+
+i.material-icons.pull-left,
+i.material-icons.pull-right {
+  color: #00bcd4;
+}
+
+a {
+  color: #00bcd4;
+  font-weight: bold;
+  font-size: larger;
+}
+
+p {
+  font-size: medium;
+}
+
+.card.card-product {
+  margin: 7.5px 0px;
+}

@@ -5,8 +5,8 @@ h4 {
 
 .row {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: left;
+  justify-content: left;
 }
 
 app-new-assignment {
@@ -20,4 +20,11 @@ app-new-assignment {
 
 span {
   font-size: large;
+}
+
+#postAssignmentBtnRow {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

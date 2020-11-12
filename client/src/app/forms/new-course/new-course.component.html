@@ -1,6 +1,6 @@
 <div class="col-md-12">
   <div class="card">
-    <form [formGroup]="type" class="form-horizontal">
+    <form [formGroup]="createCourseForm" ngSubmit="onSubmit()" class="form-horizontal">
       <div class="card-header card-header-info card-header-text">
         <div class="card-text">
           <h4 class="card-title">Add New Course</h4>
@@ -8,12 +8,14 @@
       </div>
       <div class="card-body">
         <div class="row">
-          <label class="col-sm-2 col-form-label text-right">Course Title</label>
+          <label class="col-sm-2 col-form-label text-right">Course Name</label>
           <div class="col-sm-7">
             <mat-form-field class="example-full-width has-label" [ngClass]="{'has-success':validTextType===true}"
-              [ngClass]="displayFieldCss(type, 'text')">
-              <input type="text" matInput id="title" (ngModelChange)="textValidationType($event)" formControlName="text">
-              <app-field-error-display [displayError]="isFieldValid(type, 'text')" errorMsg="You must provide a course title!"></app-field-error-display>
+              [ngClass]="displayFieldCss(createCourseForm, 'courseName')">
+              <input type="text" matInput id="name" (ngSubmit)="textValidationType($event)"
+                formControlName="courseName">
+              <app-field-error-display [displayError]="isFieldValid(createCourseForm, 'courseName')"
+                errorMsg="You must provide a course title!"></app-field-error-display>
             </mat-form-field>
           </div>
         </div>
@@ -21,20 +23,35 @@
           <label class="col-sm-2 col-form-label text-right">Course Discipline</label>
           <div class="col-sm-7">
             <mat-form-field class="example-full-width has-label" [ngClass]="{'has-success':validTextType===true}"
-              [ngClass]="displayFieldCss(type, 'text')">
-              <input type="text" matInput id="discipline" (ngModelChange)="textValidationType($event)" formControlName="text">
-              <app-field-error-display [displayError]="isFieldValid(type, 'text')" errorMsg="You must provide a course discipline!"></app-field-error-display>
+              [ngClass]="displayFieldCss(createCourseForm, 'courseDiscipline')">
+              <input type="text" matInput id="discipline" (ngSubmit)="textValidationType($event)"
+                formControlName="courseDiscipline">
+              <app-field-error-display [displayError]="isFieldValid(createCourseForm, 'courseDiscipline')"
+                errorMsg="You must provide a course discipline!"></app-field-error-display>
             </mat-form-field>
           </div>
         </div>
         <div class="row">
           <label class="col-sm-2 col-form-label text-right">Course Number</label>
           <div class="col-sm-7">
-            <mat-form-field class="example-full-width has-label"
-              [ngClass]="{'has-success':validNumberType===true}" [ngClass]="displayFieldCss(type, 'number')">
-              <input type="number" name="number" number="true" matInput
-                (ngModelChange)="numberValidationType($event)" formControlName="number">
-              <app-field-error-display [displayError]="isFieldValid(type, 'number')" errorMsg="You must provide a course number!"></app-field-error-display>
+            <mat-form-field class="example-full-width has-label" [ngClass]="{'has-success':validNumberType===true}"
+              [ngClass]="displayFieldCss(createCourseForm, 'courseNumber')">
+              <input type="number" name="number" matInput (ngSubmit)="numberValidationType($event)"
+                formControlName="courseNumber">
+              <app-field-error-display [displayError]="isFieldValid(createCourseForm, 'courseNumber')"
+                errorMsg="You must provide a course number!"></app-field-error-display>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <label class="col-sm-2 col-form-label text-right">Instructor Name</label>
+          <div class="col-sm-7">
+            <mat-form-field class="example-full-width has-label" [ngClass]="{'has-success':validTextType===true}"
+              [ngClass]="displayFieldCss(createCourseForm, 'courseInstructor')">
+              <input type="text" matInput id="instructor" (ngSubmit)="textValidationType($event)"
+                formControlName="courseInstructor">
+              <app-field-error-display [displayError]="isFieldValid(createCourseForm, 'courseInstructor')"
+                errorMsg="You must provide a course title!"></app-field-error-display>
             </mat-form-field>
           </div>
         </div>
@@ -45,47 +62,36 @@
             <div class="row">
               <div class="col-lg-5 col-md-8 col-sm-4">
                 <mat-form-field>
-                  <mat-select placeholder="Academic Term" name="term" required>
+                  <mat-select placeholder="Academic Term" name="term" formControlName="courseTerm">
                     <mat-option *ngFor="let term of terms" [value]="term.value">
                       {{ term.viewValue }}
                     </mat-option>
                   </mat-select>
+                  <app-field-error-display [displayError]="isFieldValid(createCourseForm, 'courseTerm')"
+                    errorMsg="You must select a course term!"></app-field-error-display>
                 </mat-form-field>
               </div>
               <label class="col-sm-2 col-form-label text-right">Select Academic Year</label>
               <div class="col-md-5 mr-auto">
                 <mat-form-field>
-                  <input matInput [matDatepicker]="picker2" placeholder="Academic Year" (click)="picker2.open()" required>
-                  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                  <mat-datepicker #picker2 startView="year"></mat-datepicker>
+                  <mat-select placeholder="Academic Year" name="year" formControlName="courseYear">
+                    <mat-option *ngFor="let year of years" [value]="year.value">
+                      {{ year.viewValue }}
+                    </mat-option>
+                  </mat-select>
+                  <app-field-error-display [displayError]="isFieldValid(createCourseForm, 'courseYear')"
+                    errorMsg="You must select a course year!"></app-field-error-display>
                 </mat-form-field>
               </div>
             </div>
           </div>
         </div>
         <br>
-        <div class="row">
-          <label class="col-sm-2 col-form-label text-right">Select Institution</label>
-          <div class="col-sm-7">
-            <div class="row">
-              <div class="col-lg-5 col-md-8 col-sm-4">
-                <mat-form-field>
-                  <mat-select placeholder="Institution" name="school" required>
-                    <mat-option *ngFor="let institution of institutions" [value]="institution.value">
-                      {{ institution.viewValue }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <label class="col-sm-2 col-form-label text-right">* Required Fields</label>
-            </div>
-          </div>
-        </div>
       </div>
       <div class="card-footer text-center">
-        <button #assignmentSearchBtn mat-raised-button type="submit" class="btn btn-info btn-fill"
-          (click)="onType()">Create Course</button>
-        <button #assignmentCancelBtn mat-raised-button type="button" class="btn btn-info btn-fill"
+        <button #createCourseBtn mat-raised-button type="submit" [disabled]="!createCourseForm.valid"
+          class="btn btn-info btn-fill" (click)="onSubmit()">Create</button>
+        <button #cancelCourseBtn mat-raised-button type="button" class="btn btn-info btn-fill"
           (click)="$event">Cancel</button>
       </div>
     </form>

@@ -10,6 +10,7 @@ export class AssignmentsComponent implements OnInit {
 
   createNewAssignment: boolean = false
   myAssignments: boolean = false;
+  assignments: number[] = [1, 2, 3, 4, 5]; 
   location: Location;
 
   constructor(location: Location) {
@@ -24,11 +25,8 @@ export class AssignmentsComponent implements OnInit {
 
   ngOnInit(): void {
     var title = this.location.prepareExternalUrl(this.location.path());
-    console.log(title);
     if(title === '/user/myassignments') {
       this.myAssignments = true;
     }
-    console.log(this.myAssignments);
   }
-
 }

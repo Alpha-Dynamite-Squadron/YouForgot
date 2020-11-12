@@ -14,6 +14,7 @@ import { SweetAlertComponent } from './sweetalert/sweetalert.component';
 import { TypographyComponent } from './typography/typography.component';
 import { AssignmentComponent } from './assignment/assignment.component';
 import { CourseComponent } from './course/course.component';
+import { CourseTileComponent } from './course-tile/course-tile.component';
 
 @NgModule({
   imports: [
@@ -31,11 +32,13 @@ import { CourseComponent } from './course/course.component';
       SweetAlertComponent,
       TypographyComponent,
       AssignmentComponent,
-      CourseComponent
+      CourseComponent,
+      CourseTileComponent
   ],
   exports: [
     AssignmentComponent,
-    CourseComponent
+    CourseComponent,
+    CourseTileComponent
   ]
 })
 
