@@ -8,18 +8,6 @@
       </div>
       <div class="card-body">
         <div class="row">
-          <label class="col-sm-2 col-form-label text-right">Academic Email</label>
-          <div class="col-sm-7">
-            <mat-form-field class="example-full-width has-label" [ngClass]="{'has-success':validTextType===true}"
-              [ngClass]="displayFieldCss(type, 'text')">
-              <input type="text" matInput id="email" [placeholder]='userEmail' (ngModelChange)="textValidationType($event)"
-                formControlName="email">
-              <app-field-error-display [displayError]="isFieldValid(type, 'email')"
-                errorMsg="You must enter an academic email!"></app-field-error-display>
-            </mat-form-field>
-          </div>
-        </div>
-        <div class="row">
           <label class="col-sm-2 col-form-label text-right">Username</label>
           <div class="col-sm-7">
             <mat-form-field class="example-full-width has-label" [ngClass]="{'has-success':validTextType===true}"

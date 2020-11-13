@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="card card-product">
+    <!-- <div class="card-header card-header-image" data-header-animation="false">
+        <i class="material-icons">{{ selectedIcon }}</i>
+      </div> -->
+    <div class="card-body">
+      <h4 class="card-title">
+        <i class="material-icons pull-left">{{ selectedIcon }}</i>
+        <a href="#">{{ selectedCourseDiscipline}}{{ selectedCourseNumber }}</a>
+        <i class="material-icons pull-right">{{ selectedIcon }}</i>
+      </h4>
+      <div class="card-description">
+        {{ selectedCourseName }}
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="price">
+        <h4>{{ selectedCourseInstructor }}</h4>
+      </div>
+      <div class="stats">
+        <p class="card-category"><i class="material-icons">date_range</i>{{ selectedCourseTerm }} Semester
+          {{ selectedCourseYear }}</p>
+      </div>
+    </div>
+  </div>
+</div>
