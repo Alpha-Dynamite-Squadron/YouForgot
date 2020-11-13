@@ -1,0 +1,36 @@
+span {
+  font-size: medium;
+}
+
+h4 {
+  font-weight: bold;
+  color: #00bcd4;
+}
+
+span.text-center.text-gray {
+  font-size: small;
+  font-weight: bold;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#forgotBtn {
+  margin-right: 5px;
+}
+
+#rememberBtn {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+#dueDateIcon {
+  vertical-align: top;
+}
+
+#gradeReceivedBtn {
+  margin-left: 5px;
+}
