@@ -2,8 +2,7 @@ import { Component, Injectable, OnInit } from '@angular/core';
 
 import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { FormBuilder, AbstractControl } from '@angular/forms';
-import { PasswordValidation } from '../validationforms/password-validator';
+import { FormBuilder } from '@angular/forms';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -48,15 +47,21 @@ export class NewCourseComponent implements OnInit {
 
   validTextType: boolean = false;
   validNumberType: boolean = false;
-  validUrlType: boolean = false;
-  pattern = "https?://.+";
-  validSourceType: boolean = false;
-  validDestinationType: boolean = false;
-
   matcher = new MyErrorStateMatcher();
   createCourseForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder) { }
+
+  ngOnInit() {
+    this.createCourseForm = this.formBuilder.group({
+      courseName: ['', Validators.required],
+      courseDiscipline: ['', Validators.required],
+      courseNumber: ['', Validators.required],
+      courseInstructor: ['', Validators.required],
+      courseTerm: ['', Validators.required],
+      courseYear:['', Validators.required]
+    });
+  }
 
   isFieldValid(form: FormGroup, field: string) {
     return !form.get(field).valid && form.get(field).touched;
@@ -81,16 +86,6 @@ export class NewCourseComponent implements OnInit {
       } else if (control instanceof FormGroup) {
         this.validateAllFormFields(control);
       }
-    });
-  }
-  ngOnInit() {
-    this.createCourseForm = this.formBuilder.group({
-      courseName: ['', Validators.required],
-      courseDiscipline: ['', Validators.required],
-      courseNumber: ['', Validators.required],
-      courseInstructor: ['', Validators.required],
-      courseTerm: ['', Validators.required],
-      courseYear:['', Validators.required]
     });
   }
 
