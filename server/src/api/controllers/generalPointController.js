@@ -20,14 +20,14 @@ module.exports.getAllCourses = function(req, res){
 // given an institution id this is returns all of the courses
 // for the given insitution. 
 module.exports.getInstitutionCourses = function(req, res){
-    if(!req.body.insitutionID) {
+    if(!req.payload.insitutionID) {
         res.status(400).json({
           "message" : "Institution ID required"
         });
     }
     else{
-        generalEndpoints.getInstutionCourses(req.body.insitutionID, function(err, data){     
-            console.log("Fetching all the courses for school: " + req.body.insitutionID);
+        generalEndpoints.getInstutionCourses(req.payload.insitutionID, function(err, data){     
+            console.log("Fetching all the courses for school: " + req.payload.insitutionID);
             if(err){
                 //DB error
                 if(data == null){

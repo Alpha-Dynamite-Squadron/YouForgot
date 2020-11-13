@@ -1,7 +1,7 @@
 let dbPool = require('../models/database');
 
 module.exports.getInstutionCourses = function(institutionID, resultCallback){
-    let getCoursesQuery = 'SELECT * FROM SectionInstance WHERE sectionInstanceID = ?;';
+    let getCoursesQuery = 'SELECT * FROM SectionInstance WHERE institutionID = ?;';
     dbPool.query(getCoursesQuery, institutionID, function(err, res){
         if(err){
             console.log(err);
