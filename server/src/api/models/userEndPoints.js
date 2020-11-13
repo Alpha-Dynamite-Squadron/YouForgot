@@ -42,6 +42,10 @@ module.exports.getUserCourses = function(userEmail, resultCallback) {
     
 }
 
+module.exports.updateExcessiveNotifications = function(notificationStatus, resultCallback){
+    let updateExcessiveNotificationsQuery = 'UPDATE PostAssociation SET '
+}
+
 //select request on postAssociation table
 module.exports.getUserAssignments = function(userEmail, resultCallback){
     //if isIgnored is 0, then its not ignored else if its 1 its ignored

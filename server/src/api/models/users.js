@@ -47,7 +47,7 @@ let funcGenerateJwt = function() {
 /* This is the database call to pull data for the user.
 */
 module.exports.findAccountByEmail = function(email, resultCallback) {
-    var queryString = 'SELECT emailAddress, username, imageID, hash, salt, profileRating, getPostReminderNotifications, getHomeworkReminderNotifications FROM User WHERE accessKey IS NULL AND emailAddress = ?;';
+    var queryString = 'SELECT emailAddress, username, imageID, hash, salt, profileRating, getPostReminderNotifications, getHomeworkReminderNotifications, institutionID FROM User WHERE accessKey IS NULL AND emailAddress = ?;';
     dbPool.query(queryString, email, function (err, result) {
         if(err) {
             resultCallback(err, null);
@@ -63,6 +63,7 @@ module.exports.findAccountByEmail = function(email, resultCallback) {
                 profileRating: result[0].profileRating,
                 getPostReminderNotifications: result[0].getPostReminderNotifications,
                 getHomeworkReminderNotifications: result[0].getHomeworkReminderNotifications,
+                institutionID: result[0].institutionID,
                 setPassword: funcSetPassword,
                 validPassword: funcCheckPassword,
                 generateJwt: funcGenerateJwt
