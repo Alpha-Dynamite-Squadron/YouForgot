@@ -7,10 +7,24 @@ h4 {
   color: #00bcd4;
 }
 
+span.text-center.text-gray {
+  font-size: small;
+  font-weight: bold;
+}
+
 #forgotBtn {
   margin-right: 5px;
 }
 
 #rememberBtn {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+#dueDateIcon {
+  vertical-align: top;
+}
+
+#gradeReceivedBtn {
   margin-left: 5px;
 }

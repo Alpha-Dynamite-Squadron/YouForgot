@@ -110,5 +110,7 @@ export class NewCourseComponent implements OnInit {
   }
   onSubmit() {
     console.log('Form Submitted.');
+    console.log('Submission Valid, sending POST Request: ' + JSON.stringify(this.createCourseForm.value));
+    alert('Submission Valid, sending POST Request: ' + JSON.stringify(this.createCourseForm.value));
   }
 }

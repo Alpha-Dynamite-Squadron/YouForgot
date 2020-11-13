@@ -37,6 +37,7 @@ export class AssignmentComponent implements OnInit {
 
   forgotCount: number;
   rememberedCount: number;
+  assignmentPostedDate: string;
 
   constructor() { }
 
@@ -48,6 +49,7 @@ export class AssignmentComponent implements OnInit {
     this.selectedGradingOption = this.assignmentGradeOptions[Math.floor(Math.random() * this.assignmentGradeOptions.length)];
     this.forgotCount = Math.floor(Math.random() * 100);
     this.rememberedCount = Math.floor(Math.random() * 100);
+    this.assignmentPostedDate = this.selectedAssignmentDueDate;
   }
 
 }

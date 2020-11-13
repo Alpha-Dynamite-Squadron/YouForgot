@@ -21,7 +21,6 @@ export class UpdateProfileComponent implements OnInit {
 
   userEmail: string = 'student@college.edu';
   username: string = 'GoodStudent227';
-  addNewInstitution: boolean = false;
 
   selectedAvatarValue: string;
   currentAvatar: string[];
@@ -36,15 +35,6 @@ export class UpdateProfileComponent implements OnInit {
 
   defaultAvatarValue = this.avatars[0].value;
   defaultAvatar: string = this.avatars[0].viewValue;
-
-  selectedInstitutionValue: string;
-  currentInstitution: string[];
-  //Replace this with a database query and populate list with *ngFor
-  institutions = [
-    { value: 'school-1', viewValue: 'California Polytechnic Institute - Pomona' },
-    { value: 'school-2', viewValue: 'University of Southern California' },
-    { value: 'school-3', viewValue: 'Grand Canyon University' },
-  ];
 
   validEmailRegister: boolean = false;
   validConfirmPasswordRegister: boolean = false;
@@ -69,12 +59,6 @@ export class UpdateProfileComponent implements OnInit {
   type: FormGroup;
 
   constructor(private formBuilder: FormBuilder) { }
-
-  @HostListener('click', ['$event.target']) onClick(btn: HTMLButtonElement) {
-    if(btn.textContent === 'Cancel'){
-      this.addNewInstitution = !this.addNewInstitution
-    }
-  }
 
   isFieldValid(form: FormGroup, field: string) {
     return !form.get(field).valid && form.get(field).touched;
