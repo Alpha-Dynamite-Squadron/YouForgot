@@ -10,7 +10,10 @@ import { Router } from '@angular/router';
 
 export class UserComponent {
 
-  profileRating: string = '5.0';
+  userEmail: string = 'student@college.edu';
+  username: string = 'Student User Name';
+  userInstitution: string= 'Academic Institution Name';
+  userProfileRating: string = '5.0';
 
   constructor(
     private authService: AuthenticationService,
