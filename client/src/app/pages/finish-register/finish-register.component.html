@@ -3,65 +3,73 @@
   <div class="page-header register-page">
     <div class="container">
       <div class="row">
-        <div class="col-md-6 ml-auto mr-auto">
+        <div class="col-md-7 ml-auto mr-auto">
           <div class="card card-signup">
             <h2 class="card-title text-center">Finish Your Profile</h2>
             <div class="row">
               <h6 id="emailText" class="text-center text-info">{{ email }}</h6>
             </div>
             <div class="card-body">
-              <div class="col-md-5">
-                <form class="form" (ngSubmit)="finishRegistration()" #finishRegForm="ngForm">
+              <div class="col-md-7">
+                <form [formGroup]="finishRegisterForm" (ngSubmit)="onFinishRegistration()" class="form">
                   <div class="form-group has-default">
-                    <div class="input-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          <i class="material-icons">person</i>
-                        </span>
-                      </div>
-                      <input type="text" class="form-control" placeholder="Username..." name="username"
-                        [(ngModel)]="username" required>
-                    </div>
+                    <mat-form-field class="example-full-width has-label"
+                      [ngClass]="{'has-success':validTextType===true}"
+                      [ngClass]="displayFieldCss(finishRegisterForm, 'username')">
+                      <input type="text" name="username" id="username" matInput placeholder="Username"
+                        (ngModelChange)="textValidationType($event)" formControlName="username">
+                      <app-field-error-display [displayError]="isFieldValid(finishRegisterForm, 'username')"
+                        errorMsg="You must provide a username!"></app-field-error-display>
+                    </mat-form-field>
                   </div>
                   <div class="form-group has-default">
-                    <div class="input-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          <i class="material-icons">lock_outline</i>
-                        </span>
-                      </div>
-                      <input id="password" name="password" type="password" placeholder="Password..."
-                        class="form-control" [(ngModel)]="password" #formControlPassword="ngModel"
-                        (ngModelChange)="passwordValidationRegister($event)" required>
-                    </div>
+                    <mat-form-field class="example-full-width has-label"
+                      [ngClass]="{'has-success':validTextType===true}"
+                      [ngClass]="displayFieldCss(finishRegisterForm, 'password')">
+                      <input type="password" name="password" id="password" matInput placeholder="Password"
+                        (ngModelChange)="passwordValidationRegister($event)" formControlName="password">
+                      <app-field-error-display [displayError]="isFieldValid(finishRegisterForm, 'password')"
+                        errorMsg="You must enter a new password (minimum length 8)!"></app-field-error-display>
+                    </mat-form-field>
                   </div>
                   <div class="form-group has-default">
-                    <div class="input-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          <i class="material-icons">lock_outline</i>
-                        </span>
-                      </div>
-                      <input id="confirm" type="password" matInput placeholder="Confirm Password..."
-                        class="form-control" name="confirm" [(ngModel)]="confirmPass" #formControlConfirm="ngModel"
-                        (ngModelChange)="confirmPasswordValidationRegister($event)" required>
-                    </div>
+                    <mat-form-field class="example-full-width has-label"
+                      [ngClass]="{'has-success':validTextType===true}"
+                      [ngClass]="displayFieldCss(finishRegisterForm, 'confirmPassword')">
+                      <input type="password" name="confirmPassword" id="confirmPassword" matInput
+                        placeholder="Confirm Password" (ngModelChange)="confirmPasswordValidationRegister($event)"
+                        formControlName="confirmPassword">
+                      <app-field-error-display [displayError]="isFieldValid(finishRegisterForm, 'confirmPassword')"
+                        errorMsg="Passwords entered do no match!"></app-field-error-display>
+                    </mat-form-field>
                   </div>
-                  <mat-checkbox class="form-check" type="mat-checkbox" name="terms" [checked]="terms"
-                    (change)="onTermsChange($event)" required>
+                  <div class="form-group has-default">
+                    <h6>Enroll in Your Institution</h6>
+                    <mat-form-field>
+                      <label class="bmd-label-floating">Institution</label>
+                      <mat-select [formControl]="institutionCtrl" #singleSelect>
+                        <mat-option>
+                          <ngx-mat-select-search [formControl]="institutionFilterCtrl"
+                            placeholderLabel="Search for Institution..." noEntriesFoundLabel="No Institutions Found">
+                          </ngx-mat-select-search>
+                        </mat-option>
+                        <mat-option *ngFor="let institution of filteredInstitutions | async" [value]="institution">
+                          {{institution.name}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <mat-checkbox class="form-check" type="mat-checkbox" name="terms"
+                    formControlName="termsAndConditions">
                     I agree to the <a href="#something">terms and conditions</a>.
                   </mat-checkbox>
-                  <mat-checkbox class="form-check" type="mat-checkbox" name="notifications" [checked]="notifications"
-                    (change)="onNotificationsChange($event)" required>
+                  <mat-checkbox class="form-check" type="mat-checkbox" name="notifications"
+                    formControlName="receiveNotifications">
                     I would like to receive notifications.
                   </mat-checkbox>
-                  <div class="row"
-                    *ngIf="formControlPassword.touched && formControlConfirm.touched && (confirmPass!==password) && validPasswordRegister">
-                    <h6 id="passwordMismatch" class="text-danger">Entered passwords do not match!</h6>
-                  </div>
-                  <div class="row register-button" class="text-center">
-                    <button class="btn btn-info btn-primary btn-round" type="submit"
-                      [disabled]="!finishRegForm.valid || !validPasswordRegister || !validConfirmPasswordRegister || !terms">
+                  <div class="row" class="text-center">
+                    <button class="btn btn-info btn-primary btn-round" type="submit" (click)="onFinishRegistration()"
+                      [disabled]="!finishRegisterForm.valid || !institutionCtrl.valid">
                       Create Account
                     </button>
                   </div>
