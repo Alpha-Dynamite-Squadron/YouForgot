@@ -1,21 +1,39 @@
 let generalEndpoints = require('../models/generalPoints');
 
-//get info on a course like assignments, etc
-//takes in the parameter of a sectionID instance
+
+// WE TAKE IN A SECTIONID WHEN A USER CLICKS A HYPERLINK IN THEIR MY COURSES SECTION TO GO THEIR COURSE
+// THIS DISPLAYS ALL THE INFO OF A SPECIFIC COURSE INCLUDING ASSIGMNETS
 module.exports.getCourseInfo = function(req,res){
-
+    if(!req.body.sectionInstanceID){
+        res.status(400).json({
+            "message" : "Section Instance ID Required"
+          });
+    }
+    else {
+        generalEndpoints.getCourseInfo(req.body.sectionInstanceID, function(err,data){
+            console.log("Fetching all information for this course: " + req.body.sectionInstanceID);
+            if(err){
+                //DB error
+                if(data == null){
+                    res.status(400).json({
+                        "message" : "Section Instance ID required"
+                      });
+                }
+            }
+            else if(data.length > 0){
+                res.status(200).json(data);
+            }
+            //this section has no assignemnts
+            else{
+                res.status(404).json({
+                    "message" : "This course does not have any assignments"
+                });
+            }
+        });
+    }
 }
 
-// get all possible courses
-module.exports.getAllCourses = function(req, res){
-    console.log("Fetching all possible courses");
-    if(!req.params){
-        res.send("Params Empty!");
-    }
-    else { 
-        endpoints.getAllCourses()
-    }
-}
+
 
 // given an institution id this is returns all of the courses
 // for the given insitution. 
@@ -77,7 +95,7 @@ module.exports.getInstitutions = function(req, res){
 }
 
 
-//create an assingment for a class
+
 module.exports.createAssignment = function(req, res){
     console.log("Creating Assingment");
     if(!req.params){
@@ -100,4 +118,5 @@ module.exports.createCourse = function(req,res){
     }
 
 }
+
 

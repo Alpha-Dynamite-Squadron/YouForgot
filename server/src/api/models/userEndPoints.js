@@ -42,6 +42,7 @@ module.exports.getUserCourses = function(userEmail, resultCallback) {
     
 }
 
+//NEED TO DO
 module.exports.updateExcessiveNotifications = function(notificationStatus, resultCallback){
     let updateExcessiveNotificationsQuery = 'UPDATE PostAssociation SET '
 }

@@ -16,6 +16,8 @@ let funcGenerateJwt = function() {
 */
 
 /*
+THIS GETS ALL THE COURSES A USER IS ENROLLED IN
+
  First use a select query to find all sectionInstance IDS that are tied to a user
  Given those sectionInstance IDs, we then do a select query on the sectionInstance ID to get the information of every individual course
  then send back that infromation like nameOfClass, etc
