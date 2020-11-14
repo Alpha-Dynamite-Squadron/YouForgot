@@ -110,13 +110,85 @@ module.exports.createAssignment = function(req, res){
 // course requires 
 module.exports.createCourse = function(req,res){
     console.log("Fetching all the assingments for  course");
-    if(!req.params){
-        res.send("Params Empty!");
+    if(!req.payload.emailAddress || !req.payload.insitutionID){
+        res.status(400).json({
+            "message" : "Invalid token data"
+        });
+    }
+    else if(!req.body.creationDate){
+        res.status(400).json({
+            "message" : "CreationDate Required"
+        });
+    }
+    else if(!req.body.nameOfClass){
+        res.status(400).json({
+            "message" : "nameOfClass Required"
+        });
+    }
+    else if(!req.body.imageID){
+        res.status(400).json({
+            "message" : "imageID Required"
+        });
+    }
+    else if(!req.body.enrollmentCount){
+        res.status(400).json({
+            "message" : "enrollmentCount Required"
+        });
+    }
+    else if(!req.body.instructorName){
+        res.status(400).json({
+            "message" : "instructorName Required"
+        });
+    }
+    else if(!req.body.diciplineLetters){
+        res.status(400).json({
+            "message" : "nameOfClass Required"
+        });
+    }
+    else if(!req.body.courseNumber){
+        res.status(400).json({
+            "message" : "courseNumber Required"
+        });
+    }
+    else if(!req.body.academicTerm){
+        res.status(400).json({
+            "message" : "academicTerm Required"
+        });
+    }
+    else if(!req.body.academicYear){
+        res.status(400).json({
+            "message" : "academicYear Required"
+        });
     }
     else {
-
+        generalEndpoints.createCourse(req.body.creationDate, req.body.nameOfClass, req.body.imageID, req.body.instructorName, 
+            req.payload.insitutionID, req.body.diciplineLetters, req.body.courseNumber, req.body.academicTerm,
+            req.body.academicYear, req.payload.emailAddress,
+            function(err, result){
+                if(err){
+                    //DB error
+                    if(result == 1){
+                        console.log("Database error in SectionInstance in trying to insert a class");
+                        console.log(err);
+                        res.status(500).json({
+                            "message" : "Unknown database error"
+                        });
+                    }
+                    else{
+                        console.log("Database error in UserEnrollment in trying to insert a user");
+                        console.log(err);
+                        res.status(500).json({
+                            "message" : "Unknown database error"
+                        });
+                    }
+                }
+                else{
+                    res.status(200).json({
+                        "message" : "Created a course and enrolled the user who created the course."
+                    });
+                }
+            });
     }
-
 }
 
 
