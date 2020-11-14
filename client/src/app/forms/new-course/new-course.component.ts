@@ -59,25 +59,21 @@ export class NewCourseComponent implements OnInit {
       courseNumber: ['', Validators.required],
       courseInstructor: ['', Validators.required],
       courseTerm: ['', Validators.required],
-      courseYear:['', Validators.required]
+      courseYear: ['', Validators.required]
     });
   }
 
   isFieldValid(form: FormGroup, field: string) {
     return !form.get(field).valid && form.get(field).touched;
   }
+
   displayFieldCss(form: FormGroup, field: string) {
     return {
       'has-error': this.isFieldValid(form, field),
       'has-feedback': this.isFieldValid(form, field)
     };
   }
-  onType() {
-    if (this.createCourseForm.valid) {
-    } else {
-      this.validateAllFormFields(this.createCourseForm);
-    }
-  }
+
   validateAllFormFields(formGroup: FormGroup) {
     Object.keys(formGroup.controls).forEach(field => {
       const control = formGroup.get(field);
@@ -103,9 +99,14 @@ export class NewCourseComponent implements OnInit {
       this.validNumberType = false;
     }
   }
+  
   onSubmit() {
-    console.log('Form Submitted.');
-    console.log('Submission Valid, sending POST Request: ' + JSON.stringify(this.createCourseForm.value));
-    alert('Submission Valid, sending POST Request: ' + JSON.stringify(this.createCourseForm.value));
+    if (this.createCourseForm.valid) {
+      console.log('Form Submitted.');
+      console.log('Submission Valid, sending POST Request: ' + JSON.stringify(this.createCourseForm.value));
+      alert('Submission Valid, sending POST Request: ' + JSON.stringify(this.createCourseForm.value));
+    } else {
+      this.validateAllFormFields(this.createCourseForm);
+    }
   }
 }

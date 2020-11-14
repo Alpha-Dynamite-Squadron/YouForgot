@@ -35,7 +35,7 @@ export class UpdateProfileComponent implements OnInit {
   defaultAvatar: string = this.avatars[0].viewValue;
   selectedAvatarValue: string = this.defaultAvatarValue;
   currentAvatar: string[];
-  
+
   validTextType: boolean = false;
   matcher = new MyErrorStateMatcher();
   updateProfileForm: FormGroup;
@@ -63,12 +63,6 @@ export class UpdateProfileComponent implements OnInit {
     };
   }
 
-  onType() {
-    if (this.updateProfileForm.valid) {
-    } else {
-      this.validateAllFormFields(this.updateProfileForm);
-    }
-  }
   validateAllFormFields(formGroup: FormGroup) {
     Object.keys(formGroup.controls).forEach(field => {
       const control = formGroup.get(field);
@@ -88,10 +82,14 @@ export class UpdateProfileComponent implements OnInit {
     }
   }
 
-  onSubmit() {
-    console.log('Form Submitted.');
-    console.log('Submission Valid, sending POST Request: ' + JSON.stringify(this.updateProfileForm.value));
-    alert('Submission Valid, sending POST Request: ' + JSON.stringify(this.updateProfileForm.value));
+  onSaveChanges() {
+    if (this.updateProfileForm.valid) {
+      console.log('Form Submitted.');
+      console.log('Submission Valid, sending POST Request: ' + JSON.stringify(this.updateProfileForm.value));
+      alert('Submission Valid, sending POST Request: ' + JSON.stringify(this.updateProfileForm.value));
+    } else {
+      this.validateAllFormFields(this.updateProfileForm);
+    }
   }
-  
+
 }

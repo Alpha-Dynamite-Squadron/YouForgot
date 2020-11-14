@@ -1,6 +1,18 @@
-import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, ElementRef, Injectable, OnDestroy, OnInit } from '@angular/core';
+
+import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
+import { FormBuilder, AbstractControl } from '@angular/forms';
+import { PasswordValidation } from '../../forms/validationforms/password-validator';
 import { AuthenticationService, TokenPayload } from 'src/authentication.service';
+import { Router } from '@angular/router';
+
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 
 declare var $: any;
 
@@ -20,7 +32,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(
     private element: ElementRef,
     private authService: AuthenticationService,
-    private router: Router) {
+    private router: Router,
+    private formBuilder: FormBuilder) {
     this.nativeElement = element.nativeElement;
     this.sidebarVisible = false;
   }
@@ -32,6 +45,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     body.classList.add('login-page');
     body.classList.add('off-canvas-sidebar');
     const card = document.getElementsByClassName('card')[0];
+
+    this.loginForm = this.formBuilder.group({
+      email: [null, [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]],
+      password: ['', Validators.compose([Validators.required, Validators.minLength(8)])]
+    });
   }
   sidebarToggle() {
     var toggleButton = this.toggleButton;
@@ -55,20 +73,70 @@ export class LoginComponent implements OnInit, OnDestroy {
     body.classList.remove('off-canvas-sidebar');
   }
 
-  public login() {
-    console.log("Attempting to Login...");
-    console.log("Logging in with email: " + this.loginInfo.email);
-    console.log("Logging in with password: " + this.loginInfo.password);
-    this.authService.requestLogin(this.loginInfo)
-      .subscribe(() => {
-        this.router.navigateByUrl('/home/main');
-      }, (error) => {
-        console.log(error);
-      });
+  validEmailLogin: boolean = false;
+  validPasswordLogin: boolean = false;
+  matcher = new MyErrorStateMatcher();
+  loginForm: FormGroup;
+
+  isFieldValid(form: FormGroup, field: string) {
+    return !form.get(field).valid && form.get(field).touched;
   }
 
-  public forgotPassword() {
+  displayFieldCss(form: FormGroup, field: string) {
+    return {
+      'has-error': this.isFieldValid(form, field),
+      'has-feedback': this.isFieldValid(form, field)
+    };
+  }
+
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      }
+    });
+  }
+
+  emailValidationLogin(e) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (re.test(String(e).toLowerCase())) {
+      this.validEmailLogin = true;
+    } else {
+      this.validEmailLogin = false;
+    }
+  }
+
+  passwordValidationLogin(e) {
+    if (e.length > 8) {
+      this.validPasswordLogin = true;
+    } else {
+      this.validPasswordLogin = false;
+    }
+  }
+
+  forgotPassword() {
     //Add backend endpoint code here
     this.router.navigateByUrl('/verify_password');
   }
+
+  onLogin() {
+    if (this.loginForm.valid) {
+      console.log('Form Submitted.');
+      console.log('Submission Valid, sending POST Request: ' + JSON.stringify(this.loginForm.value));
+      alert('Submission Valid, sending POST Request: ' + JSON.stringify(this.loginForm.value));
+      this.authService.requestLogin(this.loginInfo)
+        .subscribe(() => {
+          this.router.navigateByUrl('/home/main');
+        }, (error) => {
+          console.log(error);
+        });
+
+    } else {
+      this.validateAllFormFields(this.loginForm);
+    }
+  }
+
 }

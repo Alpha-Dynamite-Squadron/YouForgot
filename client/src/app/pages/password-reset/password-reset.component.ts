@@ -19,7 +19,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./password-reset.component.css']
 })
 export class PasswordResetComponent implements OnInit {
-  
+
   validConfirmPasswordReset: boolean = false;
   validPasswordReset: boolean = false;
   validTextType: boolean = false;
@@ -32,14 +32,14 @@ export class PasswordResetComponent implements OnInit {
     private router: Router,
     private authService: AuthenticationService) { }
 
-    ngOnInit() {
-      this.passwordResetForm = this.formBuilder.group({
-        password: ['', Validators.compose([Validators.required, Validators.minLength(8)])],
-        confirmPassword: ['', Validators.required],
-      }, {
-        validator: PasswordValidation.MatchPassword
-      });
-    }
+  ngOnInit() {
+    this.passwordResetForm = this.formBuilder.group({
+      password: ['', Validators.compose([Validators.required, Validators.minLength(8)])],
+      confirmPassword: ['', Validators.required],
+    }, {
+      validator: PasswordValidation.MatchPassword
+    });
+  }
 
   isFieldValid(form: FormGroup, field: string) {
     return !form.get(field).valid && form.get(field).touched;
@@ -52,12 +52,6 @@ export class PasswordResetComponent implements OnInit {
     };
   }
 
-  onType() {
-    if (this.passwordResetForm.valid) {
-    } else {
-      this.validateAllFormFields(this.passwordResetForm);
-    }
-  }
   validateAllFormFields(formGroup: FormGroup) {
     Object.keys(formGroup.controls).forEach(field => {
       const control = formGroup.get(field);
@@ -83,12 +77,17 @@ export class PasswordResetComponent implements OnInit {
       this.validConfirmPasswordReset = false;
     }
   }
- 
-  resetPassword() {
-    console.log('Form Submitted.');
-    console.log('Submission Valid, sending POST Request: ' + JSON.stringify(this.passwordResetForm.value));
-    alert('Submission Valid, sending POST Request: ' + JSON.stringify(this.passwordResetForm.value));
-    //Add endpoint code here
-    this.router.navigateByUrl('/login');
+
+  onResetPassword() {
+    if (this.passwordResetForm.valid) {
+      console.log('Form Submitted.');
+      console.log('Submission Valid, sending POST Request: ' + JSON.stringify(this.passwordResetForm.value));
+      alert('Submission Valid, sending POST Request: ' + JSON.stringify(this.passwordResetForm.value));
+      //Add endpoint code here
+      this.router.navigateByUrl('/login');
+    } else {
+      this.validateAllFormFields(this.passwordResetForm);
+    }
   }
+  
 }

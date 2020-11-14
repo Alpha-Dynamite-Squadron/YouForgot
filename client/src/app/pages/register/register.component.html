@@ -44,25 +44,24 @@
                     </p>
                   </div>
                 </div>
-                <form class="form" (ngSubmit)="register()" #preRegForm="ngForm">
+                <form [formGroup]="registerForm" (ngSubmit)="onRegister()" class="form">
                   <div class="form-group has-default">
                     <div class="input-group">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text">
-                          <i class="material-icons">mail</i>
-                        </span>
-                      </div>
-                      <input
-                        type="email"
-                        class="form-control"
-                        placeholder="Academic Email Address..."
-                        name="email"
-                        [(ngModel)]="registerInfo"
-                        required>
+                      <mat-form-field class="example-full-width has-label"
+                        [ngClass]="{'has-success':validEmailRegister===true}"
+                        [ngClass]="displayFieldCss(registerForm, 'email')">
+                        <input name="email" type="email" id="email" placeholder="Academic Email Address..." matInput
+                          class="form-control" (ngModelChange)="emailValidationRegister($event)"
+                          formControlName="email">
+                        <app-field-error-display [displayError]="isFieldValid(registerForm, 'email')"
+                          errorMsg="You must provide an academic email!">
+                        </app-field-error-display>
+                      </mat-form-field>
                     </div>
                   </div>
                   <div class="row register-button text-center">
-                    <button class="btn btn-info btn-primary btn-round" type="submit" [disabled]="!preRegForm.valid">Register</button>
+                    <button class="btn btn-info btn-primary btn-round" type="submit"
+                      [disabled]="!registerForm.valid">Register</button>
                   </div>
                   <div class="login-link">
                     <span routerLinkActive="active" class="text-center">

@@ -3,7 +3,6 @@ import { Component, Injectable, OnInit } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormBuilder, AbstractControl } from '@angular/forms';
-import { PasswordValidation } from '../validationforms/password-validator';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -57,13 +56,6 @@ export class NewAssignmentComponent implements OnInit {
     };
   }
 
-  onType() {
-    if (this.createAssignmentForm.valid) {
-    } else {
-      this.validateAllFormFields(this.createAssignmentForm);
-    }
-  }
-
   validateAllFormFields(formGroup: FormGroup) {
     Object.keys(formGroup.controls).forEach(field => {
       const control = formGroup.get(field);
@@ -92,9 +84,13 @@ export class NewAssignmentComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('Form Submitted.');
-    console.log('Submission Valid, sending POST Request: ' + JSON.stringify(this.createAssignmentForm.value));
-    alert('Submission Valid, sending POST Request: ' + JSON.stringify(this.createAssignmentForm.value));
+    if (this.createAssignmentForm.valid) {
+      console.log('Form Submitted.');
+      console.log('Submission Valid, sending POST Request: ' + JSON.stringify(this.createAssignmentForm.value));
+      alert('Submission Valid, sending POST Request: ' + JSON.stringify(this.createAssignmentForm.value));
+    } else {
+      this.validateAllFormFields(this.createAssignmentForm);
+    }
   }
 
 }
