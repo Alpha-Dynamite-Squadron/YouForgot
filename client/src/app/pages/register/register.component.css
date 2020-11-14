@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 .login-link {
@@ -14,8 +14,4 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-span.input-group-text {
-  padding-left: 0px;
 }

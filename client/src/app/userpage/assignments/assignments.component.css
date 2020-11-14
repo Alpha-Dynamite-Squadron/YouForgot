@@ -3,12 +3,6 @@ h4 {
   color: #00bcd4;
 }
 
-.row {
-  display: flex;
-  align-items: left;
-  justify-content: left;
-}
-
 app-new-assignment {
   width: 80%;
 }
@@ -22,9 +16,19 @@ span {
   font-size: large;
 }
 
+hr {
+  margin-bottom: 25px;
+}
+
 #postAssignmentBtnRow {
   margin-bottom: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.row {
+  display: flex;
+  align-items: left;
+  justify-content: left;
 }

@@ -1,6 +1,6 @@
 <div class="col-md-12">
   <div class="card">
-    <form [formGroup]="type" class="form-horizontal">
+    <form [formGroup]="updateProfileForm" ngSubmit="onSaveChanges()" class="form-horizontal">
       <div class="card-header card-header-info card-header-text">
         <div class="card-text">
           <h4 class="card-title">Update Your Profile</h4>
@@ -11,10 +11,10 @@
           <label class="col-sm-2 col-form-label text-right">Username</label>
           <div class="col-sm-7">
             <mat-form-field class="example-full-width has-label" [ngClass]="{'has-success':validTextType===true}"
-              [ngClass]="displayFieldCss(type, 'text')">
-              <input type="text" matInput id="username" [placeholder]='username' (ngModelChange)="textValidationType($event)"
-                formControlName="text">
-              <app-field-error-display [displayError]="isFieldValid(type, 'text')"
+              [ngClass]="displayFieldCss(updateProfileForm, 'username')">
+              <input type="text" matInput id="username" [placeholder]='username'
+                (ngModelChange)="textValidationType($event)" formControlName="username">
+              <app-field-error-display [displayError]="isFieldValid(updateProfileForm, 'username')"
                 errorMsg="You must provide a username!"></app-field-error-display>
             </mat-form-field>
           </div>
@@ -23,7 +23,7 @@
           <label class="col-sm-2 col-form-label text-right">Profile Avatar</label>
           <div class="col-sm-7">
             <mat-form-field>
-              <mat-select [placeholder]="defaultAvatar" name="avatar">
+              <mat-select [placeholder]="defaultAvatar" name="avatar" formControlName="avatar">
                 <mat-option *ngFor="let avatar of avatars" [value]="avatar.value">
                   {{ avatar.viewValue }}
                 </mat-option>
@@ -34,22 +34,24 @@
         <div class="row">
           <label class="col-sm-2 col-form-label text-right"></label>
           <div class="col-sm-7">
-            <mat-checkbox class="form-check" [checked]="true">
+            <mat-checkbox class="form-check" [checked]="receiveNotifications" formControlName="receiveNotifications">
               <label class="bmd-label-floating">I would like to receive new assignment notifications.</label>
             </mat-checkbox>
-            <mat-checkbox class="form-check" [checked]="true">
+            <mat-checkbox class="form-check" [checked]="receiveDeadlineNotifications"
+              formControlName="receiveDeadlineNotifications">
               <label class="bmd-label-floating">I would like to receive assignment deadline
                 notifications. <br><span>(Notifications sent 24 hours before due date)</span></label>
             </mat-checkbox>
-            <mat-checkbox class="form-check" [checked]="false">
-              <label class="bmd-label-floating">I would like to receive excessive notifications. 
+            <mat-checkbox class="form-check" [checked]="receiveExcessiveNotifications"
+              formControlName="receiveExcessiveNotifications">
+              <label class="bmd-label-floating">I would like to receive excessive notifications.
                 <br><span>(Notifications sent every hour until due date)</span></label>
             </mat-checkbox>
           </div>
         </div>
       </div>
       <div id="saveChangesBtn" class="card-footer text-center">
-        <button mat-raised-button type="button" class="btn btn-info">Save Changes</button>
+        <button mat-raised-button type="button" (click)="onSaveChanges()" class="btn btn-info">Save Changes</button>
       </div>
     </form>
   </div>

@@ -15,6 +15,7 @@ import { TypographyComponent } from './typography/typography.component';
 import { AssignmentComponent } from './assignment/assignment.component';
 import { CourseComponent } from './course/course.component';
 import { CourseTileComponent } from './course-tile/course-tile.component';
+import { PersonalAssignmentComponent } from './personal-assignment/personal-assignment.component';
 
 @NgModule({
   imports: [
@@ -33,12 +34,14 @@ import { CourseTileComponent } from './course-tile/course-tile.component';
       TypographyComponent,
       AssignmentComponent,
       CourseComponent,
-      CourseTileComponent
+      CourseTileComponent,
+      PersonalAssignmentComponent
   ],
   exports: [
     AssignmentComponent,
     CourseComponent,
-    CourseTileComponent
+    CourseTileComponent,
+    PersonalAssignmentComponent
   ]
 })
 

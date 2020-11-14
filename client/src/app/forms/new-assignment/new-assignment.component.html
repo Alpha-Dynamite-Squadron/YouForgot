@@ -1,6 +1,6 @@
 <div class="col-md-12">
   <div class="card">
-    <form [formGroup]="type" class="form-horizontal">
+    <form [formGroup]="createAssignmentForm" ngSubmit="onSubmit()" class="form-horizontal">
       <div class="card-header card-header-info card-header-text">
         <div class="card-text">
           <h4 class="card-title">New Assignment</h4>
@@ -11,10 +11,10 @@
           <label class="col-sm-2 col-form-label text-right">Assignment Title</label>
           <div class="col-sm-7">
             <mat-form-field class="example-full-width has-label" [ngClass]="{'has-success':validTextType===true}"
-              [ngClass]="displayFieldCss(type, 'text')">
+              [ngClass]="displayFieldCss(createAssignmentForm, 'assignmentTitle')">
               <input type="text" matInput id="title" (ngModelChange)="textValidationType($event)"
-                formControlName="text">
-              <app-field-error-display [displayError]="isFieldValid(type, 'text')"
+                formControlName="assignmentTitle">
+              <app-field-error-display [displayError]="isFieldValid(createAssignmentForm, 'assignmentTitle')"
                 errorMsg="You must provide an assignment title!">
               </app-field-error-display>
             </mat-form-field>
@@ -24,10 +24,10 @@
           <label class="col-sm-2 col-form-label text-right">Assignment Description</label>
           <div class="col-sm-7">
             <mat-form-field class="example-full-width has-label" [ngClass]="{'has-success':validTextType===true}"
-              [ngClass]="displayFieldCss(type, 'text')">
-              <input type="text" matInput id="description" (ngModelChange)="textValidationType($event)"
-                formControlName="text">
-              <app-field-error-display [displayError]="isFieldValid(type, 'text')"
+              [ngClass]="displayFieldCss(createAssignmentForm, 'assignmentDesc')">
+              <input type="text" matInput id="desc" (ngModelChange)="textValidationType($event)"
+                formControlName="assignmentDesc">
+              <app-field-error-display [displayError]="isFieldValid(createAssignmentForm, 'assignmentDesc')"
                 errorMsg="You must provide an assignment description!">
               </app-field-error-display>
             </mat-form-field>
@@ -38,7 +38,8 @@
           <label class="col-sm-2 col-form-label text-right">Assignment Due Date</label>
           <div class="col-sm-7">
             <mat-form-field>
-              <input matInput [matDatepicker]="picker2" placeholder="Choose a date" (click)="picker2.open()">
+              <input matInput [matDatepicker]="picker2" placeholder="Choose a date" (click)="picker2.open()"
+                formControlName="assignmentDueDate">
               <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
               <mat-datepicker #picker2 startView="year"></mat-datepicker>
             </mat-form-field>
@@ -49,7 +50,7 @@
           <div class="col-sm-6">
             <div class="togglebutton">
               <label>
-                <input type="checkbox">
+                <input type="checkbox" formControlName="assignmentGrading">
                 <span class="toggle"></span>
                 Credit/No Credit
               </label>
@@ -63,7 +64,7 @@
             <div class="row">
               <div class="col-lg-5 col-md-8 col-sm-4">
                 <mat-form-field>
-                  <mat-select placeholder="Course" name="course">
+                  <mat-select placeholder="Course" name="course" formControlName="assignmentCourse">
                     <mat-option *ngFor="let course of courses" [value]="course.value">
                       {{ course.viewValue }}
                     </mat-option>
@@ -75,8 +76,8 @@
         </div>
       </div>
       <div class="card-footer text-center">
-        <button #assignmentCreateBtn mat-raised-button type="submit" class="btn btn-info btn-fill"
-          (click)="onType()">Create Assignment</button>
+        <button #assignmentCreateBtn mat-raised-button type="submit" [disabled]="!createAssignmentForm.valid"
+          class="btn btn-info btn-fill" (click)="onSubmit()">Create Assignment</button>
         <button #assignmentCancelBtn mat-raised-button type="button" class="btn btn-info btn-fill"
           (click)="$event">Cancel</button>
       </div>

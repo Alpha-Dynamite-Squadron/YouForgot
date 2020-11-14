@@ -6,9 +6,6 @@
     <div class="timeline-panel">
       <div class="timeline-heading">
         <span class="badge badge-info">{{ selectedAssignmentName }}</span>
-        <button mat-raised-button class="btn btn-info btn-round pull-right">
-          <i class="material-icons">add_alert</i>  Subscribe to Assignment
-        </button>
       </div>
       <div class="timeline-body">
         <p>{{ selectedAssignmentDesc }}</p>
@@ -19,10 +16,10 @@
       <hr>
       <div class="row">
         <button id="forgotBtn" mat-raised-button class="btn btn-info btn-round">
-          <i class="material-icons">favorite</i>  I Forgot! {{ forgotCount }}
+          <i class="material-icons">assignment</i>  Start Assignment
         </button>
         <button id="rememberBtn" mat-raised-button class="btn btn-info btn-round">
-          <i class="material-icons">thumb_up</i>  I Remembered!  {{ rememberedCount }} 
+          <i class="material-icons">assignment_turned_in</i>  Complete Assignment
         </button>
         <!-- <span *ngIf="selectedGradingOption == false" class="text-center text-info">
           Assignment is for Credit/No Credit

@@ -2,8 +2,7 @@ import { Component, Injectable, OnInit } from '@angular/core';
 
 import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { FormBuilder, AbstractControl } from '@angular/forms';
-import { PasswordValidation } from '../validationforms/password-validator';
+import { FormBuilder } from '@angular/forms';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -48,31 +47,33 @@ export class NewCourseComponent implements OnInit {
 
   validTextType: boolean = false;
   validNumberType: boolean = false;
-  validUrlType: boolean = false;
-  pattern = "https?://.+";
-  validSourceType: boolean = false;
-  validDestinationType: boolean = false;
-
   matcher = new MyErrorStateMatcher();
   createCourseForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder) { }
 
+  ngOnInit() {
+    this.createCourseForm = this.formBuilder.group({
+      courseName: ['', Validators.required],
+      courseDiscipline: ['', Validators.required],
+      courseNumber: ['', Validators.required],
+      courseInstructor: ['', Validators.required],
+      courseTerm: ['', Validators.required],
+      courseYear: ['', Validators.required]
+    });
+  }
+
   isFieldValid(form: FormGroup, field: string) {
     return !form.get(field).valid && form.get(field).touched;
   }
+
   displayFieldCss(form: FormGroup, field: string) {
     return {
       'has-error': this.isFieldValid(form, field),
       'has-feedback': this.isFieldValid(form, field)
     };
   }
-  onType() {
-    if (this.createCourseForm.valid) {
-    } else {
-      this.validateAllFormFields(this.createCourseForm);
-    }
-  }
+
   validateAllFormFields(formGroup: FormGroup) {
     Object.keys(formGroup.controls).forEach(field => {
       const control = formGroup.get(field);
@@ -81,16 +82,6 @@ export class NewCourseComponent implements OnInit {
       } else if (control instanceof FormGroup) {
         this.validateAllFormFields(control);
       }
-    });
-  }
-  ngOnInit() {
-    this.createCourseForm = this.formBuilder.group({
-      courseName: ['', Validators.required],
-      courseDiscipline: ['', Validators.required],
-      courseNumber: ['', Validators.required],
-      courseInstructor: ['', Validators.required],
-      courseTerm: ['', Validators.required],
-      courseYear:['', Validators.required]
     });
   }
 
@@ -108,7 +99,14 @@ export class NewCourseComponent implements OnInit {
       this.validNumberType = false;
     }
   }
+  
   onSubmit() {
-    console.log('Form Submitted.');
+    if (this.createCourseForm.valid) {
+      console.log('Form Submitted.');
+      console.log('Submission Valid, sending POST Request: ' + JSON.stringify(this.createCourseForm.value));
+      alert('Submission Valid, sending POST Request: ' + JSON.stringify(this.createCourseForm.value));
+    } else {
+      this.validateAllFormFields(this.createCourseForm);
+    }
   }
 }

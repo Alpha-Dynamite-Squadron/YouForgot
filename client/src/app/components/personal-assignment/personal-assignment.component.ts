@@ -1,31 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-assignment',
-  templateUrl: './assignment.component.html',
-  styleUrls: ['./assignment.component.css']
+  selector: 'app-personal-assignment',
+  templateUrl: './personal-assignment.component.html',
+  styleUrls: ['./personal-assignment.component.css']
 })
-export class AssignmentComponent implements OnInit {
+export class PersonalAssignmentComponent implements OnInit {
 
   icons: string[] = [
-    'assignment', 
-    'book', 
-    'science', 
+    'assignment',
+    'book',
+    'science',
     'calculate'];
   assignmentName: string[] = [
-    'Challenging Problem Homework #6', 
-    'CriminalIntent Application Chapters 9-13', 
-    'Homework#7 Problems 13-26 Odd', 
+    'Challenging Problem Homework #6',
+    'CriminalIntent Application Chapters 9-13',
+    'Homework#7 Problems 13-26 Odd',
     'Argumentative Essay'];
   assignmentDescription: string[] = [
-    'Complete the homework posted on Black Board', 
-    'Submit the assignment as soon as possible', 
+    'Complete the homework posted on Black Board',
+    'Submit the assignment as soon as possible',
     'This assignment will prepare you for final',
     'Do not wait to start this assignment'];
   assignmentDueDate: string[] = [
-    '10/29/2020', 
-    '11/7/2020', 
-    '12/13/2020', 
+    '10/29/2020',
+    '11/7/2020',
+    '12/13/2020',
     '11/13/2020'];
   assignmentGradeOptions: boolean[] = [true, false];
 

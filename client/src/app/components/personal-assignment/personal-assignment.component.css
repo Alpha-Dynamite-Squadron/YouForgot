@@ -12,6 +12,12 @@ span.text-center.text-gray {
   font-weight: bold;
 }
 
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 #forgotBtn {
   margin-right: 5px;
 }

@@ -11,11 +11,28 @@ span.register-link {
   padding-bottom: 10px;
 }
 
-#forgotPassSpan {
+i {
+  margin-top: 10px;
+  color: #00bcd4;
+  font-size: xx-large;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+div.input-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#forgotPassSpan,
+#noAccountSpan {
   margin-top: 5px;
   color: #00bcd4;
 }
 
-#forgotPassSpan:hover {
+#forgotPassSpan:hover,
+#noAccountSpan:hover {
   cursor: pointer;
 }

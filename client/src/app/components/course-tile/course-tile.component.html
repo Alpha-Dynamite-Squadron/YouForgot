@@ -3,10 +3,10 @@
     <!-- <div class="card-header card-header-image" data-header-animation="false">
         <i class="material-icons">{{ selectedIcon }}</i>
       </div> -->
-    <div class="card-body">
+    <div routerLinkActive="true" class="card-body">
       <h4 class="card-title">
         <i class="material-icons pull-left">{{ selectedIcon }}</i>
-        <a href="#">{{ selectedCourseDiscipline}}{{ selectedCourseNumber }}</a>
+        <a routerLink="/components/course" href="#">{{ selectedCourseDiscipline}}{{ selectedCourseNumber }}</a>
         <i class="material-icons pull-right">{{ selectedIcon }}</i>
       </h4>
       <div class="card-description">

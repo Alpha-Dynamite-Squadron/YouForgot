@@ -10,7 +10,7 @@
     <hr>
     <div class="row">
       <div class="col-md-11" *ngFor="let assignment of assignments">
-        <app-assignment></app-assignment>
+        <app-personal-assignment></app-personal-assignment>
       </div>
     </div>
   </div>
@@ -18,16 +18,9 @@
 <!-- This div is so that the syling is correct depending on the current route -->
 <div *ngIf="!myAssignments">
   <hr>
-  <div id="postAssignmentBtnRow" class="row" *ngIf="createNewAssignment">
-    <app-new-assignment></app-new-assignment>
-  </div>
-  <div id="postAssignmentBtnRow" class="row" *ngIf="!createNewAssignment">
-    <button mat-raised-button class="btn btn-info btn-fill" (click)="createNewAssignment = !createNewAssignment">Post
-      New Assignment</button>
-  </div>
   <div class="row">
     <div class="col-md-11" *ngFor="let assignment of assignments">
-      <app-assignment></app-assignment>
+      <app-personal-assignment></app-personal-assignment>
     </div>
   </div>
 </div>
