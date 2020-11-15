@@ -42,10 +42,7 @@ module.exports.getUserCourses = function(userEmail, resultCallback) {
     
 }
 
-//NEED TO DO
-module.exports.updateExcessiveNotifications = function(notificationStatus, resultCallback){
-    let updateExcessiveNotificationsQuery = 'UPDATE PostAssociation SET '
-}
+
 
 //select request on postAssociation table
 module.exports.getUserAssignments = function(userEmail, resultCallback){
@@ -105,19 +102,26 @@ module.exports.userEnroll = function(userEmail, sectionInstanceID, defaultGetRem
     });
 }
 
-
-// get user instituion 
 /*
-module.exports.getUserInstitution= function(userEmail, resultCallback){
-    let getUserInstitutionQuery = 'SELECT * FROM InstituionAssociation WHERE emailAddress = ?;';
-    dbPool.query(getUserInstitutionQuery, userEmail, function(err, res){
+UPDATE table_name
+SET column1 = value1, column2 = value2, ...
+WHERE condition;
+
+UPDATE Customers
+SET ContactName = 'Alfred Schmidt', City= 'Frankfurt'
+WHERE CustomerID = 1;
+
+*/
+//NEED TO DO
+module.exports.updateExcessiveNotifications = function(userEmail, notificationStatus, resultCallback){
+    let updateExcessiveNotificationsQuery = 'UPDATE User SET excessiveNotification = ? WHERE emailAddress = ?;';
+    dbPool.query(updateExcessiveNotificationsQuery, [notificationStatus, userEmail], function(err, res){
         if(err){
             console.log(err);
             resultCallback(err, null);
         }
-        else if(res.length == 1){
-
+        else{
+            resultCallback(null, null);
         }
     });
 }
-*/

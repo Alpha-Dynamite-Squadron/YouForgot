@@ -152,7 +152,16 @@ module.exports.userEnroll = function(req, res){
 }
 
 
-
+module.exports.updateExcessiveNotifications = function(req, res){
+    if(!req.payload.emailAddress){
+        res.status(401).json({
+            "message" : "User Token does not have an email"
+        });
+    }
+    else if(req.body.notificationStatus){
+        
+    }
+}
 
 
 

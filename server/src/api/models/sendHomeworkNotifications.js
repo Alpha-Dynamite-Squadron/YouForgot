@@ -11,7 +11,7 @@ const sendNotification = () =>  {
     //1 means excessive notification is on
     
     //I ASSUME getHomeWorkReminderNotifications =1 means that is true , sentNotification == 0 means false
-    let queryString = 'SELECT pa.emailAddress, pa.assignmentID, pa.customAssignmentName, u.username  FROM PostAssociation AS pa INNER JOIN User as u ON pa.emailAddress = u.emailAddress WHERE u.getHomeworkReminderNotifications = 1 AND pa.customDueDate < (NOW() - INTERVAL 1 DAY)  AND (pa.sentNotification = 0  OR pa.excessiveNotification = 1);';
+    let queryString = 'SELECT pa.emailAddress, pa.assignmentID, pa.customAssignmentName, u.username  FROM PostAssociation AS pa INNER JOIN User as u ON pa.emailAddress = u.emailAddress WHERE u.getHomeworkReminderNotifications = 1 AND pa.customDueDate < (NOW() - INTERVAL 1 DAY)  AND (pa.sentNotification = 0  OR u.excessiveNotification = 1);';
     let emails = [], assignments = [], assingmentIDs = [], usernames = []; 
 
     dbPool.query(queryString,null, function(err, res){
