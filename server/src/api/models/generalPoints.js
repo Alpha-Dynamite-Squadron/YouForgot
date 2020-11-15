@@ -78,7 +78,9 @@ module.exports.getCourseInfo = function(sectionInstanceID, resultCallback){
                     uploadDate: res[i].uploadDate,
                     assignmentName : res[i].assignmentName,
                     forGrade: res[i].forGrade,
-                    iForgotCount: res[i].iForgotCount
+                    iForgotCount: res[i].iForgotCount,
+                    assignmentAverage: res[i].assignmentAverage,
+                    sectionInstanceID: sectionInstanceID
                 }
                 courseAssignments.push(courseAssignment);
             }
@@ -103,7 +105,7 @@ module.exports.createCourse = function(creationDate, nameOfClass, imageID, instr
     dbPool.query(createCourseQuery, [sectionInstanceID, creationDate, nameOfClass, imageID, instructorName, institutionID, disciplineLetters, courseNumber, academicTerm, academicYear, userEmail], function(err, result) {
         if(err) {
             if(err.code === "ER_DUP_ENTRY") {
-                resultCallback(null, 1);
+                resultCallback(err, 1);
             }
             else {
                 resultCallback(err, null);
@@ -115,7 +117,7 @@ module.exports.createCourse = function(creationDate, nameOfClass, imageID, instr
             dbPool.query(enrollUserQuery, [userEmail, sectionInstanceID], function(errorTwo, resTwo){
                 if(errorTwo) {
                     if(errorTwo.code === "ER_DUP_ENTRY") {
-                        resultCallback(null, 2);
+                        resultCallback(err, 2);
                     }
                     else {
                         resultCallback(err, null);
@@ -126,8 +128,11 @@ module.exports.createCourse = function(creationDate, nameOfClass, imageID, instr
         }
     });
 }
-module.exports.createAssignment = function(req, res){
+
+//assignmendID is from UUID, userEmail from token, uploadDate/AssignmentDueDate is ???, forGrade is passed in, Average depends on forGrade, iforgot default is 0, sectionInstance passed in
+module.exports.createAssignment = function(userEmail,sectionInstanceID){
 
 }
+
 
 

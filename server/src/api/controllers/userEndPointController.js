@@ -101,6 +101,65 @@ module.exports.getUserAssignments = function(req, res){
     }
 }
 
+//sectioninstanceID from body, email adress from token
+module.exports.userEnroll = function(req, res){
+    console.log("Enrolling user into a course");
+    //check incoming params
+    if(!req.payload.emailAddress){
+        res.status(401).json({
+            "message" : "User Token does not have an email"
+        });
+    }
+    else if(!req.body.sectionInstanceID){
+        res.status(401).json({
+            "message" : "You need to pass in a sectionInstanceID."
+        });
+    }
+    else if(!req.body.defaultGetReminderNotifications){
+        res.status(401).json({
+            "message" : "You need to pass in a whether or not the user wants reminder notifications for this course, using defaultGetReminderNotifications."
+        });
+    }
+    //params are verified there is something there
+    else {
+        //we have no data so we just get a result
+        endpoints.userEnroll(req.payload.emailAddress, req.body.sectionInstanceID, req.body.defaultGetReminderNotifications, function(err, result){
+            console.log("enrolling user into a course with an email of: " + req.payload.emailAddress);
+            if(err){
+                if(result == 1){
+                    console.log("Database error in UserEnrollment, trying to enroll a user that has been enrolled");
+                    console.log(err);
+                    res.status(500).json({
+                        "message" : "Database error in UserEnrollment, trying to enroll a user that has been enrolled"
+                    });
+                }
+                else{
+                    console.log();
+                    console.log(err);
+                    res.status(500).json({
+                        "message" : "Unknown database error"
+                    });
+                }
+            }
+            //dont have data so result is in here
+            else{
+                res.status(200).json({
+                    "message" : "User enrolled into the course."
+                })
+            }
+        });
+    }
+}
+
+
+
+
+
+
+
+
+
+
 
 /*
 Get AVG grade/ get # of upvotes

@@ -1,4 +1,4 @@
-let dbPool = require('../models/database');
+let dbPool = require('./database');
 let nodeMailerTransporter = require('../config/nodeMailerTransport.js')
 
 const sendNotification = () =>  {
@@ -9,7 +9,9 @@ const sendNotification = () =>  {
 
     //how to figure out if its <24
     //1 means excessive notification is on
-    let queryString = 'SELECT pa.emailAddress, pa.assignmentID, pa.customAssignmentName, u.username  FROM PostAssociation AS pa INNER JOIN User as u ON pa.emailAddress = u.emailAddress WHERE pa.customDueDate < (NOW() - INTERVAL 1 DAY  AND (pa.sentNotification == 0  OR pa.excessiveNotification == 1);';
+    
+    //I ASSUME getHomeWorkReminderNotifications =1 means that is true , sentNotification == 0 means false
+    let queryString = 'SELECT pa.emailAddress, pa.assignmentID, pa.customAssignmentName, u.username  FROM PostAssociation AS pa INNER JOIN User as u ON pa.emailAddress = u.emailAddress WHERE u.getHomeworkReminderNotifications = 1 AND pa.customDueDate < (NOW() - INTERVAL 1 DAY)  AND (pa.sentNotification = 0  OR pa.excessiveNotification = 1);';
     let emails = [], assignments = [], assingmentIDs = [], usernames = []; 
 
     dbPool.query(queryString,null, function(err, res){
@@ -46,8 +48,8 @@ const sendNotification = () =>  {
        // UPDATE PostAssociation SET sentNotification = 1 WHERE assignmentID = 'YES' AND emailAddress ='YES'"
        
 
-       //issues may be here?
-      queryString = 'UPDATE PostAssociation SET sentNotification = 1 WHERE assignmentID =' + assignments[i] +' AND emailAddress = ' + emails[i] + ";";
+       //we make it sent for a user
+      queryString = 'UPDATE PostAssociation SET sentNotification = 1 WHERE assignmentID = ' + assignments[i] +' AND emailAddress = ' + emails[i] + ";";
       dbPool.query(queryString,null, function(err, res){
         if(err){
             console.log("Error updating email sent notification, after sending the notification");

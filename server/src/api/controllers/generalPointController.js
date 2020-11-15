@@ -174,6 +174,13 @@ module.exports.createCourse = function(req,res){
                             "message" : "Unknown database error"
                         });
                     }
+                    else if(result == 2){
+                        console.log("Database error when inserting the user who created the course, into UserEnrollment");
+                        console.log(err);
+                        res.status(500).json({
+                            "message" : "Unknown database error"
+                        });
+                    }
                     else{
                         console.log("Database error in UserEnrollment in trying to insert a user");
                         console.log(err);
@@ -192,3 +199,8 @@ module.exports.createCourse = function(req,res){
 }
 
 
+
+module.exports.createAssignment = function(req,res){
+    console.log("Creating an Assignment");
+    
+}

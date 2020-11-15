@@ -80,6 +80,32 @@ module.exports.getUserAssignments = function(userEmail, resultCallback){
 
 }
 
+
+
+
+//user enroll we want defaultGetRemindernotifications, updateDefaultGetRemindernotifications end point is cherry on top
+
+module.exports.userEnroll = function(userEmail, sectionInstanceID, defaultGetRemindernotifications, resultCallback){
+    let userEnrollQuery = 'INSERT INTO UserEnrollment (emailAddress, sectionInstanceID) VALUES (?,?,?);';
+    dbPool.query(userEnrollQuery, [userEmail, sectionInstanceID, defaultGetRemindernotifications], function(err,res){
+        //db err
+        if(err){
+            if(err.code === "ER_DUP_ENTRY"){
+                resultCallback(err, 1);
+            }
+            else {
+                console.log(err);
+                resultCallback(err, null);
+            }
+        }
+        else{
+            //no errors
+            resultCallback(null,null);
+        }
+    });
+}
+
+
 // get user instituion 
 /*
 module.exports.getUserInstitution= function(userEmail, resultCallback){
