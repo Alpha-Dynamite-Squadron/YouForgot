@@ -1,4 +1,4 @@
-let endpoints = require('../models/userEndPoints');
+let endpoints = require('../models/userEndpoints');
 /*
 Json Web token from users for reference for what information we have to use.
 let funcGenerateJwt = function() {
@@ -27,7 +27,7 @@ module.exports.getUserCourses = function(req, res){
     console.log("Fetching the user's courses.");
     if(!req.payload.emailAddress){
         res.status(401).json({
-            "message" : "Token does not contain an email address"
+            "message" : "invalid token data"
         });
     }
     else{

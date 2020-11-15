@@ -1,12 +1,14 @@
-let dbPool = require('../models/database');
-module.exports.getInstutionCourses = function(institutionID, resultCallback){
+let dbPool = require('./database');
+
+module.exports.getInstitutionCourses = function(institutionID, resultCallback){
     let getCoursesQuery = 'SELECT * FROM SectionInstance WHERE institutionID = ?;';
-    dbPool.query(getCoursesQuery, institutionID, function(err, res){
+    dbPool.query(getCoursesQuery, [institutionID], function(err, res){
         if(err){
             console.log(err);
             resultCallback(err, null);
         }
-        else if (res.length === 1){
+        else if (res){
+            console.log(res);
             console.log("Courses found");
             let courses = [];
             for(let i = 0; i < res.length; i++){
@@ -22,6 +24,7 @@ module.exports.getInstutionCourses = function(institutionID, resultCallback){
                 }
                 courses.push(institutionCourse);
             }
+            console.log(courses);
             resultCallback(null, courses);
         }
         else{
@@ -31,8 +34,8 @@ module.exports.getInstutionCourses = function(institutionID, resultCallback){
     });
 }
 module.exports.getInstitutions = function(resultCallback){
-    let getInsitutionsQuery = 'SELECT * FROM Insitution;';
-    dbPool.query(getInsitutionsQuery, function(err, res){
+    let getInstitutionsQuery = 'SELECT * FROM Institution;';
+    dbPool.query(getInstitutionsQuery, function(err, res){
         if(err){
             console.log(err);
             resultCallback(err, null);
@@ -41,11 +44,11 @@ module.exports.getInstitutions = function(resultCallback){
             console.log("Courses found.");
             let institutions = [];
             for(let i = 0; i < res.length; i++){
-                let instituion = {
-                    instituionID: res[i].instituionID,
+                let institution = {
+                    institutionID: res[i].institutionID,
                     schoolName: res[i].schoolName
                 }
-                institutions.push(instituion);
+                institutions.push(institution);
             }
             resultCallback(null, institutions);
         } 
@@ -102,12 +105,7 @@ module.exports.createCourse = function(nameOfClass, imageID, instructorName,
     let createCourseQuery = 'INSERT INTO SectionInstance (creationDate, nameOfClass, imageID, instructorName, institutionID, disciplineLetters, courseNumber, sectionNumber, academicTerm, academicYear, sectionCreatorEmail) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
     dbPool.query(createCourseQuery, [creationDate, nameOfClass, imageID, instructorName, institutionID, disciplineLetters, courseNumber, sectionNumber, academicTerm, academicYear, userEmail], function(err, result) {
         if(err) {
-            if(err.code === "ER_DUP_ENTRY") {
-                resultCallback(err, 1);
-            }
-            else {
-                resultCallback(err, null);
-            }
+            resultCallback(err, null);
         }
         else{
             console.log("Course " + nameOfClass + " was added to SectionInstance. Now enrolling user "  + userEmail);
@@ -115,7 +113,7 @@ module.exports.createCourse = function(nameOfClass, imageID, instructorName,
             dbPool.query(enrollUserQuery, [userEmail, result.sectionInstanceID], function(errorTwo, resTwo){
                 if(errorTwo) {
                     if(errorTwo.code === "ER_DUP_ENTRY") {
-                        resultCallback(err, 2);
+                        resultCallback(errTwo, 1);
                     }
                     else {
                         resultCallback(err, null);
@@ -127,9 +125,19 @@ module.exports.createCourse = function(nameOfClass, imageID, instructorName,
     });
 }
 
-//assignmendID is from UUID, userEmail from token, uploadDate/AssignmentDueDate is ???, forGrade is passed in, Average depends on forGrade, iforgot default is 0, sectionInstance passed in
-module.exports.createAssignment = function(postAuthorEmail ,sectionInstanceID, assignmentName){
-    let assignmendID = uuidv4();
+//assignmentID is from UUID, userEmail from token, uploadDate/AssignmentDueDate is ???, forGrade is passed in, Average depends on forGrade, iforgot default is 0, sectionInstance passed in
+module.exports.createAssignment = function(postAuthorEmail ,sectionInstanceID, assignmentName, dueDate, forGrade, sectionInstanceID, resultCallback){
+    let assignmentDueDate = new Date(dueDate);
+    let uploadDate = new Date();
+    let createAssignmentQuery = 'INSERT INTO Post (postAuthorEmail, uploadDate, assignmentName, assignmentDueDate, forGrade, sectionInstance) values (?, ?, ?, ?, ?, ?);';
+    dbPool.query(createAssignmentQuery, [postAuthorEmail, uploadDate, assignmentName, assignmentDueDate, forGrade, sectionInstanceID], function(err, res){
+        if(err) {
+            resultCallback(err, null);
+        }
+        else{
+            resultCallback(null, null);
+        }
+    });
 
 }
 

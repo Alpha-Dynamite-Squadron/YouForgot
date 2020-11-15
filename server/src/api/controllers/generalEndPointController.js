@@ -1,4 +1,4 @@
-let generalEndpoints = require('../models/generalPoints');
+let generalEndpoints = require('../models/generalEndpoints');
 
 
 // WE TAKE IN A SECTIONID WHEN A USER CLICKS A HYPERLINK IN THEIR MY COURSES SECTION TO GO THEIR COURSE
@@ -20,7 +20,7 @@ module.exports.getCourseInfo = function(req,res){
                       });
                 }
             }
-            else if(data.length > 0){
+            else if(data){
                 res.status(200).json(data);
             }
             //this section has no assignemnts
@@ -36,16 +36,17 @@ module.exports.getCourseInfo = function(req,res){
 
 
 // given an institution id this is returns all of the courses
-// for the given insitution. 
+// for the given institution. 
 module.exports.getInstitutionCourses = function(req, res){
-    if(!req.payload.insitutionID) {
+    console.log(req.payload);
+    if(!req.payload.institutionID) {
         res.status(400).json({
           "message" : "Institution ID required"
         });
     }
     else{
-        generalEndpoints.getInstitutionCourses(req.payload.insitutionID, function(err, data){     
-            console.log("Fetching all the courses for school: " + req.payload.insitutionID);
+        console.log("Fetching all the courses for school: " + req.payload.institutionID);
+        generalEndpoints.getInstitutionCourses(req.payload.institutionID, function(err, data){     
             if(err){
                 //DB error
                 if(data == null){
@@ -57,7 +58,7 @@ module.exports.getInstitutionCourses = function(req, res){
                 }
             }
             //assume all the data is alright in the field
-            else if(data.length > 0){
+            else if(data){
                 res.status(200).json(data);
             }
             else {
@@ -68,10 +69,10 @@ module.exports.getInstitutionCourses = function(req, res){
         });
     }   
 }
-// get all the insitutions in the table Insitutions.
+// get all the institutions in the table Insitutions.
 module.exports.getInstitutions = function(req, res){
     generalEndpoints.getInstutions(function(err, data){     
-        console.log("Fetching all instituions");
+        console.log("Fetching all institutions");
         if(err){
             //DB error
             if(data == null){
@@ -88,24 +89,12 @@ module.exports.getInstitutions = function(req, res){
         }
         else {
             res.status(404).json({
-                "message" : "No insitutions found"
+                "message" : "No institutions found"
             });
         }
     }); 
 }
 
-
-
-module.exports.createAssignment = function(req, res){
-    console.log("Creating Assingment");
-    if(!req.params){
-        res.send("Params Empty!");
-    }
-    else {
-        
-    }
-
-}
 // This is to create a course
 // course requires 
 module.exports.createCourse = function(req,res){
@@ -163,14 +152,7 @@ module.exports.createCourse = function(req,res){
                 if(err){
                     //DB error
                     if(result == 1){
-                        console.log("Database error in SectionInstance in trying to insert a class");
-                        console.log(err);
-                        res.status(500).json({
-                            "message" : "Unknown database error"
-                        });
-                    }
-                    else if(result == 2){
-                        console.log("Database error when inserting the user who created the course, into UserEnrollment");
+                        console.log("Database error in UserEnrollment, trying to enroll a student.");
                         console.log(err);
                         res.status(500).json({
                             "message" : "Unknown database error"
@@ -191,9 +173,46 @@ module.exports.createCourse = function(req,res){
     }
 }
 
-
-
-module.exports.createAssignment = function(req,res){
-    console.log("Creating an Assignment");
-    
+module.exports.createAssignment = function(req, res){
+    console.log("Attempting to create an assignment.");
+    if(!req.payload.emailAddress){
+        res.status(401).json({
+            "message" : "Invalid token data"
+        });
+    }
+    else if(!req.body.sectionInstanceID){
+        res.status(400).json({
+            "message" : "No sectionInstanceID provided."
+        });
+    }
+    else if(!req.body.assignmentName){
+        res.status(400).json({
+            "message" : "No assignment name provided."
+        });
+    }
+    else if(!req.body.forGrade){
+        res.status(400).json({
+            "message" : "forGrade not provided."
+        });
+    }
+    else if(!req.body.assignmentDueDate){
+        res.status(400).json({
+            "message" : "No assignment due date provided."
+        });
+    }
+    else{
+        generalEndpoints.createAssignment(req.payload.emailAddress, req.body.sectionInstanceID, req.body.assignmentName, req.body.assignmentDueDate,
+            req.body.forGrade, req.body.sectionInstanceID, function(err, result){
+                if(err){
+                    console.log(err);
+                    res.status(500).json({
+                        "message" : "Unknown database error"
+                    });
+                }
+                else{
+                    console.log("Assignment Created");
+                    res.status(200).end();
+                }
+            });
+    }
 }
