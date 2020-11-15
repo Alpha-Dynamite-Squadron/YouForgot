@@ -40,6 +40,8 @@ let funcGenerateJwt = function() {
       imageID: this.imageID,
       getPostReminderNotifications: this.getPostReminderNotifications,
       getHomeworkReminderNotifications: this.getHomeworkReminderNotifications,
+      institutionID: this.institutionID,
+      setExcessively:this.sendExcessively,
       exp: parseInt(expiry.getTime() / 1000)
     }, secretString);
 };
@@ -47,7 +49,7 @@ let funcGenerateJwt = function() {
 /* This is the database call to pull data for the user.
 */
 module.exports.findAccountByEmail = function(email, resultCallback) {
-    var queryString = 'SELECT emailAddress, username, imageID, hash, salt, profileRating, getPostReminderNotifications, getHomeworkReminderNotifications, institutionID FROM User WHERE accessKey IS NULL AND emailAddress = ?;';
+    var queryString = 'SELECT emailAddress, username, imageID, hash, salt, profileRating, getPostReminderNotifications, getHomeworkReminderNotifications, institutionID, sendExcessively FROM User WHERE accessKey IS NULL AND emailAddress = ?;';
     dbPool.query(queryString, email, function (err, result) {
         if(err) {
             resultCallback(err, null);
@@ -64,6 +66,7 @@ module.exports.findAccountByEmail = function(email, resultCallback) {
                 getPostReminderNotifications: result[0].getPostReminderNotifications,
                 getHomeworkReminderNotifications: result[0].getHomeworkReminderNotifications,
                 institutionID: result[0].institutionID,
+                sendExcessively: result[0].sendxcessively,
                 setPassword: funcSetPassword,
                 validPassword: funcCheckPassword,
                 generateJwt: funcGenerateJwt

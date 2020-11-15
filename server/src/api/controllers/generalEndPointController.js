@@ -44,7 +44,7 @@ module.exports.getInstitutionCourses = function(req, res){
         });
     }
     else{
-        generalEndpoints.getInstutionCourses(req.payload.insitutionID, function(err, data){     
+        generalEndpoints.getInstitutionCourses(req.payload.insitutionID, function(err, data){     
             console.log("Fetching all the courses for school: " + req.payload.insitutionID);
             if(err){
                 //DB error
@@ -109,15 +109,10 @@ module.exports.createAssignment = function(req, res){
 // This is to create a course
 // course requires 
 module.exports.createCourse = function(req,res){
-    console.log("Fetching all the assingments for  course");
-    if(!req.payload.emailAddress || !req.payload.insitutionID){
+    console.log("Creating a course called " + req.body.nameOfClass);
+    if(!req.payload.emailAddress || !req.payload.institutionID){
         res.status(400).json({
             "message" : "Invalid token data"
-        });
-    }
-    else if(!req.body.creationDate){
-        res.status(400).json({
-            "message" : "CreationDate Required"
         });
     }
     else if(!req.body.nameOfClass){
@@ -130,19 +125,14 @@ module.exports.createCourse = function(req,res){
             "message" : "imageID Required"
         });
     }
-    else if(!req.body.enrollmentCount){
-        res.status(400).json({
-            "message" : "enrollmentCount Required"
-        });
-    }
     else if(!req.body.instructorName){
         res.status(400).json({
             "message" : "instructorName Required"
         });
     }
-    else if(!req.body.diciplineLetters){
+    else if(!req.body.disciplineLetters){
         res.status(400).json({
-            "message" : "nameOfClass Required"
+            "message" : "disciplineLetters Required"
         });
     }
     else if(!req.body.courseNumber){
@@ -160,10 +150,15 @@ module.exports.createCourse = function(req,res){
             "message" : "academicYear Required"
         });
     }
+    else if(!req.body.sectionNumber){
+        res.status(400).json({
+            "message" : "sectionNumber Required"
+        });
+    }
     else {
-        generalEndpoints.createCourse(req.body.creationDate, req.body.nameOfClass, req.body.imageID, req.body.instructorName, 
-            req.payload.insitutionID, req.body.diciplineLetters, req.body.courseNumber, req.body.academicTerm,
-            req.body.academicYear, req.payload.emailAddress,
+        generalEndpoints.createCourse(req.body.nameOfClass, req.body.imageID, req.body.instructorName, 
+            req.payload.institutionID, req.body.disciplineLetters, req.body.courseNumber, req.body.academicTerm,
+            req.body.academicYear, req.body.sectionNumber, req.payload.emailAddress,
             function(err, result){
                 if(err){
                     //DB error
@@ -190,9 +185,7 @@ module.exports.createCourse = function(req,res){
                     }
                 }
                 else{
-                    res.status(200).json({
-                        "message" : "Created a course and enrolled the user who created the course."
-                    });
+                    res.status(200).end();
                 }
             });
     }

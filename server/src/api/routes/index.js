@@ -16,13 +16,16 @@ var auth = jwt({
 });
 
 var controllerAuthentication = require('../controllers/authentication.js');
-var endpointController = require('../controllers/userEndPointController');
+var userEndpointController = require('../controllers/userEndPointController');
+var generalEndpointController = require('../controllers/generalEndPointController')
 //router.post('/preregister', controllerAuthentication.preregister);
 router.post('/login', controllerAuthentication.login);
 router.post('/register', controllerAuthentication.register);
 router.post('/hashContent', controllerAuthentication.hashContent);
 router.post('/preRegistration', controllerAuthentication.preRegistration);
 router.post('/verifyAccessKey', controllerAuthentication.verifyAccessKey);
-router.get('/getUserAssignments', auth, endpointController.getUserAssignments);
+router.post('/createCourse', auth, generalEndpointController.createCourse);
+router.get('/getUserAssignments', auth, userEndpointController.getUserAssignments);
+
 
 module.exports = router;

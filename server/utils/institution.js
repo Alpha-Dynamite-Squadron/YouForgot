@@ -1,10 +1,11 @@
+require('dotenv').config();
 const csv = require('csv-parser');
 const fs = require('fs');
 let dbPool = require('../src/api/Models/database.js');
 
 let valueArray = [];
 //Should have Code to manually download CSV file from server to run completely autonomously
-fs.createReadStream('../database/InstitutionCampus.csv')
+fs.createReadStream('../server/database/InstitutionCampus.csv')
   .pipe(csv())
   .on('data', (row) => {
     if(row.LocationType === 'Institution') {

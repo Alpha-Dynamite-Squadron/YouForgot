@@ -114,7 +114,7 @@ WHERE CustomerID = 1;
 */
 //NEED TO DO
 module.exports.updateExcessiveNotifications = function(userEmail, notificationStatus, resultCallback){
-    let updateExcessiveNotificationsQuery = 'UPDATE User SET excessiveNotification = ? WHERE emailAddress = ?;';
+    let updateExcessiveNotificationsQuery = 'UPDATE User SET sendExcessively = ? WHERE emailAddress = ?;';
     dbPool.query(updateExcessiveNotificationsQuery, [notificationStatus, userEmail], function(err, res){
         if(err){
             console.log(err);

@@ -1,6 +1,4 @@
 let dbPool = require('../models/database');
-const uuidv4 = require("uuid/v4")
-
 module.exports.getInstutionCourses = function(institutionID, resultCallback){
     let getCoursesQuery = 'SELECT * FROM SectionInstance WHERE institutionID = ?;';
     dbPool.query(getCoursesQuery, institutionID, function(err, res){
@@ -32,7 +30,7 @@ module.exports.getInstutionCourses = function(institutionID, resultCallback){
         }
     });
 }
-module.exports.getInsitutions = function(resultCallback){
+module.exports.getInstitutions = function(resultCallback){
     let getInsitutionsQuery = 'SELECT * FROM Insitution;';
     dbPool.query(getInsitutionsQuery, function(err, res){
         if(err){
@@ -97,12 +95,12 @@ module.exports.getCourseInfo = function(sectionInstanceID, resultCallback){
 //title, disciplineLetters, number,
 //Error 1 is a database error saying duplicate entry. This is a db error because this should never happen
 // Error 2 is that association between a user and a course failed to create. 
-module.exports.createCourse = function(creationDate, nameOfClass, imageID, instructorName,
+module.exports.createCourse = function(nameOfClass, imageID, instructorName,
     institutionID, disciplineLetters, courseNumber, 
-    academicTerm, academicYear, userEmail, resultCallback){
-    let sectionInstanceID = uuidv4(); // ⇨ '1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed'
-    let createCourseQuery = 'INSERT INTO SectionInstance (sectionInstanceID, creationDate, nameOfClass, imageID, instructorName, institutionID, disciplineLetters, courseNumber, academicTerm, academicYear, sectionCreatorEmail) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
-    dbPool.query(createCourseQuery, [sectionInstanceID, creationDate, nameOfClass, imageID, instructorName, institutionID, disciplineLetters, courseNumber, academicTerm, academicYear, userEmail], function(err, result) {
+    academicTerm, academicYear, sectionNumber, userEmail, resultCallback){
+    let creationDate = new Date();
+    let createCourseQuery = 'INSERT INTO SectionInstance (creationDate, nameOfClass, imageID, instructorName, institutionID, disciplineLetters, courseNumber, sectionNumber, academicTerm, academicYear, sectionCreatorEmail) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
+    dbPool.query(createCourseQuery, [creationDate, nameOfClass, imageID, instructorName, institutionID, disciplineLetters, courseNumber, sectionNumber, academicTerm, academicYear, userEmail], function(err, result) {
         if(err) {
             if(err.code === "ER_DUP_ENTRY") {
                 resultCallback(err, 1);
@@ -114,7 +112,7 @@ module.exports.createCourse = function(creationDate, nameOfClass, imageID, instr
         else{
             console.log("Course " + nameOfClass + " was added to SectionInstance. Now enrolling user "  + userEmail);
             let enrollUserQuery = 'INSERT INTO UserEnrollment (emailAddress, sectionInstanceID) VALUES (?, ?);';
-            dbPool.query(enrollUserQuery, [userEmail, sectionInstanceID], function(errorTwo, resTwo){
+            dbPool.query(enrollUserQuery, [userEmail, result.sectionInstanceID], function(errorTwo, resTwo){
                 if(errorTwo) {
                     if(errorTwo.code === "ER_DUP_ENTRY") {
                         resultCallback(err, 2);
@@ -130,7 +128,8 @@ module.exports.createCourse = function(creationDate, nameOfClass, imageID, instr
 }
 
 //assignmendID is from UUID, userEmail from token, uploadDate/AssignmentDueDate is ???, forGrade is passed in, Average depends on forGrade, iforgot default is 0, sectionInstance passed in
-module.exports.createAssignment = function(userEmail,sectionInstanceID){
+module.exports.createAssignment = function(postAuthorEmail ,sectionInstanceID, assignmentName){
+    let assignmendID = uuidv4();
 
 }
 

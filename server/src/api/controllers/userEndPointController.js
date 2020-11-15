@@ -42,15 +42,7 @@ module.exports.getUserCourses = function(req, res){
             }
             //we have data
             else if(data){
-                if(data.userEmail !== undefined && data.nameOfClass !== undefined && data.instructorName !== undefined && data.disciplineLetters !== undefined && data.courseNumber !== undefined && data.academicSession !== undefined){
-                    res.status(200).json(data);            
-                }
-                //we have incomplete data
-                else{
-                    res.status(422).json({
-                        "message" : "Incomplete data found for that user's email"
-                    });
-                }
+                res.status(200).json(data);
             }
             // no courses found for that user
             else {
@@ -77,7 +69,7 @@ module.exports.getUserAssignments = function(req, res){
     else{
         //we have a valid email address
         endpoints.getUserCourses(req.payload.emailAddress, function(err,data){
-            console.log("Fetching all the courses for school: " + req.body.insitutionID);
+            console.log("Fetching all the courses for user: " + req.payload.emailAddress);
             if(err){
                 //DB error
                 if(data == null){
@@ -89,7 +81,7 @@ module.exports.getUserAssignments = function(req, res){
                 }
             }
             //assume all the data is alright in the field
-            else if(data.length > 0){
+            else if(data){
                 res.status(200).json(data);
             }
             else {
@@ -158,8 +150,25 @@ module.exports.updateExcessiveNotifications = function(req, res){
             "message" : "User Token does not have an email"
         });
     }
-    else if(req.body.notificationStatus){
-        
+    else if(!req.body.notificationStatus){
+        res.status(401).json({
+            "message" : "Notification status not provided"
+        });
+    }
+    else{
+        endpoints.updateExcessiveNotifications(req.payload.emailAddress, req.body.notificationStatus, function(err, result){
+            if(err){
+                console.log("Unable to update users excessive notification status");
+                res.status(500).json({
+                    "message" : "Unable to update user excessive notification status"
+                })
+            }
+            else{
+                res.status(200).json({
+                    "message" : "Excessive notification updated."
+                })
+            }
+        });
     }
 }
 
