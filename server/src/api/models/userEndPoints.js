@@ -79,9 +79,9 @@ module.exports.getUserAssignments = function(userEmail, resultCallback){
 
 
 //user enroll we want defaultGetRemindernotifications, updateDefaultGetRemindernotifications end point is cherry on top
-module.exports.userEnroll = function(userEmail, sectionInstanceID, defaultGetRemindernotifications, resultCallback){
-    let userEnrollQuery = 'INSERT INTO UserEnrollment (emailAddress, sectionInstanceID) VALUES (?,?,?);';
-    dbPool.query(userEnrollQuery, [userEmail, sectionInstanceID, defaultGetRemindernotifications], function(err,res){
+module.exports.userEnroll = function(userEmail, sectionInstanceID, getRemindernotifications, resultCallback){
+    let userEnrollQuery = 'INSERT INTO UserEnrollment (emailAddress, sectionInstanceID, getReminderNotifications) VALUES (?,?,?);';
+    dbPool.query(userEnrollQuery, [userEmail, sectionInstanceID, getRemindernotifications], function(err,res){
         //db err
         if(err){
             if(err.code === "ER_DUP_ENTRY"){
@@ -110,6 +110,7 @@ WHERE CustomerID = 1;
 
 */
 //NEED TO DO
+//tested
 module.exports.updateExcessiveNotifications = function(userEmail, notificationStatus, resultCallback){
     let updateExcessiveNotificationsQuery = 'UPDATE User SET sendExcessively = ? WHERE emailAddress = ?;';
     dbPool.query(updateExcessiveNotificationsQuery, [notificationStatus, userEmail], function(err, res){
@@ -122,10 +123,51 @@ module.exports.updateExcessiveNotifications = function(userEmail, notificationSt
         }
     });
 }
+//tested
+module.exports.updateAssignmentNotifications = function(userEmail, notificationStatus, resultCallback){
+    let updateAssignmentNotificationsQuery = 'UPDATE User SET getPostReminderNotifications = ? WHERE emailAddress = ?;';
+    dbPool.query(updateAssignmentNotificationsQuery, [notificationStatus, userEmail], function(err, res){
+        if(err){
+            console.log(err);
+            resultCallback(err, null);
+        }
+        else{
+            resultCallback(null, null);
+        }
+    });
+}
+//tested 
+module.exports.updateAssignmentDeadlineNotifications = function(userEmail, notificationStatus, resultCallback){
+    let updateAssignmentNotificationsQuery = 'UPDATE User SET getHomeworkReminderNotifications = ? WHERE emailAddress = ?;';
+    dbPool.query(updateAssignmentNotificationsQuery, [notificationStatus, userEmail], function(err, res){
+        if(err){
+            console.log(err);
+            resultCallback(err, null);
+        }
+        else{
+            resultCallback(null, null);
+        }
+    });
+}
+//tested
+module.exports.updateAssignmentGrade = function(userEmail, gradeRecieved, assignmentID, resultCallback){
+    let updateAssignmentGradeQuery = 'UPDATE PostAssociation SET Grade = ? WHERE emailAddress = ? AND assignmentID = ? ;';
+    dbPool.query(updateAssignmentGradeQuery, [gradeRecieved, userEmail, assignmentID], function(err, res){
+        if(err){
+            console.log(err);
+            resultCallback(err, null);
+        }
+        else{
+            resultCallback(null, null);
+        }
+    });
+}
+
 // 1 is an error on the general select query
 // 2 is that the user isDone status was not able to be updated.
+//tested
 module.exports.updateIsDone = function(userEmail, assignmentID, resultCallback){
-    let selectIsDoneQuery = 'SELECT isDone FROM PostAssociation WHERE emailAddress = ?;';
+    let selectIsDoneQuery = 'SELECT isDone FROM PostAssociation WHERE emailAddress = ? AND assignmentID = ?;';
     let newIsDoneStatus;
     dbPool.query(selectIsDoneQuery, [userEmail, assignmentID], function(err, res){
         if(err){
@@ -140,17 +182,20 @@ module.exports.updateIsDone = function(userEmail, assignmentID, resultCallback){
             else{
                 newIsDoneStatus = 1;
             }
-            let updateIsDoneQuery = 'UPDATE PostAssociation SET isDone = ? WHERE emailAddress = ?;';
-            dbPool.query(updateIsDoneQuery, [newIsDoneStatus, userEmail], function(errorTwo, result){
+            console.log("New isDone status is " + newIsDoneStatus);
+            let updateIsDoneQuery = 'UPDATE PostAssociation SET isDone = ? WHERE emailAddress = ? AND assignmentID = ?';
+            dbPool.query(updateIsDoneQuery, [newIsDoneStatus, userEmail, assignmentID], function(errorTwo, result){
                 if(errorTwo){
                     console.log("Error attempting to update isDone for user " + userEmail);
                     resultCallback(errorTwo, 2);
                 }
+                else{
+                    console.log("Updated isDone for user " + userEmail);
+                    resultCallback(null,null);
+                }
             });
-        }
-        else{
-            console.log("Updated isDone for user " + userEmail);
-            resultCallback(null,null);
+        }else{
+            console.log("This should never happen. This is dead code");
         }
     });
 }

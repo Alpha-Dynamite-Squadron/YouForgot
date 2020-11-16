@@ -98,6 +98,7 @@ module.exports.getCourseInfo = function(sectionInstanceID, resultCallback){
 //title, disciplineLetters, number,
 //Error 1 is a database error saying duplicate entry. This is a db error because this should never happen
 // Error 2 is that association between a user and a course failed to create. 
+//tested
 module.exports.createCourse = function(nameOfClass, imageID, instructorName,
     institutionID, disciplineLetters, courseNumber, 
     academicTerm, academicYear, sectionNumber, userEmail, resultCallback){
@@ -128,6 +129,7 @@ module.exports.createCourse = function(nameOfClass, imageID, instructorName,
 
 //assignmentID is from UUID, userEmail from token, uploadDate/AssignmentDueDate is ???, forGrade is passed in, Average depends on forGrade, iforgot default is 0, sectionInstance passed in
 // code 1 means there was a duplicate entry for an assignment. 
+// tested
 module.exports.createAssignment = function(postAuthorEmail , assignmentName, dueDate, forGrade, sectionInstanceID, resultCallback){
     let assignmentDueDate = new Date(dueDate);
     let uploadDate = new Date();

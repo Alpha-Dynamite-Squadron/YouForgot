@@ -168,6 +168,88 @@ module.exports.updateExcessiveNotifications = function(req, res){
     }
 }
 
+module.exports.updateAssignmentDeadlineNotifications = function(req, res){
+    if(!req.payload.emailAddress){
+        res.status(401).json({
+            "message" : "User Token does not have an email"
+        });
+    }
+    else if(!req.body.notificationStatus){
+        res.status(401).json({
+            "message" : "Notification status not provided"
+        });
+    }
+    else{
+        endpoints.updateAssignmentDeadlineNotifications(req.payload.emailAddress, req.body.notificationStatus, function(err, result){
+            if(err){
+                console.log("Unable to update users assignment deadline notification status");
+                res.status(500).json({
+                    "message" : "Unable to update user assignment deadline notification status"
+                });
+            }
+            else{
+                res.status(200).end(); // successfully updated 
+            }
+        });
+    }
+}
+module.exports.updateAssignmentGrade = function(req, res){
+    if(!req.payload.emailAddress){
+        res.status(401).json({
+            "message" : "User Token does not have an email"
+        });
+    }
+    else if(!req.body.gradeRecieved){
+        res.status(401).json({
+            "message" : "Grade recieved not provided"
+        });
+    }
+    else  if(!req.body.assignmentID){
+        res.status(401).json({
+            "message" : "assignmentID not provied"
+        });
+    }
+    else{
+        endpoints.updateAssignmentGrade(req.payload.emailAddress, req.body.gradeRecieved, req.body.assignmentID, function(err, result){
+            if(err){
+                console.log("Unable to update user's assignment assignment grade.");
+                res.status(500).json({
+                    "message" : "Unable to update user's assignment grade"
+                });
+            }
+            else{
+                res.status(200).end(); // successfully updated 
+            }
+        });
+    }
+}
+
+module.exports.updateAssignmentNotifications = function(req, res){
+    if(!req.payload.emailAddress){
+        res.status(401).json({
+            "message" : "User Token does not have an email"
+        });
+    }
+    else if(!req.body.notificationStatus){
+        res.status(401).json({
+            "message" : "Notification status not provided"
+        });
+    }
+    else{
+        endpoints.updateAssignmentNotifications(req.payload.emailAddress, req.body.notificationStatus, function(err, result){
+            if(err){
+                console.log("Unable to update users assignment notification status");
+                res.status(500).json({
+                    "message" : "Unable to update user assignment notification status"
+                });
+            }
+            else{
+                res.status(200).end(); // successfully updated 
+            }
+        });
+    }
+}
+
 module.exports.updateIsDone = function(req, res){
     console.log("Attempting to update isDone status for user assignment.");
     if(!req.payload.emailAddress){
