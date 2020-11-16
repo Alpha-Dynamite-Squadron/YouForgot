@@ -50,6 +50,11 @@ module.getUserDetails = function(userEmail, resultCallback){
 
         }
         else if(res.length === 1){
+            console.log("Found details for user: " + userEmail);
+            let userDetails = {
+                userEmail: userEmail,
+                
+            }
 
         }
     });
