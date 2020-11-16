@@ -93,6 +93,8 @@ module.exports.getUserAssignments = function(req, res){
     }
 }
 
+
+//TESTED
 //sectioninstanceID from body, email adress from token
 //Error 1 is from enrolling the user into a class
 //Error 2 is doing the select query on Post to get all Posts for that class

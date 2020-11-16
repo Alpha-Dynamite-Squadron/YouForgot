@@ -78,9 +78,12 @@ module.exports.getUserAssignments = function(userEmail, resultCallback){
 }
 
 
+
+
 //user enroll we want defaultGetRemindernotifications, updateDefaultGetRemindernotifications end point is cherry on top
-// tested
+// TESTED  ASK CHRISTIAN ON DUPES
 module.exports.userEnroll = function(userEmail, sectionInstanceID, getRemindernotifications, resultCallback){
+
     let userEnrollQuery = 'INSERT INTO UserEnrollment (emailAddress, sectionInstanceID, getReminderNotifications) VALUES (?,?,?);';
     dbPool.query(userEnrollQuery, [userEmail, sectionInstanceID, getRemindernotifications], function(err,res){
         //db err
@@ -138,16 +141,7 @@ module.exports.userEnroll = function(userEmail, sectionInstanceID, getReminderno
 
 }
 
-/*
-UPDATE table_name
-SET column1 = value1, column2 = value2, ...
-WHERE condition;
 
-UPDATE Customers
-SET ContactName = 'Alfred Schmidt', City= 'Frankfurt'
-WHERE CustomerID = 1;
-
-*/
 //NEED TO DO
 //tested
 module.exports.updateExcessiveNotifications = function(userEmail, notificationStatus, resultCallback){
@@ -239,6 +233,3 @@ module.exports.updateIsDone = function(userEmail, assignmentID, resultCallback){
     });
 }
 
-module.exports.updateAssignmentSubscription = function(userEmail, assignmentID, assignmentName, dueDate, uploadDate, forGrade, sectionInstanceID, resultCallback){
-
-}

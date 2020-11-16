@@ -258,8 +258,7 @@ module.exports.createAssignment = function(req, res){
                             "message" : "The nameOfClass select statement is empty, which should never happen. "
                         });
                     }
-                    
-                    console.log("Assignment Created");
+                    console.log("Assignment association created");
                     res.status(200).end();
                 }
             });
