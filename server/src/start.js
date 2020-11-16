@@ -15,7 +15,7 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 const yuh = require('../src/api/models/maintenance.js');
-const notify = require('../src/api/models/sendNotifications.js');
+const notify = require('../src/api/models/sendHomeworkNotifications.js');
 // import clean from './api/Models/maintenance.js';
 // import notificationMailer frocm './api/Models/sendNotifications.js';
 // import nodemailer from 'nodemailer';

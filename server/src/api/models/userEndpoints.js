@@ -47,7 +47,6 @@ module.getUserDetails = function(userEmail, resultCallback){
     dbPool.query(getUserDetailsQuery, [userEmail], function(err, res){
         if(err){
             resultCallback(err, null);
-
         }
         else if(res.length === 1){
             console.log("Found details for user: " + userEmail);
@@ -55,6 +54,9 @@ module.getUserDetails = function(userEmail, resultCallback){
                 userEmail: userEmail,
                 
             }
+
+        }
+        else {
 
         }
     });
@@ -157,6 +159,20 @@ module.exports.userEnroll = function(userEmail, sectionInstanceID, getReminderno
         
     });
 
+}
+
+module.exports.unenroll = function(userEmail, sectionInstanceID, resultCallback){
+    let deleteUserFromCourseQuery = 'DELETE FROM UserEnrollment WHERE emailAddress = ? AND sectionInstanceID = ?;';
+    dbPool.query(deleteUserFromCourseQuery, [userEmail, sectionInstanceID], function(err, res){
+        if(err){
+            console.log(err);
+            resultCallback(err,null);
+        }
+        //else its deleted 
+        else{
+            resultCallback(null,null);
+        }
+    });
 }
 
 

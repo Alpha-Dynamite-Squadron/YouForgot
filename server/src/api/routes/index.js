@@ -16,13 +16,31 @@ var auth = jwt({
 });
 
 var controllerAuthentication = require('../controllers/authentication.js');
-var endpointController = require('../controllers/userEndPointController');
+var userEndpointController = require('../controllers/userEndpointController');
+var generalEndpointController = require('../controllers/generalEndpointController')
 //router.post('/preregister', controllerAuthentication.preregister);
 router.post('/login', controllerAuthentication.login);
 router.post('/register', controllerAuthentication.register);
 router.post('/hashContent', controllerAuthentication.hashContent);
 router.post('/preRegistration', controllerAuthentication.preRegistration);
 router.post('/verifyAccessKey', controllerAuthentication.verifyAccessKey);
-router.get('/getUserAssignments', auth, endpointController.getUserAssignments);
+router.post('/createCourse', auth, generalEndpointController.createCourse);
+router.post('/createAssignment', auth, generalEndpointController.createAssignment);
+router.post('/enrollUser', auth, userEndpointController.userEnroll);
+
+
+
+router.get('/getUserAssignments', auth, userEndpointController.getUserAssignments);
+router.get('/getCourseInfo', auth, generalEndpointController.getCourseInfo);
+router.get('/getInstitutionCourses', auth, generalEndpointController.getInstitutionCourses);
+router.get('/getCourseInfo', auth, generalEndpointController.getCourseInfo);
+
+router.patch('/updateIsDone', auth, userEndpointController.updateIsDone);
+router.patch('/updateExcessiveNotifications', auth, userEndpointController.updateExcessiveNotifications);
+router.patch('/updateAssignmentNotifications', auth, userEndpointController.updateAssignmentNotifications);
+router.patch('/updateAssignmentNotifications', auth, userEndpointController.updateAssignmentNotifications);
+router.patch('/updateAssignmentDeadlineNotifications', auth, userEndpointController.updateAssignmentDeadlineNotifications);
+router.patch('/updateAssignmentGrade', auth, userEndpointController.updateAssignmentGrade);
+
 
 module.exports = router;
