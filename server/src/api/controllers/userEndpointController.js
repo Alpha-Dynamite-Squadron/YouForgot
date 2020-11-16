@@ -100,11 +100,15 @@ module.exports.getUserAssignments = function(req, res){
 //Error 4 is There is an error creating post associations for the user who just enrolled into a class
 //Error 5 is There is a duplicate entry when inserting post associations for the user who just enrolled in the class
 module.exports.userEnroll = function(req, res){
-    console.log("Enrolling user into a course");
     //check incoming params
     if(!req.payload.emailAddress){
         res.status(401).json({
             "message" : "User Token does not have an email"
+        });
+    }
+    else if(!req.payload.getPostReminderNotifications){
+        res.status(400).json({
+            "message" : "You need to pass in a whether or not the user wants reminder notifications for this course, using defaultGetReminderNotifications."
         });
     }
     else if(!req.body.sectionInstanceID){
@@ -112,16 +116,11 @@ module.exports.userEnroll = function(req, res){
             "message" : "You need to pass in a sectionInstanceID."
         });
     }
-    else if(!req.body.defaultGetReminderNotifications){
-        res.status(400).json({
-            "message" : "You need to pass in a whether or not the user wants reminder notifications for this course, using defaultGetReminderNotifications."
-        });
-    }
     //params are verified there is something there
     else {
         //we have no data so we just get a result
-        endpoints.userEnroll(req.payload.emailAddress, req.body.sectionInstanceID, req.body.defaultGetReminderNotifications, function(err, result){
-            console.log("enrolling user into a course with an email of: " + req.payload.emailAddress);
+        console.log("enrolling user into a course with an email of: " + req.payload.emailAddress);
+        endpoints.userEnroll(req.payload.emailAddress, req.body.sectionInstanceID, req.payload.getPostReminderNotifications, function(err, result){
             if(err){
                 if(result == 1){
                     console.log("Database error in UserEnrollment, trying to enroll a user that has been enrolled");
@@ -153,10 +152,7 @@ module.exports.userEnroll = function(req, res){
                 }
                 else if(result == 5){
                     console.log("There is a duplicate entry when inserting post associations for the user who just enrolled in the class");
-                    console.log(err);
-                    res.status(500).json({
-                        "message" : "Duplicate Entries in Post Association. IDK HOW THIS FIRED OFF."
-                    });
+                    res.status(500).end();
                 }
                 else{
                     console.log();

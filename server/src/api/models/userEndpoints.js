@@ -79,6 +79,7 @@ module.exports.getUserAssignments = function(userEmail, resultCallback){
 
 
 //user enroll we want defaultGetRemindernotifications, updateDefaultGetRemindernotifications end point is cherry on top
+// tested
 module.exports.userEnroll = function(userEmail, sectionInstanceID, getRemindernotifications, resultCallback){
     let userEnrollQuery = 'INSERT INTO UserEnrollment (emailAddress, sectionInstanceID, getReminderNotifications) VALUES (?,?,?);';
     dbPool.query(userEnrollQuery, [userEmail, sectionInstanceID, getRemindernotifications], function(err,res){
@@ -88,27 +89,33 @@ module.exports.userEnroll = function(userEmail, sectionInstanceID, getReminderno
                 resultCallback(err, 1);
             }
             else {
-                console.log(err);
+                //console.log(err);
                 resultCallback(err, null);
             }
         }
         else{
-            let getAssignments = 'SELECT * FROM Post WHERE sectionInstanceID = ?;';
+            let getAssignments = 'SELECT * FROM Post WHERE sectionInstance = ?;';
             dbPool.query(getAssignments, [sectionInstanceID], function(err2, res2){
                 if(err2){
                     console.log(err2);
                     resultCallback(err2, 2);
                 }
                 //we should have information here
-                else if(res2.length === 1){
+                else if(res2.length !== 0){
                     let createPostAssociationQuery = 'INSERT INTO PostAssociation (emailAddress, assignmentID, isIgnored, isReported, customUploadDate, customAssignmentName, customAssignmentDescription, customDueDate, sentNotification, iForgot) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
+                    let innerError = false;
                     for(let i = 0; i < res2.length; i++){
+                        if(innerError){
+                            break;
+                        }
                         dbPool.query(createPostAssociationQuery, [userEmail, res2[i].assignmentID,0,0,res2[i].uploadDate, res2[i].assignmentName, "default description", res2[i].assignmentDueDate, 0, 0], function(err3, res3){
                             if(err3){
-                                if(err.code === "ER_DUP_ENTRY"){
+                                if(err3.code === "ER_DUP_ENTRY"){
+                                    innerError = err3;
                                     resultCallback(err3, 5);
                                 }
                                 else {
+                                    innerError = err3;
                                     console.log("Error creating post associations for user:" + userEmail);
                                     resultCallback(err3, 4);
                                 }
@@ -119,17 +126,13 @@ module.exports.userEnroll = function(userEmail, sectionInstanceID, getReminderno
                         });
                     }
                 }
+                
                 else{
                     console.log("There are no Posts associated with this sectionInstanceID");
                     resultCallback(err,3);
                 }
             });
         }
-
-
-        //dead code that should never be reached
-        console.log("Dead coad in userEnroll that should NEVER BE REACHED RADA");
-        resultCallback(null,null);
         
     });
 
