@@ -110,13 +110,14 @@ module.exports.createCourse = function(nameOfClass, imageID, instructorName,
         else{
             console.log("Course " + nameOfClass + " was added to SectionInstance. Now enrolling user "  + userEmail);
             let enrollUserQuery = 'INSERT INTO UserEnrollment (emailAddress, sectionInstanceID) VALUES (?, ?);';
-            dbPool.query(enrollUserQuery, [userEmail, result.sectionInstanceID], function(errorTwo, resTwo){
+            dbPool.query(enrollUserQuery, [userEmail, result.insertId], function(errorTwo, resTwo){ //here we use insertId as that is a field of res.
                 if(errorTwo) {
+                    console.log("Failed to enroll user into course.")
                     if(errorTwo.code === "ER_DUP_ENTRY") {
                         resultCallback(errTwo, 1);
                     }
                     else {
-                        resultCallback(err, null);
+                        resultCallback(errorTwo, null);
                     }
                 }
             });
@@ -126,15 +127,29 @@ module.exports.createCourse = function(nameOfClass, imageID, instructorName,
 }
 
 //assignmentID is from UUID, userEmail from token, uploadDate/AssignmentDueDate is ???, forGrade is passed in, Average depends on forGrade, iforgot default is 0, sectionInstance passed in
-module.exports.createAssignment = function(postAuthorEmail ,sectionInstanceID, assignmentName, dueDate, forGrade, sectionInstanceID, resultCallback){
+// code 1 means there was a duplicate entry for an assignment. 
+module.exports.createAssignment = function(postAuthorEmail , assignmentName, dueDate, forGrade, sectionInstanceID, resultCallback){
     let assignmentDueDate = new Date(dueDate);
     let uploadDate = new Date();
-    let createAssignmentQuery = 'INSERT INTO Post (postAuthorEmail, uploadDate, assignmentName, assignmentDueDate, forGrade, sectionInstance) values (?, ?, ?, ?, ?, ?);';
+    let createAssignmentQuery = 'INSERT INTO Post (postAuthorEmail, uploadDate, assignmentName, assignmentDueDate, forGrade, sectionInstance) VALUES (?, ?, ?, ?, ?, ?);';
     dbPool.query(createAssignmentQuery, [postAuthorEmail, uploadDate, assignmentName, assignmentDueDate, forGrade, sectionInstanceID], function(err, res){
         if(err) {
             resultCallback(err, null);
         }
         else{
+            let createPostAssociationQuery = 'INSERT INTO PostAssociation (emailAddress, assignmentID, isIgnored, isReported, customUploadDate, customAssignmentName, customAssignmentDescription, customDueDate, sentNotification, iForgot) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
+            dbPool.query(createPostAssociationQuery, [postAuthorEmail, res.insertId, 0, 0, uploadDate, assignmentName, "default description", dueDate, 0, 0], function(errorTwo, result){
+                if(errorTwo) {
+                    console.log("Failed to create association between post author: " + postAuthorEmail + " and post" + assignmentName);
+                    if(errorTwo.code === "ER_DUP_ENTRY") {
+                        resultCallback(errTwo, 1);
+                    }
+                    else {
+                        resultCallback(errorTwo, null);
+                    }
+                }
+            });
+            console.log("Created association between " + postAuthorEmail + " and post: " + assignmentName);
             resultCallback(null, null);
         }
     });

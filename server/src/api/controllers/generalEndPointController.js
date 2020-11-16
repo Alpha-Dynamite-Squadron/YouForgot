@@ -201,13 +201,20 @@ module.exports.createAssignment = function(req, res){
         });
     }
     else{
-        generalEndpoints.createAssignment(req.payload.emailAddress, req.body.sectionInstanceID, req.body.assignmentName, req.body.assignmentDueDate,
+        generalEndpoints.createAssignment(req.payload.emailAddress, req.body.assignmentName, req.body.assignmentDueDate,
             req.body.forGrade, req.body.sectionInstanceID, function(err, result){
                 if(err){
                     console.log(err);
-                    res.status(500).json({
-                        "message" : "Unknown database error"
-                    });
+                    if(result == 1){
+                        console.log(err);
+                        res.status(500).json({
+                            "message" : "Unknown database error"
+                        });
+                    }else{
+                        res.status(500).json({
+                            "message" : "Unknown database error"
+                        });
+                    }
                 }
                 else{
                     console.log("Assignment Created");

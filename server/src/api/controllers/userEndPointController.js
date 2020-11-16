@@ -103,12 +103,12 @@ module.exports.userEnroll = function(req, res){
         });
     }
     else if(!req.body.sectionInstanceID){
-        res.status(401).json({
+        res.status(400).json({
             "message" : "You need to pass in a sectionInstanceID."
         });
     }
     else if(!req.body.defaultGetReminderNotifications){
-        res.status(401).json({
+        res.status(400).json({
             "message" : "You need to pass in a whether or not the user wants reminder notifications for this course, using defaultGetReminderNotifications."
         });
     }
@@ -135,9 +135,7 @@ module.exports.userEnroll = function(req, res){
             }
             //dont have data so result is in here
             else{
-                res.status(200).json({
-                    "message" : "User enrolled into the course."
-                })
+                res.status(200).end(); // successfully updated 
             }
         });
     }
@@ -161,18 +159,54 @@ module.exports.updateExcessiveNotifications = function(req, res){
                 console.log("Unable to update users excessive notification status");
                 res.status(500).json({
                     "message" : "Unable to update user excessive notification status"
-                })
+                });
             }
             else{
-                res.status(200).json({
-                    "message" : "Excessive notification updated."
-                })
+                res.status(200).end(); // successfully updated 
             }
         });
     }
 }
 
-
+module.exports.updateIsDone = function(req, res){
+    console.log("Attempting to update isDone status for user assignment.");
+    if(!req.payload.emailAddress){
+        res.status(401).json({
+            "message" : "Invalid token data"
+        });
+    }
+    else if(!req.body.assignmentID){
+        res.status(400).json({
+            "message" : "Assignment ID required."
+        });
+    }
+    else{
+        endpoints.updateIsDone(req.payload.emailAddress, req.body.assignmentID, function(err, result){
+            if(err){
+                if(result == 1){
+                    console.log("Database error occurred selecting");
+                    res.status(500).json({
+                        "message" : "Unknown database error occurred"
+                    });
+                }
+                else if(result == 2){
+                    console.log("Database error occurred updating");
+                    res.status(500).json({
+                        "message" : "Unknown database error occurred"
+                    });
+                }
+                else{
+                    res.status(500).json({
+                        "message" : "Unknown database error occurred"
+                    });
+                }
+            }
+            else{
+                res.status(200).end(); // successfully updated 
+            }
+        });
+    }
+}
 
 
 

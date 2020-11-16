@@ -78,10 +78,7 @@ module.exports.getUserAssignments = function(userEmail, resultCallback){
 }
 
 
-
-
 //user enroll we want defaultGetRemindernotifications, updateDefaultGetRemindernotifications end point is cherry on top
-
 module.exports.userEnroll = function(userEmail, sectionInstanceID, defaultGetRemindernotifications, resultCallback){
     let userEnrollQuery = 'INSERT INTO UserEnrollment (emailAddress, sectionInstanceID) VALUES (?,?,?);';
     dbPool.query(userEnrollQuery, [userEmail, sectionInstanceID, defaultGetRemindernotifications], function(err,res){
@@ -124,4 +121,40 @@ module.exports.updateExcessiveNotifications = function(userEmail, notificationSt
             resultCallback(null, null);
         }
     });
+}
+// 1 is an error on the general select query
+// 2 is that the user isDone status was not able to be updated.
+module.exports.updateIsDone = function(userEmail, assignmentID, resultCallback){
+    let selectIsDoneQuery = 'SELECT isDone FROM PostAssociation WHERE emailAddress = ?;';
+    let newIsDoneStatus;
+    dbPool.query(selectIsDoneQuery, [userEmail, assignmentID], function(err, res){
+        if(err){
+            console.log("Error trying to select current isDoneStatus from user " + userEmail);
+            console.log(err);
+            resultCallback(err, 1);
+        }
+        else if (res.length === 1){
+            if (res[0].isDone == 1){
+                newIsDoneStatus = 0;
+            }
+            else{
+                newIsDoneStatus = 1;
+            }
+            let updateIsDoneQuery = 'UPDATE PostAssociation SET isDone = ? WHERE emailAddress = ?;';
+            dbPool.query(updateIsDoneQuery, [newIsDoneStatus, userEmail], function(errorTwo, result){
+                if(errorTwo){
+                    console.log("Error attempting to update isDone for user " + userEmail);
+                    resultCallback(errorTwo, 2);
+                }
+            });
+        }
+        else{
+            console.log("Updated isDone for user " + userEmail);
+            resultCallback(null,null);
+        }
+    });
+}
+
+module.exports.updateAssignmentSubscription = function(userEmail, assignmentID, assignmentName, dueDate, uploadDate, forGrade, sectionInstanceID, resultCallback){
+
 }
