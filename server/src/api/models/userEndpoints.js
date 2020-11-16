@@ -42,6 +42,19 @@ module.exports.getUserCourses = function(userEmail, resultCallback) {
     
 }
 
+module.getUserDetails = function(userEmail, resultCallback){
+    let getUserDetailsQuery = 'SELECT * FROM User WHERE emailAddress = ?;';
+    dbPool.query(getUserDetailsQuery, [userEmail], function(err, res){
+        if(err){
+            resultCallback(err, null);
+
+        }
+        else if(res.length === 1){
+
+        }
+    });
+}
+
 
 
 //select request on postAssociation table
@@ -54,7 +67,7 @@ module.exports.getUserAssignments = function(userEmail, resultCallback){
             resultCallback(err, null);
         }
         // worked properly
-        else if(res.length === 1) {
+        else if(res.length !== 0) {
             console.log("Found Assignments for user: " + userEmail + "Assingments Names:  " + res[0].customAssignmentDescription);
             let userAssignments = [];
 
