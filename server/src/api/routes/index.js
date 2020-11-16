@@ -26,6 +26,9 @@ router.post('/preRegistration', controllerAuthentication.preRegistration);
 router.post('/verifyAccessKey', controllerAuthentication.verifyAccessKey);
 router.post('/createCourse', auth, generalEndpointController.createCourse);
 router.post('/createAssignment', auth, generalEndpointController.createAssignment);
+router.post('/enrollUser', auth, userEndpointController.userEnroll);
+
+
 
 router.get('/getUserAssignments', auth, userEndpointController.getUserAssignments);
 router.get('/getCourseInfo', auth, generalEndpointController.getCourseInfo);

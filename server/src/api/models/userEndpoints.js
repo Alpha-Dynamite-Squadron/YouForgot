@@ -93,10 +93,46 @@ module.exports.userEnroll = function(userEmail, sectionInstanceID, getReminderno
             }
         }
         else{
-            //no errors
-            resultCallback(null,null);
+            let getAssignments = 'SELECT * FROM Post WHERE sectionInstanceID = ?;';
+            dbPool.query(getAssignments, [sectionInstanceID], function(err2, res2){
+                if(err2){
+                    console.log(err2);
+                    resultCallback(err2, 2);
+                }
+                //we should have information here
+                else if(res2.length === 1){
+                    let createPostAssociationQuery = 'INSERT INTO PostAssociation (emailAddress, assignmentID, isIgnored, isReported, customUploadDate, customAssignmentName, customAssignmentDescription, customDueDate, sentNotification, iForgot) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
+                    for(let i = 0; i < res2.length; i++){
+                        dbPool.query(createPostAssociationQuery, [userEmail, res2[i].assignmentID,0,0,res2[i].uploadDate, res2[i].assignmentName, "default description", res2[i].assignmentDueDate, 0, 0], function(err3, res3){
+                            if(err3){
+                                if(err.code === "ER_DUP_ENTRY"){
+                                    resultCallback(err3, 5);
+                                }
+                                else {
+                                    console.log("Error creating post associations for user:" + userEmail);
+                                    resultCallback(err3, 4);
+                                }
+                            }
+                            else{
+                                resultCallback(null,null);
+                            }
+                        });
+                    }
+                }
+                else{
+                    console.log("There are no Posts associated with this sectionInstanceID");
+                    resultCallback(err,3);
+                }
+            });
         }
+
+
+        //dead code that should never be reached
+        console.log("Dead coad in userEnroll that should NEVER BE REACHED RADA");
+        resultCallback(null,null);
+        
     });
+
 }
 
 /*

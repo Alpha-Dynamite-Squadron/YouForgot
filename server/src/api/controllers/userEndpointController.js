@@ -94,6 +94,11 @@ module.exports.getUserAssignments = function(req, res){
 }
 
 //sectioninstanceID from body, email adress from token
+//Error 1 is from enrolling the user into a class
+//Error 2 is doing the select query on Post to get all Posts for that class
+//Error 3 is There are no Posts for that sectonInstanceID
+//Error 4 is There is an error creating post associations for the user who just enrolled into a class
+//Error 5 is There is a duplicate entry when inserting post associations for the user who just enrolled in the class
 module.exports.userEnroll = function(req, res){
     console.log("Enrolling user into a course");
     //check incoming params
@@ -123,6 +128,34 @@ module.exports.userEnroll = function(req, res){
                     console.log(err);
                     res.status(500).json({
                         "message" : "Database error in UserEnrollment, trying to enroll a user that has been enrolled"
+                    });
+                }
+                else if(result == 2){
+                    console.log("Error doing the select query on Post to get all Posts for that class");
+                    console.log(err);
+                    res.status(500).json({
+                        "message" : "Error in the select query on Post."
+                    });
+                }
+                else if(result == 3){
+                    console.log("There are no Posts for that sectonInstanceID");
+                    console.log(err);
+                    res.status(500).json({
+                        "message" : "No Posts for the given sectionInstanceID."
+                    });
+                }
+                else if(result == 4){
+                    console.log("There is an error creating post associations for the user who just enrolled into a class");
+                    console.log(err);
+                    res.status(500).json({
+                        "message" : "Error creating Post Associations for that user"
+                    });
+                }
+                else if(result == 5){
+                    console.log("There is a duplicate entry when inserting post associations for the user who just enrolled in the class");
+                    console.log(err);
+                    res.status(500).json({
+                        "message" : "Duplicate Entries in Post Association. IDK HOW THIS FIRED OFF."
                     });
                 }
                 else{
