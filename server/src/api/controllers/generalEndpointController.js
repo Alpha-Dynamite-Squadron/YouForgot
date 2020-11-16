@@ -97,6 +97,7 @@ module.exports.getInstitutions = function(req, res){
 
 // This is to create a course
 // course requires 
+//TESTED
 module.exports.createCourse = function(req,res){
     console.log("Creating a course called " + req.body.nameOfClass);
     if(!req.payload.emailAddress || !req.payload.institutionID){
@@ -173,6 +174,7 @@ module.exports.createCourse = function(req,res){
     }
 }
 
+
 module.exports.createAssignment = function(req, res){
     console.log("Attempting to create an assignment.");
     if(!req.payload.emailAddress){
@@ -207,16 +209,56 @@ module.exports.createAssignment = function(req, res){
                     console.log(err);
                     if(result == 1){
                         console.log(err);
+                        console.log("There was a duplicate entry for an assignment.");
                         res.status(500).json({
-                            "message" : "Unknown database error"
+                            "message" : "Duplicate Entry for an assignment."
                         });
-                    }else{
+                    }
+                    else if(result == 2){
+                        console.log("There are no classmates in this course.");
+                        res.status(500).json({
+                            "message" : "There are no classmates in this course"
+                        });
+                        
+                    }
+                    else if(result == 3){
+                        console.log("There is an error in the Select Query where we try to find classmates");
+                        res.status(500).json({
+                            "message" : "There is an error in the Select Query where we try to find classmates"
+                        });
+                    }
+                    else if(result == 4){
+                        console.log("There is a duplicate in creating Post associations for the classmates.");
+                        res.status(500).json({
+                            "message" : "There is a duplicate in creating Post associations for the classmates."
+                        });
+                    }
+                    else if(result == 5){
+                        console.log("");
+                        res.status(500).json({
+                            "message" : "There is an unknown DB error when creating Post Associations for the classmates. "
+                        });
+                    }
+                    else if(result == 6){
+                        console.log("");
+                        res.status(500).json({
+                            "message" : "There is an issue with the select query when trying to find the course name for the email notifications. "
+                        });
+                    }
+                    else{
                         res.status(500).json({
                             "message" : "Unknown database error"
                         });
                     }
                 }
                 else{
+                    if(result == 7){
+                        console.log("");
+                        res.status(500).json({
+                            "message" : "The nameOfClass select statement is empty, which should never happen. "
+                        });
+                    }
+                    
                     console.log("Assignment Created");
                     res.status(200).end();
                 }

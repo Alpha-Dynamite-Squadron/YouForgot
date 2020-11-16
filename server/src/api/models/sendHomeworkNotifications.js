@@ -18,7 +18,7 @@ const sendNotification = () =>  {
         if(err){
             console.log("Error in trying to get emails to send notifications");
         }
-        else {
+        else if (res.length !== 0){
             //Query results in here
             console.log("Sent notifications for assignments < 24 hours till due date");
             for(let i = 0; i < res.length; i++){
@@ -27,6 +27,9 @@ const sendNotification = () =>  {
                 assignmentIDs.push(res[i].assignmentID);
                 usernames.push(res[i].username);
             }
+        }
+        else{
+          console.log("There are no people with assignments due within 24 hours.");
         }
     });
     //create the emails
@@ -42,6 +45,7 @@ const sendNotification = () =>  {
     }
     // n * m query
     //update after sending
+    //might need a boolean variable here
     for(let i = 0; i < emails.length; i++){
        // 1 means we have sent the email
        // let queryString = "UPDATE PostAssociation SET sentNotification = 1 WHERE assignmentID = '"+ assignments[0] +"' AND emailAddress = '" + emails[0] + "''";
