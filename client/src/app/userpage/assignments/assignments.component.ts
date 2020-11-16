@@ -8,7 +8,7 @@ import { Location } from '@angular/common';
 })
 export class AssignmentsComponent implements OnInit {
 
-  createNewAssignment: boolean = true;
+  createNewAssignment: boolean = false;
   myAssignments: boolean = false;
   assignments: number[] = [1, 2, 3, 4, 5]; 
   location: Location;
