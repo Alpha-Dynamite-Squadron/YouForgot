@@ -249,6 +249,7 @@ module.exports.updateAssignmentDeadlineNotifications = function(req, res){
         });
     }
 }
+
 module.exports.updateAssignmentGrade = function(req, res){
     if(!req.payload.emailAddress){
         res.status(401).json({
