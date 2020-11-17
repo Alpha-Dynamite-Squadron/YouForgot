@@ -75,17 +75,19 @@ module.exports.getInstitutionCourses = function(req, res){
 // get all the institutions in the table Insitutions.
 // tested
 module.exports.getInstitutions = function(req, res){
-    console.log("Fetching all institutions");
-    generalEndpoints.getInstitutions(function(err, data){
+    if(!req.body.institution){
+        res.status(400).json({
+            "message" : "institution Required"
+        });
+    }
+    console.log("Fetching institutions like '" + req.body.institution + "'");
+    generalEndpoints.getInstitutions(req.body.institution, function(err, data){
         if(err){
             //DB error
-            if(data == null){
-                console.log("Database error in PostAssociation getUserAssignments Query");
-                console.log(err);
-                res.status(500).json({
-                    "message" : "Unknown database error"
-                });
-            }
+            console.log("Database error in Get Institution Query", err);
+            res.status(500).json({
+                "message" : "Unknown database error"
+            });
         }
         //assume all the data is alright in the field
         else if(data){

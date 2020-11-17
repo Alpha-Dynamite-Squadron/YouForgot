@@ -46,7 +46,7 @@
                         <i class="material-icons">search</i>
                       </button>
                     </div>
-                    <mat-form-field>
+                    <mat-form-field *ngIf="searchedInstitutionsBefore">
                       <label class="bmd-label-floating">Institution</label>
                       <mat-select [formControl]="institutionCtrl" #singleSelect>
                         <mat-option>

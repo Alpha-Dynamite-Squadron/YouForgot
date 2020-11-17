@@ -141,11 +141,6 @@ module.exports.register = function(req, res) {
         "message" : "password required"
       });
     }
-    else if(!req.body.imageID) {
-        res.status(400).json({
-          "message" : "imageID required"
-        });
-    }
     else if(!req.body.emailAddress) {
         res.status(400).json({
           "message" : "emailAddress required"
@@ -156,9 +151,19 @@ module.exports.register = function(req, res) {
           "message" : "username required"
         });
     }
+    else if(!req.body.institution) {
+        res.status(400).json({
+          "message" : "institution required"
+        });
+    }
+    else if(!req.body.getNotifications) {
+        res.status(400).json({
+          "message" : "getNotifications required"
+        });
+    }
     else {
       //Verify Password usable
-        users.registerUser(req.body.accessKey, req.body.emailAddress, req.body.username, req.body.imageID, req.body.password, function(err, code, data) {
+        users.registerUser(req.body.accessKey, req.body.emailAddress, req.body.username, req.body.password, req.body.institution, req.body.getNotifications, function(err, code, data) {
             if(err) {
                 console.log("Error Registering User: " + req.body.accessKey);
                 console.log(err);
@@ -248,7 +253,6 @@ module.exports.verifyAccessKey = function(req, res)   {
           });
         }
       }else{ //User was not found
-        console.log("This accessKey was not Found");
         res.status(406).json({
           "message" : "Access Key not found."
         });

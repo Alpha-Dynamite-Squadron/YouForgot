@@ -17,8 +17,10 @@ export class AuthenticationService {
 
   //Expanded Communication Methods
 
-  public loadInstitutions(): Observable<any> {
-    return this.requestData('get', 'getInstitutions');
+  public loadInstitutions(query: string): Observable<any> {
+    return this.requestData('post', 'getInstitutions', {
+      institution: query
+    });
   }
 
   public preregister(email: string): Observable<any> {
@@ -33,13 +35,14 @@ export class AuthenticationService {
     });
   }
 
-  public completeRegistration(emailAddress: string, username: string, imageID: string, password: string, accessKey: string): Observable<any> {
+  public completeRegistration(emailAddress: string, username: string, password: string, institution: string, notifications: boolean, accessKey: string): Observable<any> {
     return this.requestData('post', 'register', {
       emailAddress: emailAddress,
       username: username,
-      imageID: imageID,
       password: password,
-      accessKey: accessKey
+      institution: institution,
+      accessKey: accessKey,
+      getNotifications: notifications
     });
   }
 

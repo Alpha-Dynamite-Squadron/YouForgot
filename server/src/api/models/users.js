@@ -78,7 +78,7 @@ module.exports.resetEmail = function(emailAddress, password, accessKey, resultCa
             resultCallback(null, 3); // this user does not have an accesskey
         }
     })
-    
+
     let user = {
         setPassword: funcSetPassword
       };
@@ -119,8 +119,8 @@ let funcGenerateJwt = function() {
       imageID: this.imageID,
       getPostReminderNotifications: this.getPostReminderNotifications,
       getHomeworkReminderNotifications: this.getHomeworkReminderNotifications,
+      setExcessively: this.sendExcessively,
       institutionID: this.institutionID,
-      setExcessively:this.sendExcessively,
       exp: parseInt(expiry.getTime() / 1000)
     }, secretString);
 };
@@ -182,11 +182,12 @@ module.exports.findNewUser = function(accessKey, resultCallback) {
     * error code 2 no email address is found
     * error code 3 is that the query failed because the email dissapeared
     */
-module.exports.registerUser = function(accessKey, emailAddress, username, imageID, password, resultCallback) {
+module.exports.registerUser = function(accessKey, emailAddress, username, password, institution, getNotifications, resultCallback) {
+
     let findInactiveUserQuery = 'SELECT emailAddress, accessKey FROM User WHERE emailAddress = ? LIMIT 1;';
     dbPool.query(findInactiveUserQuery, emailAddress, function(err, result) {
         if(err) {
-        resultCallback(err, null);
+          resultCallback(err, null);
         }
         else if(result.length === 1) {
             if(result[0].accessKey === accessKey){
@@ -197,8 +198,8 @@ module.exports.registerUser = function(accessKey, emailAddress, username, imageI
                 user.setPassword(password);
                 let hash = user.hash;
                 let salt = user.salt;
-                let createUserQuery = 'UPDATE User SET username = ?, imageID = ?, hash = ?, salt = ?, accessKey = NULL WHERE emailAddress = ?;';
-                dbPool.query(createUserQuery, [username, imageID, hash, salt, emailAddress], function(err, result){
+                let createUserQuery = 'UPDATE User SET username = ?, imageID = 1, hash = ?, salt = ?, institutionID = ?, getPostReminderNotifications = ?, getHomeworkReminderNotifications = ?, accessKey = NULL WHERE emailAddress = ?;';
+                dbPool.query(createUserQuery, [username, hash, salt, institution, getNotifications, getNotifications, emailAddress], function(err, result){
                     if(err){
                         resultCallback(err, null);
                     }
@@ -211,9 +212,11 @@ module.exports.registerUser = function(accessKey, emailAddress, username, imageI
                         let user = {
                             emailAddress: emailAddress,
                             username: username,
-                            imageID: imageID,
-                            getPostReminderNotifications: true,
-                            getHomeworkReminderNotifications: true,
+                            imageID: 1,
+                            getPostReminderNotifications: getNotifications,
+                            getHomeworkReminderNotifications: getNotifications,
+                            sendExcessively: false,
+                            institutionID: institution,
                             generateJwt: funcGenerateJwt
                         }
                         resultCallback(null, 0, user);
@@ -300,7 +303,7 @@ module.exports.verifyAccessKey = function(accessKey, resultCallback) {
             resultCallback(null, user);
         }
         else {
-            console.log("No User found for AccessKey: " + email);
+            console.log("No User found for AccessKey: " + accessKey);
             resultCallback(null, null);
         }
     });
