@@ -35,9 +35,9 @@ module.exports.getInstitutionCourses = function(institutionID, resultCallback){
         }
     });
 }
-module.exports.getInstitutions = function(resultCallback){
-    let getInstitutionsQuery = 'SELECT * FROM Institution;';
-    dbPool.query(getInstitutionsQuery, function(err, res){
+module.exports.getInstitutions = function(institution, resultCallback){
+    let getInstitutionsQuery = 'SELECT * FROM Institution WHERE schoolName LIKE ?;';
+    dbPool.query(getInstitutionsQuery, "%" + institution + "%", function(err, res){
         if(err){
             console.log(err);
             resultCallback(err, null);

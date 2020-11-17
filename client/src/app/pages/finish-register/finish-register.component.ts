@@ -30,6 +30,7 @@ export class FinishRegisterComponent implements OnInit, OnDestroy, AfterViewInit
 
   email: string = '';
 
+  searchedInstitutionsBefore = false;
   validTextType: boolean = false;
   validTermsType: boolean = false;
   validPasswordRegister: boolean = false;
@@ -68,25 +69,6 @@ export class FinishRegisterComponent implements OnInit, OnDestroy, AfterViewInit
         },
         (error) => {
           console.log(error);
-        }
-      );
-      this.authService.loadInstitutions().subscribe(
-        (institutions) => {
-          this.institutions = institutions;
-          console.log("Found " + institutions.length + " Institutions");
-          //Set Initial Institution Selection
-          this.institutionCtrl.setValue(null);
-          //Load the initial institutions list
-          this.filteredInstitutions.next(this.institutions.slice());
-          //Listen for text changes in the search field
-          this.institutionFilterCtrl.valueChanges
-          .pipe(takeUntil(this._onDestroy))
-          .subscribe(() => {
-            this.filterInstitutions();
-          });
-        },
-        (error) => {
-
         }
       );
       //Create registration form
@@ -188,10 +170,26 @@ export class FinishRegisterComponent implements OnInit, OnDestroy, AfterViewInit
 
     queryDatabase() {
       console.log("Searching for Institutions with the value: " +  this.search.value);
-    }
-
-    ngAfterViewInit() {
-      this.setInitialValue();
+      this.authService.loadInstitutions(this.search.value).subscribe(
+        (institutions) => {
+          this.searchedInstitutionsBefore = true;
+          this.institutions = institutions;
+          console.log("Found " + institutions.length + " Institutions");
+          //Set Initial Institution Selection
+          this.institutionCtrl.setValue(null);
+          //Load the initial institutions list
+          this.filteredInstitutions.next(this.institutions.slice());
+          //Listen for text changes in the search field
+          this.institutionFilterCtrl.valueChanges
+          .pipe(takeUntil(this._onDestroy))
+          .subscribe(() => {
+            this.filterInstitutions();
+          });
+        },
+        (error) => {
+          console.log("Failed to retrieve institutions");
+        }
+      );
     }
 
     ngOnDestroy() {
@@ -201,21 +199,20 @@ export class FinishRegisterComponent implements OnInit, OnDestroy, AfterViewInit
 
     onFinishRegistration() {
       if (this.finishRegisterForm.valid) {
-        console.log('Form Submitted. Institution Selected: ' + JSON.stringify(this.institutionCtrl.value));
-        console.log('Submission Valid, sending POST Request: ' + JSON.stringify(this.finishRegisterForm.value));
-        alert('Submission Valid, sending POST Request: ' + JSON.stringify(this.finishRegisterForm.value));
-        //AuthService.completeRegistration() needs updating
-        // this.authService.completeRegistration(
-        //   this.email,
-        //   this.finishRegisterForm.value.username,
-        //   this.finishRegisterForm.value.confirmPassword,
-        //   this.institutionCtrl.value.institution,
-        //   this.route.snapshot.paramMap.get('id')
-        // ).subscribe(() => {
-        //   this.router.navigateByUrl('/home/main');
-        // }, (error) => {
-        //   console.log(error);
-        // });
+        console.log('Form Submitted: '
+         + this.finishRegisterForm.controls.username.value);
+        this.authService.completeRegistration(
+          this.email,
+          this.finishRegisterForm.controls.username.value,
+          this.finishRegisterForm.controls.password.value,
+          this.institutionCtrl.value.id,
+          this.finishRegisterForm.controls.receiveNotifications.value,
+          this.route.snapshot.paramMap.get('id')
+        ).subscribe(() => {
+          this.router.navigateByUrl('/home/main');
+        }, (error) => {
+          console.log(error);
+        });
       } else {
         this.validateAllFormFields(this.finishRegisterForm);
       }
