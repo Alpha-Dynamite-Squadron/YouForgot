@@ -1,6 +1,6 @@
 // IMPORTANT: this is a plugin which requires jQuery for initialisation and data manipulation
-
 import { Component, OnInit, AfterViewInit } from '@angular/core';
+import swal from 'sweetalert2';
 
 declare interface DataTable {
   headerRow: string[];
@@ -93,9 +93,8 @@ export class CourseTableComponent implements OnInit, AfterViewInit {
       if ($($tr).hasClass('child')) {
         $tr = $tr.prev('.parent');
       }
-
       var data = table.row($tr).data();
-      alert('You press on Row: ' + data[0] + ' ' + data[1] + ' ' + data[2] + '\'s row.');
+      //alert('You press on Row: ' + data[0] + ' ' + data[1] + ' ' + data[2] + '\'s row.');
       e.preventDefault();
     });
 
@@ -108,16 +107,32 @@ export class CourseTableComponent implements OnInit, AfterViewInit {
 
     //Enroll in record
     table.on('click', '.enroll', function (e) {
-      alert('You enrolled in the course with notifications disabled.');
       e.preventDefault();
     });
 
     //Enroll with notifications
     table.on('click', '.enrollWithNotifications', function (e) {
-      alert('You enrolled in the course with notifications enabled.');
       e.preventDefault();
     });
 
     $('.card .material-datatables label').addClass('form-group');
+  }
+
+  showSwal(type) {
+     if (type == 'enrolledNotifications') {
+      swal({
+        title: "Successfully Enrolled!",
+        text: "You enrolled in the course with notifications enabled.",
+        timer: 2000,
+        showConfirmButton: false
+      }).catch(swal.noop)
+    } else if (type == 'enrolled') {
+      swal({
+        title: "Successfully Enrolled!",
+        text: "You enrolled in the course with notifications disabled.",
+        timer: 2000,
+        showConfirmButton: false
+      }).catch(swal.noop)
+    }
   }
 }

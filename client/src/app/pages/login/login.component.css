@@ -1,10 +1,7 @@
 div.card-footer {
   padding-top: 5px;
   padding-bottom: 5px;
-}
-
-span {
-  padding-top: 2px;
+  margin-bottom: 0px;
 }
 
 span.register-link {
@@ -28,7 +25,6 @@ div.input-group {
 
 #forgotPassSpan,
 #noAccountSpan {
-  margin-top: 5px;
   color: #00bcd4;
 }
 
