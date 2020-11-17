@@ -42,7 +42,7 @@ module.exports.getInstitutions = function(resultCallback){
             console.log(err);
             resultCallback(err, null);
         }
-        else if (res.length === 1){
+        else if (res.length !== 0){
             console.log("Courses found.");
             let institutions = [];
             for(let i = 0; i < res.length; i++){
@@ -65,15 +65,16 @@ module.exports.getInstitutions = function(resultCallback){
 
 // GET THE INFO OF A SPECIFIC CLASS GIVEN THE SECTION INSTANCE ID
 // gives you a assignment ID if you want to subscribe to the assignment, forGrade determines whether or not it shows assignmentAverage
+//tested
 module.exports.getCourseInfo = function(sectionInstanceID, resultCallback){
-    let getCourseInfoQuery = 'SELECT SectionInstance.nameOfClass, Post.assignmentID, Post.uploadDate, Post.assignmentName, Post.assignmentDueDate, Post.forGrade, Post.assignmentAverage, Post.iForgotCount FROM SectionInstance INNER JOIN ON Post WHERE SectionInstance.sectionInstanceID = Post.sectionInstanceID;';
-    dbPool.query(getCourseInfoQuery, function(err, res){
+    let getCourseInfoQuery = 'SELECT SectionInstance.nameOfClass, Post.assignmentID, Post.uploadDate, Post.assignmentName, Post.assignmentDueDate, Post.forGrade, Post.assignmentAverage, Post.iForgotCount FROM SectionInstance INNER JOIN Post ON SectionInstance.sectionInstanceID = Post.sectionInstance WHERE SectionInstance.sectionInstanceID = ?;';
+    dbPool.query(getCourseInfoQuery, [sectionInstanceID], function(err, res){
         if(err){
             console.log(err);
             resultCallback(err,null);
         }
         //sql query ran
-        else if (res.length === 1){
+        else if (res.length !== 0){
             console.log("Assignments found for Course:" + sectionInstanceID);
             let courseAssignments = [];
             for(let i = 0; i < res.length; i++){
