@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     const card = document.getElementsByClassName('card')[0];
 
     this.loginForm = this.formBuilder.group({
-      email: [null, [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]],
+      email: [null, Validators.required],
       password: ['', Validators.compose([Validators.required, Validators.minLength(8)])]
     });
   }

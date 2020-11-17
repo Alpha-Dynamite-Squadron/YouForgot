@@ -106,9 +106,15 @@ export class CourseTableComponent implements OnInit, AfterViewInit {
       e.preventDefault();
     });
 
-    //Like record
-    table.on('click', '.like', function (e) {
-      alert('You enrolled in the course.');
+    //Enroll in record
+    table.on('click', '.enroll', function (e) {
+      alert('You enrolled in the course with notifications disabled.');
+      e.preventDefault();
+    });
+
+    //Enroll with notifications
+    table.on('click', '.enrollWithNotifications', function (e) {
+      alert('You enrolled in the course with notifications enabled.');
       e.preventDefault();
     });
 

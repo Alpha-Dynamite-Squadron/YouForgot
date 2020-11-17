@@ -30,15 +30,15 @@ import { UpdateProfileComponent } from './update-profile/update-profile.componen
     MaterialModule
   ],
   declarations: [
-      ExtendedFormsComponent,
-      RegularFormsComponent,
-      ValidationFormsComponent,
-      WizardComponent,
-      FieldErrorDisplayComponent,
-      NewAssignmentComponent,
-      NewCourseComponent,
-      NewInstitutionComponent,
-      UpdateProfileComponent
+    ExtendedFormsComponent,
+    RegularFormsComponent,
+    ValidationFormsComponent,
+    WizardComponent,
+    FieldErrorDisplayComponent,
+    NewAssignmentComponent,
+    NewCourseComponent,
+    NewInstitutionComponent,
+    UpdateProfileComponent
   ],
   exports: [
     ExtendedFormsComponent,
@@ -54,4 +54,4 @@ import { UpdateProfileComponent } from './update-profile/update-profile.componen
   ]
 })
 
-export class Forms {}
+export class Forms { }

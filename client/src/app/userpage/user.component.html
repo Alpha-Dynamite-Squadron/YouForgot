@@ -13,7 +13,12 @@
             <h4 class="card-title">{{ username }}</h4>
             <p class="card-description">{{ userInstitution }}</p>
             <h6 id="profileRating" class="card-category text-info">Profile Rating {{ userProfileRating }}<i class="material-icons text-warning">star_rate</i></h6>
-            <button (click)="logout()" class="btn btn-info btn-round">Logout</button>
+            <div class="row action-btns">
+              <button (click)="logout()" class="btn btn-info btn-round">Logout</button>
+            </div>
+            <div class="row action-btns">
+              <button (click)="showSwal()" class="btn btn-danger btn-round">Delete Account</button>
+            </div>
           </div>
         </div>
       </div>

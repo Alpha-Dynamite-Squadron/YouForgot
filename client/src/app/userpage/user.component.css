@@ -17,3 +17,9 @@
 .material-icons {
   vertical-align: top;
 }
+
+.action-btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
