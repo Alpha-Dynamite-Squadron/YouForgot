@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import PerfectScrollbar from 'perfect-scrollbar';
-import { AuthenticationService } from '../../authentication.service';
+import { AuthenticationService } from '../services/authentication.service';
 
 declare const $: any;
 

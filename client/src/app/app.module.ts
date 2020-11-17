@@ -51,7 +51,7 @@ import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 
 import { AppRoutes } from './app.routing';
 import { BrowserModule } from '@angular/platform-browser';
-import { AuthenticationService } from 'src/authentication.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @NgModule({
   exports: [
