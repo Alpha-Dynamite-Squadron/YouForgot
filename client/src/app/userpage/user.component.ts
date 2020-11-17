@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
 import { Router } from '@angular/router';
 
 import swal from 'sweetalert2';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-user-cmp',
@@ -10,17 +11,23 @@ import swal from 'sweetalert2';
   styleUrls: ['user.component.css']
 })
 
-export class UserComponent {
+export class UserComponent implements OnInit {
 
   userEmail: string = 'student@college.edu';
   username: string = 'Student User Name';
+  userImagePath: string = '../../assets/img/default-avatar.png';
   userInstitution: string = 'Academic Institution Name';
   userProfileRating: string = '5.0';
 
   constructor(
     private authService: AuthenticationService,
+    private userService: UserService,
     private router: Router
   ) { }
+
+  ngOnInit() {
+    this.userService.fetchUserInformation();
+  }
 
   logout() {
     console.log('Logging User Out...');
