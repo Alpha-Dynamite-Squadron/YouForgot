@@ -23,19 +23,15 @@
                         errorMsg="You must enter an academic email!">
                       </app-field-error-display>
                     </mat-form-field>
-                  </div>
-                </span>
-                <span class="bmd-form-group">
-                  <div class="input-group">
                     <mat-form-field class="example-full-width has-label"
-                      [ngClass]="{'has-success':validPasswordLogin===true}"
-                      [ngClass]="displayFieldCss(loginForm, 'password')">
-                      <input name="password" type="password" id="password" placeholder="Password" matInput
-                        (ngModelChange)="passwordValidationLogin($event)" formControlName="password">
-                      <app-field-error-display [displayError]="isFieldValid(loginForm, 'password')"
-                        errorMsg="You must enter a valid password!">
-                      </app-field-error-display>
-                    </mat-form-field>
+                    [ngClass]="{'has-success':validPasswordLogin===true}"
+                    [ngClass]="displayFieldCss(loginForm, 'password')">
+                    <input name="password" type="password" id="password" placeholder="Password" matInput
+                      (ngModelChange)="passwordValidationLogin($event)" formControlName="password">
+                    <app-field-error-display [displayError]="isFieldValid(loginForm, 'password')"
+                      errorMsg="You must enter a valid password!">
+                    </app-field-error-display>
+                  </mat-form-field>
                   </div>
                 </span>
               </div>
