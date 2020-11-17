@@ -179,7 +179,7 @@ module.exports.updateExcessiveNotifications = function(userEmail, notificationSt
     });
 }
 //tested
-module.exports.updateAssignmentNotifications = function(userEmail, notificationStatus, resultCallback){
+module.exports.updatePostNotifications = function(userEmail, notificationStatus, resultCallback){
     let updateAssignmentNotificationsQuery = 'UPDATE User SET getPostReminderNotifications = ? WHERE emailAddress = ?;';
     dbPool.query(updateAssignmentNotificationsQuery, [notificationStatus, userEmail], function(err, res){
         if(err){
@@ -281,6 +281,40 @@ module.exports.updateIsDone = function(userEmail, assignmentID, resultCallback){
                 }
                 else{
                     console.log("Updated isDone for user " + userEmail);
+                    resultCallback(null,null);
+                }
+            });
+        }else{
+            console.log("This should never happen. This is dead code");
+        }
+    });
+}
+
+module.exports.updateIsIgnored = function(userEmail, assignmentID, resultCallback){
+    let selectIsIgnoredQuery = 'SELECT isIgnored FROM PostAssociation WHERE emailAddress = ? AND assignmentID = ?;';
+    let newIsIgnoredStatus;
+    dbPool.query(selectIsIgnoredQuery, [userEmail, assignmentID], function(err, res){
+        if(err){
+            console.log("Error trying to select current isIgnored status from user " + userEmail);
+            console.log(err);
+            resultCallback(err, 1);
+        }
+        else if (res.length === 1){
+            if (res[0].isIgnored == 1){
+                newIsIgnoredStatus = 0;
+            }
+            else{
+                newIsIgnoredStatus = 1;
+            }
+            console.log("New isIgnored status is " + newIsIgnoredStatus);
+            let updateIsIgnoredQuery = 'UPDATE PostAssociation SET isIgnored = ? WHERE emailAddress = ? AND assignmentID = ?';
+            dbPool.query(updateIsIgnoredQuery, [newIsIgnoredStatus, userEmail, assignmentID], function(errorTwo, result){
+                if(errorTwo){
+                    console.log("Error attempting to update isIgnored for user " + userEmail);
+                    resultCallback(errorTwo, 2);
+                }
+                else{
+                    console.log("Updated isIgnored for user " + userEmail);
                     resultCallback(null,null);
                 }
             });

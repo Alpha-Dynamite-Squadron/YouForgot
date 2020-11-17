@@ -41,10 +41,10 @@ router.get('/getInstitutionCourses', auth, generalEndpointController.getInstitut
 
 router.patch('/updateIsDone', auth, userEndpointController.updateIsDone);
 router.patch('/updateIForgot', auth, userEndpointController.updateIForgot);
+router.patch('/subscribeToPost', auth, userEndpointController.updateIsIgnored); //takes in token and section instance id
 router.patch('/updateExcessiveNotifications', auth, userEndpointController.updateExcessiveNotifications);
-router.patch('/updateAssignmentNotifications', auth, userEndpointController.updateAssignmentNotifications);
-router.patch('/updateAssignmentNotifications', auth, userEndpointController.updateAssignmentNotifications);
-router.patch('/updateAssignmentDeadlineNotifications', auth, userEndpointController.updateAssignmentDeadlineNotifications);
+router.patch('/updateAssignmentNotifications', auth, userEndpointController.updatePostNotifications); // these do not take integer literals they take string literals of the the number this one updates the fact that you get updates from people posting
+router.patch('/updateAssignmentDeadlineNotifications', auth, userEndpointController.updateAssignmentDeadlineNotifications); // this is if you want reminders for assignments you are following
 router.patch('/updateAssignmentGrade', auth, userEndpointController.updateAssignmentGrade);
 router.patch('/resetEmail', controllerAuthentication.resetPassword);
 router.patch('/sendResetEmail', controllerAuthentication.sendResetEmail);
