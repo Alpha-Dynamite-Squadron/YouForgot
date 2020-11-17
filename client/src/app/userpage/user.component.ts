@@ -35,19 +35,19 @@ export class UserComponent {
   showSwal() {
     swal({
       title: 'Are you sure?',
-      text: "You can always re-enroll later!",
+      text: "This action will be permanent.",
       type: 'warning',
       showCancelButton: true,
       confirmButtonClass: 'btn btn-danger',
       cancelButtonClass: 'btn btn-info',
-      confirmButtonText: 'Yes, drop it!',
+      confirmButtonText: 'Yes, delete it!',
       buttonsStyling: false
     }).then((result) => {
       if (result.value) {
         swal(
           {
-            title: 'Dropped!',
-            text: 'You have successfully dropped the course.',
+            title: 'Deleted!',
+            text: 'You have successfully deleted your account.',
             type: 'success',
             confirmButtonClass: "btn btn-info",
             buttonsStyling: false
