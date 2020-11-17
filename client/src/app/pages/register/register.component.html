@@ -50,8 +50,8 @@
                       <mat-form-field class="example-full-width has-label"
                         [ngClass]="{'has-success':validEmailRegister===true}"
                         [ngClass]="displayFieldCss(registerForm, 'email')">
-                        <input name="email" type="email" id="email" placeholder="Academic Email Address..." matInput
-                          class="form-control" (ngModelChange)="emailValidationRegister($event)"
+                        <input name="email" type="text" id="email" placeholder="Academic Email Address" matInput
+                          (ngModelChange)="emailValidationRegister($event)"
                           formControlName="email">
                         <app-field-error-display [displayError]="isFieldValid(registerForm, 'email')"
                           errorMsg="You must provide an academic email!">

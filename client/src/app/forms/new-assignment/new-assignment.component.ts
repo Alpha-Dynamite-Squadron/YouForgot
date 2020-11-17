@@ -40,7 +40,8 @@ export class NewAssignmentComponent implements OnInit {
       assignmentTitle: ['', Validators.required],
       assignmentDesc: ['', Validators.required],
       assignmentDueDate: ['', Validators.required],
-      assignmentGrading: ['', Validators.required],
+      assignmentTimeDueDate: ['', Validators.required],
+      assignmentGrading: ['', Validators],
       assignmentCourse: ['', Validators.required]
     });
   }

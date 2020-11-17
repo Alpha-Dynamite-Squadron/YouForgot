@@ -13,6 +13,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
@@ -74,6 +75,7 @@ import { AuthenticationService } from 'src/authentication.service';
     MatSelectModule,
     MatFormFieldModule,
     NgxMatSelectSearchModule,
+    NgxMaterialTimepickerModule,
     MatDatepickerModule,
     MatButtonModule,
     MatSidenavModule,
