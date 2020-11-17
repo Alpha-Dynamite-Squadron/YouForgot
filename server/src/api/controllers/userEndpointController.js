@@ -23,6 +23,7 @@ THIS GETS ALL THE COURSES A USER IS ENROLLED IN
  then send back that infromation like nameOfClass, etc
  We return the semester, course name, teacher name, imageID
 */
+//tested
 module.exports.getUserCourses = function(req, res){
     console.log("Fetching the user's courses.");
     if(!req.payload.emailAddress){
@@ -93,6 +94,33 @@ module.exports.getUserAssignments = function(req, res){
     }
 }
 
+//tested
+module.exports.getUserInfo = function(req, res){
+    if(!req.payload.emailAddress){
+        res.status(401).json({
+            "message" : "invalid token data"
+        });
+    }
+    else{
+        endpoints.getUserInfo(req.payload.emailAddress, function(err, data){
+            if(err){
+                console.log("There was an issue grabbing the user data for the email provided");
+                res.status(500).json({
+                    "message" : "Unknown database error"
+                });
+            }
+            else if(data){
+                res.status(500).json(data);
+            }
+             // no courses found for that user
+             else {
+                res.status(404).json({
+                    "message" : "This user does not exist"
+                });
+            }
+        });
+    }
+}
 
 //TESTED
 //sectioninstanceID from body, email adress from token
@@ -165,32 +193,6 @@ module.exports.userEnroll = function(req, res){
                 }
             }
             //dont have data so result is in here
-            else{
-                res.status(200).end(); // successfully updated 
-            }
-        });
-    }
-}
-
-module.exports.unenroll = function(req, res){
-    if(!req.payload.emailAddress){
-        res.status(401).json({
-            "message" : "User Token does not have an email"
-        });
-    }
-    else if(!req.body.sectionInstanceID){
-        res.status(401).json({
-            "message" : "Section Instance ID must be provided."
-        });
-    }
-    else{
-        endpoints.unenroll(req.payload.emailAddress, req.body.sectionInstanceID, function(err, result){
-            if(err){
-                console.log("Error trying to unenroll a user");
-                res.status(500).json({
-                    "message" : "Error trying to unenroll a user"
-                });
-            }
             else{
                 res.status(200).end(); // successfully updated 
             }
@@ -347,31 +349,98 @@ module.exports.updateIsDone = function(req, res){
     }
 }
 
-
-
-
-
-
-/*
-Get AVG grade/ get # of upvotes
-Join PostASsociation on Posts where assingmnetID == AssignmentID
-Then do a count on the upvotes and an avg on the grade
-*/
-
-/*
-module.exports.getUserInstitution = function(req, res){
+module.exports.updateIForgot = function(req, res){
+    console.log("Attempting to update iForgot status for a particular user on a particular assignment");
     if(!req.payload.emailAddress){
         res.status(401).json({
-            "message" : "Token does not contain an email address"
-        });   
+            "message" : "Invalid token data"
+        });
     }
- 
-    else {
-        //we have a valid email and institution ID
-        endpoints.getUserInstitution
-
+    else if(!req.body.assignmentID){
+        res.status(400).json({
+            "message" : "Assignment ID required."
+        });
     }
-
+    else{
+        endpoints.updateIForgot(req.payload.emailAddress, req.body.assignmentID, function(err, result){
+            if(err){
+                if(result == 1){
+                    console.log("Database error occurred selecting");
+                    res.status(500).json({
+                        "message" : "Database error occurred on selecting"
+                    });
+                }
+                else if(result == 2){
+                    console.log("Database error occurred updating");
+                    res.status(500).json({
+                        "message" : "Database error occurred on updating"
+                    });
+                }
+                else{
+                    res.status(500).json({
+                        "message" : "Unknown database error occurred"
+                    });
+                }
+            }
+            else{
+                res.status(200).end(); // successfully updated 
+            }
+        });
+    }
+    
 }
 
-*/
+//Code 1 No Post associated to unenrolled user
+//Code 2 Error in Select query to get Posts associated with the unenrolled user
+//Code 3 Error in delete Post Associations for the unenrolled user
+
+module.exports.unenroll = function(req, res){
+    if(!req.payload.emailAddress){
+        res.status(401).json({
+            "message" : "User Token does not have an email"
+        });
+    }
+    else if(!req.body.sectionInstanceID){
+        res.status(401).json({
+            "message" : "Section Instance ID must be provided."
+        });
+    }
+    else{
+        endpoints.unenroll(req.payload.emailAddress, req.body.sectionInstanceID, function(err, result){
+            if(err){
+                if(result == 1){
+                    console.log("No Post associated to the unenrolled user");
+                }
+                console.log("Error trying to unenroll a user");
+                res.status(500).json({
+                    "message" : "Error trying to unenroll a user"
+                });
+            }
+            else{
+                res.status(200).end(); // successfully updated 
+            }
+        });
+    }
+}
+
+//tested
+module.exports.deleteAccount = function(req, res){
+    if(!req.payload.emailAddress){
+        res.status(401).json({
+            "message" : "User Token does not have an email"
+        });
+    }
+    else{
+        endpoints.deleteAccount(req.payload.emailAddress,function(err, result){
+            if(err){
+                console.log("Error trying to delete a user");
+                res.status(500).json({
+                    "message" : "Error trying to delete user account"
+                });
+            }
+            else{
+                res.status(200).end(); // successfully updated 
+            }
+        });
+    }
+}
