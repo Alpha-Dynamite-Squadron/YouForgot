@@ -160,13 +160,14 @@ module.exports.preRegistration = function(email, resultCallback){
     let validEdu = false;
     if(validEmail){
         let edu = email.substring(email.length - 4);
-        if(edu === '.edu'){
+        if(edu === '.edu') {
             validEdu = true;
         }
     }
     if(validEdu){
         let accessKey = crypto.randomBytes(20).toString('hex');
         const url = baseUrl + '/finish_registration/' + accessKey;
+        console.log("Creating Access to Finish Registration: " + url);
         let setAccessKeyQuery = 'INSERT INTO User (emailAddress, accessKey) VALUES (?, ?);';
         dbPool.query(setAccessKeyQuery, [email, accessKey], function(err, result) {
             if(err) {
@@ -178,6 +179,7 @@ module.exports.preRegistration = function(email, resultCallback){
               }
             }
             else{
+                console.log("Sending registration email to: " + email);
                 let info = nodeMailerTransport.sendMail({
                     from: '"YouForgot Admin" <admin@youforgot.school>', // sender address
                     to: email, // list of receivers
@@ -224,4 +226,3 @@ module.exports.verifyAccessKey = function(accessKey, resultCallback) {
         }
     });
 };
-

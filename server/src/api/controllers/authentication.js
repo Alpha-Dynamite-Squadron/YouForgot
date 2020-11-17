@@ -19,7 +19,7 @@ module.exports.preRegistration = function(req, res)   {
             "message" : "Unknown Database Error"
           });
         }else{
-          console.log("Error Trying to send and email to the user" + req.body.email);
+          console.log("Error Trying to send an email to the user" + req.body.email);
           console.log(err);
           res.status(500).json({
             "message" : "Unknown Email Error"

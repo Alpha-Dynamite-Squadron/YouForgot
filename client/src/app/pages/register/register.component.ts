@@ -7,6 +7,7 @@ import { PasswordValidation } from '../../forms/validationforms/password-validat
 import { AuthenticationService } from 'src/authentication.service';
 import { Router } from '@angular/router';
 
+import swal from 'sweetalert2';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -45,8 +46,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
     this.registerForm = this.formBuilder.group({
       email: ['', [
-        Validators.required, 
-        Validators.email, 
+        Validators.required,
+        Validators.email,
         Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]
       ]
     });
@@ -91,16 +92,35 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   onRegister() {
     if (this.registerForm.valid) {
-      console.log('Form Submitted.');
-      console.log('Submission Valid, sending POST Request: ' + JSON.stringify(this.registerForm.value));
-      alert('Submission Valid, sending POST Request: ' + JSON.stringify(this.registerForm.value));
-      // this.authService.preregister(this.registerInfo)
-      // .subscribe(() => {
-      //   this.router.navigateByUrl('/verify');
-      // }, (error) => {
-      //   console.log(error);
-      // });
-      this.router.navigateByUrl('/verify');
+      console.log('Form Valid, sending preregister Request: ' + this.registerForm.controls.email.value);
+      this.authService.preregister(this.registerForm.controls.email.value).subscribe(() => {
+        this.router.navigateByUrl('/verify');
+      }, (error) => {
+        if(error.status === 406) {
+          if(error.message === "Non-edu address provided.") {
+            swal({
+                title: "Bad Email!",
+                text: "Please provide a proper .edu address",
+                timer: 2000,
+                showConfirmButton: false
+            }).catch(swal.noop);
+          } else {
+            swal({
+                title: "Already registered!",
+                text: "Please provide a different .edu address",
+                timer: 2000,
+                showConfirmButton: false
+            }).catch(swal.noop);
+          }
+        } else {
+          swal({
+              title: "Server Offline",
+              text: "YouForgot service appears to be down, please try again later.",
+              timer: 2000,
+              showConfirmButton: false
+          }).catch(swal.noop)
+        }
+      });
     } else {
       this.validateAllFormFields(this.registerForm);
     }
