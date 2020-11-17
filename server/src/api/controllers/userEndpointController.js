@@ -283,7 +283,7 @@ module.exports.updateAssignmentGrade = function(req, res){
     }
 }
 
-module.exports.updateAssignmentNotifications = function(req, res){
+module.exports.updatePostNotifications = function(req, res){
     if(!req.payload.emailAddress){
         res.status(401).json({
             "message" : "User Token does not have an email"
@@ -295,7 +295,7 @@ module.exports.updateAssignmentNotifications = function(req, res){
         });
     }
     else{
-        endpoints.updateAssignmentNotifications(req.payload.emailAddress, req.body.notificationStatus, function(err, result){
+        endpoints.updatePostNotifications(req.payload.emailAddress, req.body.notificationStatus, function(err, result){
             if(err){
                 console.log("Unable to update users assignment notification status");
                 res.status(500).json({
@@ -363,6 +363,47 @@ module.exports.updateIForgot = function(req, res){
     }
     else{
         endpoints.updateIForgot(req.payload.emailAddress, req.body.assignmentID, function(err, result){
+            if(err){
+                if(result == 1){
+                    console.log("Database error occurred selecting");
+                    res.status(500).json({
+                        "message" : "Database error occurred on selecting"
+                    });
+                }
+                else if(result == 2){
+                    console.log("Database error occurred updating");
+                    res.status(500).json({
+                        "message" : "Database error occurred on updating"
+                    });
+                }
+                else{
+                    res.status(500).json({
+                        "message" : "Unknown database error occurred"
+                    });
+                }
+            }
+            else{
+                res.status(200).end(); // successfully updated 
+            }
+        });
+    }
+    
+}
+
+module.exports.updateIsIgnored= function(req, res){
+    console.log("Attempting to update isIgnored status for a particular user on a particular assignment");
+    if(!req.payload.emailAddress){
+        res.status(401).json({
+            "message" : "Invalid token data"
+        });
+    }
+    else if(!req.body.assignmentID){
+        res.status(400).json({
+            "message" : "Assignment ID required."
+        });
+    }
+    else{
+        endpoints.updateIsIgnored(req.payload.emailAddress, req.body.assignmentID, function(err, result){
             if(err){
                 if(result == 1){
                     console.log("Database error occurred selecting");
