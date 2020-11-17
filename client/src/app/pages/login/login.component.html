@@ -18,7 +18,7 @@
                       [ngClass]="{'has-success':validEmailLogin===true}"
                       [ngClass]="displayFieldCss(loginForm, 'email')">
                       <input name="email" type="text" id="email" placeholder="Academic Email" matInput
-                        (ngModelChange)="emailValidationLogin($event)" formControlName="email">
+                        (ngModelChange)="emailValidationLogin($event)" formControlName="email">                
                       <app-field-error-display [displayError]="isFieldValid(loginForm, 'email')"
                         errorMsg="You must enter an academic email!">
                       </app-field-error-display>
