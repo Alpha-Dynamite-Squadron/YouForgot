@@ -2,6 +2,58 @@ let passport = require('passport');
 let users = require('../models/users');
 let crypto = require('crypto');
 
+
+module.exports.sendResetEmail = function(req, res)   {
+  console.log("Attempting to reset user password");
+  if(!req.body.emailAddress) {
+    res.status(400).json({
+      "message" : "email required"
+    });
+  }
+  else {
+    users.sendResetEmail(req.body.emailAddress, function(err, code) {
+      if(err) {
+        if(code == null){
+          console.log("Error Trying to insert user with email " + req.body.emailAddress);
+          console.log(err);
+          res.status(500).json({
+            "message" : "Unknown Database Error"
+          });
+        }else{
+          console.log("Error Trying to send and email to the user" + req.body.emailAddress);
+          console.log(err);
+          res.status(500).json({
+            "message" : "Unknown Email Error"
+          })
+        }
+      }
+      else{ // code 0 the user was successfully added
+        res.status(200).end();
+      }
+    });
+  }
+}
+
+module.exports.resetPassword = function(req, res){
+  if(!req.body.emailAddress){
+    res.status(400).json({
+      "message" : "email required"
+    });
+  }
+  else if(!req.body.accessKey){
+    res.status(400).json({
+      "message" : "access key required"
+    });
+  }
+  else if(!req.body.password){
+    res.status(400).json({
+      "message" : "password required"
+    });
+  }
+  else{
+  }
+}
+
 module.exports.preRegistration = function(req, res)   {
   console.log("Attempting to Preregister user");
   if(!req.body.email) {

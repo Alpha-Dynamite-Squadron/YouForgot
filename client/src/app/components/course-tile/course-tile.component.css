@@ -1,4 +1,5 @@
-div.card-header.card-header-image {
+div.card-header.card-header-image,
+div.row {
   display: flex;
   align-items: center;
   justify-content: center;

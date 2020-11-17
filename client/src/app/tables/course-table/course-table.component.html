@@ -47,9 +47,12 @@
                 <td>{{row[3]}}</td>
                 <td>{{row[4]}}</td>
                 <td class="text-right">
-                  <a href="#" class="btn btn-link btn-info btn-just-icon enroll"><i class="material-icons">done</i></a>
-                  <a href="#" class="btn btn-link btn-info btn-just-icon enrollWithNotifications"><i
-                      class="material-icons">add_alert</i></a>
+                  <a href="#" class="btn btn-link btn-info btn-just-icon enroll">
+                    <i (click)="showSwal('enrolled')" class="material-icons">done</i>
+                  </a>
+                  <a href="#" class="btn btn-link btn-info btn-just-icon enrollWithNotifications">
+                    <i (click)="showSwal('enrolledNotifications')" class="material-icons">add_alert</i>
+                  </a>
                   <!-- <a href="javascript:void(0s" class="btn btn-link btn-danger btn-just-icon remove"><i
                       class="material-icons">close</i></a> -->
                 </td>

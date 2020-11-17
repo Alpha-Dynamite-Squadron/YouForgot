@@ -290,7 +290,7 @@ module.exports.updateIsDone = function(userEmail, assignmentID, resultCallback){
     });
 }
 
-
+//tested
 module.exports.unenroll = function(userEmail, sectionInstanceID, resultCallback){
     let deleteUserFromCourseQuery = 'DELETE FROM UserEnrollment WHERE emailAddress = ? AND sectionInstanceID = ?;';
     dbPool.query(deleteUserFromCourseQuery, [userEmail, sectionInstanceID], function(err, res){
@@ -300,8 +300,8 @@ module.exports.unenroll = function(userEmail, sectionInstanceID, resultCallback)
         }
         //else its deleted 
         else{
-            let getAssignments = 'SELECT assignmentID FROM Post WHERE sectionInstanceID = ?;';
-            dbPool.query(getAssignmentsQuery, [sectionInstanceID], function(err2, res2){
+            let getAssignmentIDs = 'SELECT assignmentID FROM Post WHERE sectionInstance = ?;';
+            dbPool.query(getAssignmentIDs, [sectionInstanceID], function(err2, res2){
                 if(err2){
                     console.log(err2);
                     resultCallback(err2, 2);
