@@ -14,7 +14,7 @@
     "@agm/core": "1.1.0",
     "@angular/animations": "9.0.1",
     "@angular/cdk": "9.0.0",
-    "@angular/cli": "^9.0.2",
+    "@angular/cli": "^9.1.12",
     "@angular/common": "9.0.1",
     "@angular/compiler": "9.0.1",
     "@angular/core": "9.0.1",
