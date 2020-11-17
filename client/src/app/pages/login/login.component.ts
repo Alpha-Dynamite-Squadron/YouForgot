@@ -126,7 +126,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onLogin() {
     if (this.loginForm.valid) {
-      console.log('Form Valid, sending Login Request: ' + this.loginForm.controls.email);
+      console.log('Form Valid, sending Login Request: ' + this.loginForm.controls.email.value);
       this.authService.requestLogin({
         email: this.loginForm.controls.email.value,
         password: this.loginForm.controls.password.value

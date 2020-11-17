@@ -18,19 +18,19 @@ export class AuthenticationService {
   //Expanded Communication Methods
 
   public preregister(emailAddress: string): Observable<any> {
-    return this.requestData('post', 'preregister', {
+    return this.requestData('post', 'preRegistration', {
       emailAddress: emailAddress
     });
   }
 
   public findRegistration(accessKey: string): Observable<any> {
-    return this.requestData('post', 'findRegistration', {
+    return this.requestData('post', 'verifyAccessKey', {
       accessKey: accessKey
     });
   }
 
   public completeRegistration(emailAddress: string, username: string, imageID: string, password: string, accessKey: string): Observable<any> {
-    return this.requestData('post', 'completeRegistration', {
+    return this.requestData('post', 'register', {
       emailAddress: emailAddress,
       username: username,
       imageID: imageID,
