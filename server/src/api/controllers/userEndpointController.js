@@ -390,6 +390,10 @@ module.exports.updateIForgot = function(req, res){
     
 }
 
+//Code 1 No Post associated to unenrolled user
+//Code 2 Error in Select query to get Posts associated with the unenrolled user
+//Code 3 Error in delete Post Associations for the unenrolled user
+
 module.exports.unenroll = function(req, res){
     if(!req.payload.emailAddress){
         res.status(401).json({
@@ -404,6 +408,9 @@ module.exports.unenroll = function(req, res){
     else{
         endpoints.unenroll(req.payload.emailAddress, req.body.sectionInstanceID, function(err, result){
             if(err){
+                if(result == 1){
+                    console.log("No Post associated to the unenrolled user");
+                }
                 console.log("Error trying to unenroll a user");
                 res.status(500).json({
                     "message" : "Error trying to unenroll a user"

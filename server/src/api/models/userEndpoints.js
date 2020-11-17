@@ -290,6 +290,7 @@ module.exports.updateIsDone = function(userEmail, assignmentID, resultCallback){
     });
 }
 
+
 module.exports.unenroll = function(userEmail, sectionInstanceID, resultCallback){
     let deleteUserFromCourseQuery = 'DELETE FROM UserEnrollment WHERE emailAddress = ? AND sectionInstanceID = ?;';
     dbPool.query(deleteUserFromCourseQuery, [userEmail, sectionInstanceID], function(err, res){
@@ -299,7 +300,35 @@ module.exports.unenroll = function(userEmail, sectionInstanceID, resultCallback)
         }
         //else its deleted 
         else{
-            resultCallback(null,null);
+            let getAssignments = 'SELECT assignmentID FROM Post WHERE sectionInstanceID = ?;';
+            dbPool.query(getAssignmentsQuery, [sectionInstanceID], function(err2, res2){
+                if(err2){
+                    console.log(err2);
+                    resultCallback(err2, 2);
+                }
+                else if(res2.length !== 0){
+                    let deletePostAssociations = 'DELETE FROM PostAssociation WHERE assignmentID = ? AND emailAddress = ?;';
+                    let InternalError = false;
+                    for(let i = 0; i < res2.length; i++){
+                        if(InternalError)
+                            break;
+                        dbPool.query(deletePostAssociations, [res2[i].assignmentID, userEmail], function(err3,res3){
+                            if(err3){
+                                InternalError = true;
+                                console.log(err3);
+                                resultCallback(err3,3);
+                            }
+                            else{
+                                resultCallback(null,null);
+                            }
+                        });
+                    }
+                }
+                // nothing from select query
+                else{
+                    (err, 1);
+                }
+            });
         }
     });
 }
