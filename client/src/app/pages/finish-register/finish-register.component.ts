@@ -6,7 +6,7 @@ import { PasswordValidation } from '../../forms/validationforms/password-validat
 import { ReplaySubject, Subject } from 'rxjs';
 import { MatSelect } from '@angular/material/select';
 import { take, takeUntil } from 'rxjs/operators';
-import { AuthenticationService } from 'src/authentication.service';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {

@@ -3,7 +3,7 @@ import { ROUTES } from '../.././sidebar/sidebar.component';
 import { Router, ActivatedRoute, NavigationEnd, NavigationStart } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
-import { AuthenticationService } from '../../../authentication.service';
+import { AuthenticationService } from '../../services/authentication.service';
 const misc: any = {
   navbar_menu_visible: 0,
   active_collapse: true,

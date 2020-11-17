@@ -4,7 +4,7 @@ import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup } from '
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormBuilder, AbstractControl } from '@angular/forms';
 import { PasswordValidation } from '../../forms/validationforms/password-validator';
-import { AuthenticationService, TokenPayload } from 'src/authentication.service';
+import { AuthenticationService, TokenPayload } from 'src/app/services/authentication.service';
 import { Router } from '@angular/router';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -126,7 +126,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onLogin() {
     if (this.loginForm.valid) {
-      console.log('Form Valid, sending Login Request: ' + this.loginForm.controls.email);
+      console.log('Form Valid, sending Login Request: ' + this.loginForm.controls.email.value);
       this.authService.requestLogin({
         email: this.loginForm.controls.email.value,
         password: this.loginForm.controls.password.value
