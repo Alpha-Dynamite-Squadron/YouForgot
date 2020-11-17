@@ -9,6 +9,37 @@ if(process.env.NODE_ENV === 'production') {
 } else {
   baseUrl = 'http://localhost:8080';
 }
+// error 1 there was a duplicate entry
+// error 2 the email did not send
+// code 3 the email sent successfully
+module.exports.sendResetEmail = function(emailAddress, resultCallback){
+    let accessKey = crypto.randomBytes(20).toString('hex');
+    const url = baseUrl + '/reset_password/' + accessKey;
+    let setAccessKeyQuery = 'UPDATE User SET accessKey = ? WHERE emailAddress = ?;';
+    dbPool.query(setAccessKeyQuery, [accessKey, emailAddress], function(err, result) {
+        if(err) {
+            resultCallback(err, null);
+        }
+        else{
+            let info = nodeMailerTransport.sendMail({
+                from: '"YouForgot Admin" <admin@youforgot.school>', // sender address
+                to: emailAddress, // list of receivers
+                subject: "Reset Your Password for YouForgot.school", // Subject line
+                html: `Please click this email to reset your password on YouForgot.school: <a href="${url}">Reset Password</a>` // html body
+              }, function(error, result){
+                  if(error){
+                       console.log("Failed to send email to " + emailAddress);
+                       console.log(error);
+                       resultCallback(error, 2); //failed to send email
+                  }else{
+                      console.log("Successfully sent the email to " + emailAddress);
+                      console.log(result);
+                      resultCallback(null, null);
+                  }
+              });
+        }
+    });
+}
 
 //kwqmeposdms1dsnfd812j312nj38sdvh
 let secretString = process.env.LOGIN_SECRET;

@@ -3,6 +3,7 @@ let generalEndpoints = require('../models/generalEndpoints');
 
 // WE TAKE IN A SECTIONID WHEN A USER CLICKS A HYPERLINK IN THEIR MY COURSES SECTION TO GO THEIR COURSE
 // THIS DISPLAYS ALL THE INFO OF A SPECIFIC COURSE INCLUDING ASSIGMNETS
+//tested
 module.exports.getCourseInfo = function(req,res){
     if(!req.body.sectionInstanceID){
         res.status(400).json({
@@ -16,7 +17,7 @@ module.exports.getCourseInfo = function(req,res){
                 //DB error
                 if(data == null){
                     res.status(400).json({
-                        "message" : "Section Instance ID required"
+                        "message" : "No data found for the given section instance. This section may not exist"
                       });
                 }
             }
@@ -37,6 +38,7 @@ module.exports.getCourseInfo = function(req,res){
 
 // given an institution id this is returns all of the courses
 // for the given institution. 
+//tested
 module.exports.getInstitutionCourses = function(req, res){
     console.log(req.payload);
     if(!req.payload.institutionID) {
@@ -69,9 +71,11 @@ module.exports.getInstitutionCourses = function(req, res){
         });
     }   
 }
+
 // get all the institutions in the table Insitutions.
+// tested
 module.exports.getInstitutions = function(req, res){
-    generalEndpoints.getInstutions(function(err, data){     
+    generalEndpoints.getInstitutions(function(err, data){     
         console.log("Fetching all institutions");
         if(err){
             //DB error
@@ -84,7 +88,7 @@ module.exports.getInstitutions = function(req, res){
             }
         }
         //assume all the data is alright in the field
-        else if(data.length > 0){
+        else if(data){
             res.status(200).json(data);
         }
         else {
@@ -174,7 +178,7 @@ module.exports.createCourse = function(req,res){
     }
 }
 
-
+//tested
 module.exports.createAssignment = function(req, res){
     console.log("Attempting to create an assignment.");
     if(!req.payload.emailAddress){

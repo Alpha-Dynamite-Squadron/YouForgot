@@ -27,7 +27,7 @@ router.post('/verifyAccessKey', controllerAuthentication.verifyAccessKey);
 router.post('/createCourse', auth, generalEndpointController.createCourse);
 router.post('/createAssignment', auth, generalEndpointController.createAssignment);
 router.post('/enrollUser', auth, userEndpointController.userEnroll);
-
+router.post('/sendResetEmail', controllerAuthentication.sendResetEmail);
 
 
 router.get('/getUserAssignments', auth, userEndpointController.getUserAssignments);
@@ -35,6 +35,8 @@ router.get('/getUserCourses', auth, userEndpointController.getUserCourses);
 router.get('/getUserInfo', auth, userEndpointController.getUserInfo);
 router.get('/getCourseInfo', auth, generalEndpointController.getCourseInfo);
 router.get('/getInstitutionCourses', auth, generalEndpointController.getInstitutionCourses);
+router.get('/getInstitutions', auth, generalEndpointController.getInstitutions);
+
 
 
 router.patch('/updateIsDone', auth, userEndpointController.updateIsDone);
