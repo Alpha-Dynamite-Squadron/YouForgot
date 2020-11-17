@@ -21,8 +21,6 @@
                       <app-field-error-display [displayError]="isFieldValid(finishRegisterForm, 'username')"
                         errorMsg="You must provide a username!"></app-field-error-display>
                     </mat-form-field>
-                  </div>
-                  <div class="form-group has-default">
                     <mat-form-field class="example-full-width has-label"
                       [ngClass]="{'has-success':validTextType===true}"
                       [ngClass]="displayFieldCss(finishRegisterForm, 'password')">
@@ -31,8 +29,6 @@
                       <app-field-error-display [displayError]="isFieldValid(finishRegisterForm, 'password')"
                         errorMsg="You must enter a new password (minimum length 8)!"></app-field-error-display>
                     </mat-form-field>
-                  </div>
-                  <div class="form-group has-default">
                     <mat-form-field class="example-full-width has-label"
                       [ngClass]="{'has-success':validTextType===true}"
                       [ngClass]="displayFieldCss(finishRegisterForm, 'confirmPassword')">
@@ -42,9 +38,14 @@
                       <app-field-error-display [displayError]="isFieldValid(finishRegisterForm, 'confirmPassword')"
                         errorMsg="Passwords entered do no match!"></app-field-error-display>
                     </mat-form-field>
-                  </div>
-                  <div class="form-group has-default">
                     <h6>Enroll in Your Institution</h6>
+                    <div class="input-group no-border">
+                      <input type="text" name="search" id="search" class="form-control" placeholder="Search..."
+                        [formControl]="search">
+                      <button type="button" mat-raised-button (click)="queryDatabase()" class="btn btn-info btn-round btn-just-icon">
+                        <i class="material-icons">search</i>
+                      </button>
+                    </div>
                     <mat-form-field>
                       <label class="bmd-label-floating">Institution</label>
                       <mat-select [formControl]="institutionCtrl" #singleSelect>
@@ -58,20 +59,20 @@
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
-                  </div>
-                  <mat-checkbox class="form-check" type="mat-checkbox" name="terms"
-                    formControlName="termsAndConditions">
-                    I agree to the <a href="#something">terms and conditions</a>.
-                  </mat-checkbox>
-                  <mat-checkbox class="form-check" type="mat-checkbox" name="notifications"
-                    formControlName="receiveNotifications">
-                    I would like to receive notifications.
-                  </mat-checkbox>
-                  <div class="row" class="text-center">
-                    <button class="btn btn-info btn-primary btn-round" type="submit" (click)="onFinishRegistration()"
-                      [disabled]="!finishRegisterForm.valid || !institutionCtrl.valid">
-                      Create Account
-                    </button>
+                    <mat-checkbox class="form-check" type="mat-checkbox" name="terms"
+                      formControlName="termsAndConditions" (ngModelChange)="truthyValidationType($event)">
+                      I agree to the <a href="#something">terms and conditions</a>.
+                    </mat-checkbox>
+                    <mat-checkbox class="form-check" type="mat-checkbox" name="notifications"
+                      formControlName="receiveNotifications">
+                      I would like to receive notifications.
+                    </mat-checkbox>
+                    <div class="row" class="text-center">
+                      <button class="btn btn-info btn-primary btn-round" type="submit" (click)="onFinishRegistration()"
+                        [disabled]="!finishRegisterForm.valid || !institutionCtrl.valid || !validTermsType">
+                        Create Account
+                      </button>
+                    </div>
                   </div>
                 </form>
               </div>

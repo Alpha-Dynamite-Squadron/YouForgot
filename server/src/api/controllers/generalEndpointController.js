@@ -37,7 +37,7 @@ module.exports.getCourseInfo = function(req,res){
 
 
 // given an institution id this is returns all of the courses
-// for the given institution. 
+// for the given institution.
 //tested
 module.exports.getInstitutionCourses = function(req, res){
     console.log(req.payload);
@@ -48,7 +48,7 @@ module.exports.getInstitutionCourses = function(req, res){
     }
     else{
         console.log("Fetching all the courses for school: " + req.payload.institutionID);
-        generalEndpoints.getInstitutionCourses(req.payload.institutionID, function(err, data){     
+        generalEndpoints.getInstitutionCourses(req.payload.institutionID, function(err, data){
             if(err){
                 //DB error
                 if(data == null){
@@ -69,14 +69,14 @@ module.exports.getInstitutionCourses = function(req, res){
                 });
             }
         });
-    }   
+    }
 }
 
 // get all the institutions in the table Insitutions.
 // tested
 module.exports.getInstitutions = function(req, res){
-    generalEndpoints.getInstitutions(function(err, data){     
-        console.log("Fetching all institutions");
+    console.log("Fetching all institutions");
+    generalEndpoints.getInstitutions(function(err, data){
         if(err){
             //DB error
             if(data == null){
@@ -96,11 +96,11 @@ module.exports.getInstitutions = function(req, res){
                 "message" : "No institutions found"
             });
         }
-    }); 
+    });
 }
 
 // This is to create a course
-// course requires 
+// course requires
 //TESTED
 module.exports.createCourse = function(req,res){
     console.log("Creating a course called " + req.body.nameOfClass);
@@ -150,7 +150,7 @@ module.exports.createCourse = function(req,res){
         });
     }
     else {
-        generalEndpoints.createCourse(req.body.nameOfClass, req.body.imageID, req.body.instructorName, 
+        generalEndpoints.createCourse(req.body.nameOfClass, req.body.imageID, req.body.instructorName,
             req.payload.institutionID, req.body.disciplineLetters, req.body.courseNumber, req.body.academicTerm,
             req.body.academicYear, req.body.sectionNumber, req.payload.emailAddress,
             function(err, result){
@@ -223,7 +223,7 @@ module.exports.createAssignment = function(req, res){
                         res.status(500).json({
                             "message" : "There are no classmates in this course"
                         });
-                        
+
                     }
                     else if(result == 3){
                         console.log("There is an error in the Select Query where we try to find classmates");
@@ -268,4 +268,3 @@ module.exports.createAssignment = function(req, res){
             });
     }
 }
-

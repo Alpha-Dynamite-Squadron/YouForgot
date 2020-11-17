@@ -43,17 +43,17 @@ module.exports.getInstitutions = function(resultCallback){
             resultCallback(err, null);
         }
         else if (res.length !== 0){
-            console.log("Courses found.");
             let institutions = [];
             for(let i = 0; i < res.length; i++){
                 let institution = {
-                    institutionID: res[i].institutionID,
-                    schoolName: res[i].schoolName
+                    id: res[i].institutionID,
+                    name: res[i].schoolName
                 }
                 institutions.push(institution);
             }
+            console.log("Found " + institutions.length + " Institutions");
             resultCallback(null, institutions);
-        } 
+        }
         else{
             console.log("No institutions found.");
             resultCallback(null,null);
@@ -102,10 +102,10 @@ module.exports.getCourseInfo = function(sectionInstanceID, resultCallback){
 // how to creat sectionInstance ID?
 //title, disciplineLetters, number,
 //Error 1 is a database error saying duplicate entry. This is a db error because this should never happen
-// Error 2 is that association between a user and a course failed to create. 
+// Error 2 is that association between a user and a course failed to create.
 //tested
 module.exports.createCourse = function(nameOfClass, imageID, instructorName,
-    institutionID, disciplineLetters, courseNumber, 
+    institutionID, disciplineLetters, courseNumber,
     academicTerm, academicYear, sectionNumber, userEmail, resultCallback){
     let creationDate = new Date();
     let createCourseQuery = 'INSERT INTO SectionInstance (creationDate, nameOfClass, imageID, instructorName, institutionID, disciplineLetters, courseNumber, sectionNumber, academicTerm, academicYear, sectionCreatorEmail) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
@@ -133,7 +133,7 @@ module.exports.createCourse = function(nameOfClass, imageID, instructorName,
 }
 
 //assignmentID is from UUID, userEmail from token, uploadDate/AssignmentDueDate is ???, forGrade is passed in, Average depends on forGrade, iforgot default is 0, sectionInstance passed in
-// code 1 means there was a duplicate entry for an assignment. 
+// code 1 means there was a duplicate entry for an assignment.
 // Code 2 There are no classmates in this course.
 // Code 3 There is an error in the Select Query where we try to find classmates.
 // Code 4 There is a duplicate in creating Post associations for the classmates.
@@ -165,7 +165,7 @@ module.exports.createAssignment = function(postAuthorEmail , assignmentName, due
                     let getClassMatesQuery = 'SELECT emailAddress, getReminderNotifications FROM UserEnrollment WHERE sectionInstanceID = ? AND emailAddress != ?;';
                     dbPool.query(getClassMatesQuery, [sectionInstanceID, postAuthorEmail], function(error3, result3){
                         if(error3){
-                            resultCallback(error3, 3);                    
+                            resultCallback(error3, 3);
                         }
                         else if(result3.length != 0){
                             let createPostAssociationsQuery = 'INSERT INTO PostAssociation (emailAddress, assignmentID, isIgnored, isReported, customUploadDate, customAssignmentName, customAssignmentDescription, customDueDate, sentNotification, iForgot) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
@@ -211,11 +211,11 @@ module.exports.createAssignment = function(postAuthorEmail , assignmentName, due
                                                 }
                                                 resultCallback(null, null);
                                             }
-                                            else{                          
+                                            else{
                                                 resultCallback(null, 7);
                                             }
                                         });
-                                        
+
                                     }
                                 });
                             }
@@ -226,7 +226,7 @@ module.exports.createAssignment = function(postAuthorEmail , assignmentName, due
                             resultCallback(error3, 2);
                         }
                     });
-                    
+
                 }
             });
             console.log("Created association between " + postAuthorEmail + " and post: " + assignmentName);
@@ -235,6 +235,3 @@ module.exports.createAssignment = function(postAuthorEmail , assignmentName, due
     });
 
 }
-
-
-

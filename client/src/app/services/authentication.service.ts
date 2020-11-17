@@ -17,13 +17,17 @@ export class AuthenticationService {
 
   //Expanded Communication Methods
 
-  public preregister(emailAddress: string): Observable<any> {
-    return this.requestData('post', 'preRegistration', {
-      emailAddress: emailAddress
+  public loadInstitutions(): Observable<any> {
+    return this.requestData('get', 'getInstitutions');
+  }
+
+  public preregister(email: string): Observable<any> {
+    return this.makeRequest('post', 'preRegistration', {
+      email: email
     });
   }
 
-  public findRegistration(accessKey: string): Observable<any> {
+  public verifyAccessKey(accessKey: string): Observable<any> {
     return this.requestData('post', 'verifyAccessKey', {
       accessKey: accessKey
     });
@@ -36,12 +40,6 @@ export class AuthenticationService {
       imageID: imageID,
       password: password,
       accessKey: accessKey
-    });
-  }
-
-  public verifyAccessKey(key: string): Observable<any> {
-    return this.http.post('/api/verifyAccessKey', {
-      accessKey: key
     });
   }
 
@@ -60,7 +58,16 @@ export class AuthenticationService {
     return request;
   }
 
-  public requestData(method: 'post'|'get', location: string, data?): Observable<any> {
+  public makeRequest(method: 'post'|'get'|'patch'|'delete', location: string, data?): Observable<any> {
+    if(method == 'post' || method === 'patch' || method === 'delete') {
+      return this.http.post(`/api/${location}`, data, { headers: { Authorization: `Bearer ${this.getToken()}` } });
+    } else {
+      return this.http.get(`/api/${location}`, { headers: { Authorization: `Bearer ${this.getToken()}` } });
+    }
+  }
+
+
+  public requestData(method: 'post'|'get'|'patch'|'delete', location: string, data?): Observable<any> {
     let base;
     if(method == 'post') {
       base = this.http.post(`/api/${location}`, data, { headers: { Authorization: `Bearer ${this.getToken()}` } });
