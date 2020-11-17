@@ -28,7 +28,6 @@ module.exports.getUserCourses = function(userEmail, resultCallback) {
                     sectionInstanceID: res[i].sectionInstanceID,
                     academicSession: res[i].academicSession,
                     year: res[i].year
-    
                 }
                 userCourses.push(userCourse);
             }
@@ -161,22 +160,6 @@ module.exports.userEnroll = function(userEmail, sectionInstanceID, getReminderno
 
 }
 
-module.exports.unenroll = function(userEmail, sectionInstanceID, resultCallback){
-    let deleteUserFromCourseQuery = 'DELETE FROM UserEnrollment WHERE emailAddress = ? AND sectionInstanceID = ?;';
-    dbPool.query(deleteUserFromCourseQuery, [userEmail, sectionInstanceID], function(err, res){
-        if(err){
-            console.log(err);
-            resultCallback(err,null);
-        }
-        //else its deleted 
-        else{
-            resultCallback(null,null);
-        }
-    });
-}
-
-
-//NEED TO DO
 //tested
 module.exports.updateExcessiveNotifications = function(userEmail, notificationStatus, resultCallback){
     let updateExcessiveNotificationsQuery = 'UPDATE User SET sendExcessively = ? WHERE emailAddress = ?;';
@@ -230,6 +213,40 @@ module.exports.updateAssignmentGrade = function(userEmail, gradeRecieved, assign
     });
 }
 
+module.exports.updateIForgot = function(userEmail, assignmentID, resultCallback){
+    let selectIForgotQuery = 'SELECT iForgot FROM PostAssociation WHERE emailAddress = ? AND assignmentID = ?;';
+    let newIForgotStatus;
+    dbPool.query(selectIForgotQuery, [userEmail, assignmentID], function(err, res){
+        if(err){
+            console.log("Error trying to select current iForgot status from user " + userEmail);
+            console.log(err);
+            resultCallback(err, 1);
+        }
+        else if (res.length === 1){
+            if (res[0].iForgot == 1){
+                newIForgotStatus = 0;
+            }
+            else{
+                newIForgotStatus = 1;
+            }
+            console.log("New iForgot status is " + newIForgotStatus);
+            let updateIsDoneQuery = 'UPDATE PostAssociation SET iForgot = ? WHERE emailAddress = ? AND assignmentID = ?';
+            dbPool.query(updateIsDoneQuery, [newIForgotStatus, userEmail, assignmentID], function(errorTwo, result){
+                if(errorTwo){
+                    console.log("Error attempting to update iForgot for user " + userEmail);
+                    resultCallback(errorTwo, 2);
+                }
+                else{
+                    console.log("Updated iForgot for user " + userEmail);
+                    resultCallback(null,null);
+                }
+            });
+        }else{
+            console.log("This should never happen. This is dead code");
+        }
+    });
+}
+
 // 1 is an error on the general select query
 // 2 is that the user isDone status was not able to be updated.
 //tested
@@ -266,4 +283,35 @@ module.exports.updateIsDone = function(userEmail, assignmentID, resultCallback){
         }
     });
 }
+
+module.exports.unenroll = function(userEmail, sectionInstanceID, resultCallback){
+    let deleteUserFromCourseQuery = 'DELETE FROM UserEnrollment WHERE emailAddress = ? AND sectionInstanceID = ?;';
+    dbPool.query(deleteUserFromCourseQuery, [userEmail, sectionInstanceID], function(err, res){
+        if(err){
+            console.log(err);
+            resultCallback(err,null);
+        }
+        //else its deleted 
+        else{
+            resultCallback(null,null);
+        }
+    });
+}
+
+//tested
+module.exports.deleteAccount = function(userEmail, resultCallback){
+    let deleteAccountQuery = 'DELETE FROM User WHERE emailAddress = ?;';
+    dbPool.query(deleteAccountQuery, userEmail, function(err, res){
+        if(err){
+            console.log("SQL ERROR HERE!")
+            console.log(err);
+            resultCallback(err,null);
+        }
+        //else its deleted 
+        else{
+            resultCallback(null,null);
+        }
+    });
+}
+
 

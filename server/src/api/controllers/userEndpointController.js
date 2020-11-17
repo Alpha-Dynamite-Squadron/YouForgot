@@ -172,32 +172,6 @@ module.exports.userEnroll = function(req, res){
     }
 }
 
-module.exports.unenroll = function(req, res){
-    if(!req.payload.emailAddress){
-        res.status(401).json({
-            "message" : "User Token does not have an email"
-        });
-    }
-    else if(!req.body.sectionInstanceID){
-        res.status(401).json({
-            "message" : "Section Instance ID must be provided."
-        });
-    }
-    else{
-        endpoints.unenroll(req.payload.emailAddress, req.body.sectionInstanceID, function(err, result){
-            if(err){
-                console.log("Error trying to unenroll a user");
-                res.status(500).json({
-                    "message" : "Error trying to unenroll a user"
-                });
-            }
-            else{
-                res.status(200).end(); // successfully updated 
-            }
-        });
-    }
-}
-
 module.exports.updateExcessiveNotifications = function(req, res){
     if(!req.payload.emailAddress){
         res.status(401).json({
@@ -347,7 +321,94 @@ module.exports.updateIsDone = function(req, res){
     }
 }
 
+module.exports.updateIForgot = function(req, res){
+    console.log("Attempting to update iForgot status for a particular user on a particular assignment");
+    if(!req.payload.emailAddress){
+        res.status(401).json({
+            "message" : "Invalid token data"
+        });
+    }
+    else if(!req.body.assignmentID){
+        res.status(400).json({
+            "message" : "Assignment ID required."
+        });
+    }
+    else{
+        endpoints.updateIForgot(req.payload.emailAddress, req.body.assignmentID, function(err, result){
+            if(err){
+                if(result == 1){
+                    console.log("Database error occurred selecting");
+                    res.status(500).json({
+                        "message" : "Database error occurred on selecting"
+                    });
+                }
+                else if(result == 2){
+                    console.log("Database error occurred updating");
+                    res.status(500).json({
+                        "message" : "Database error occurred on updating"
+                    });
+                }
+                else{
+                    res.status(500).json({
+                        "message" : "Unknown database error occurred"
+                    });
+                }
+            }
+            else{
+                res.status(200).end(); // successfully updated 
+            }
+        });
+    }
+    
+}
 
+module.exports.unenroll = function(req, res){
+    if(!req.payload.emailAddress){
+        res.status(401).json({
+            "message" : "User Token does not have an email"
+        });
+    }
+    else if(!req.body.sectionInstanceID){
+        res.status(401).json({
+            "message" : "Section Instance ID must be provided."
+        });
+    }
+    else{
+        endpoints.unenroll(req.payload.emailAddress, req.body.sectionInstanceID, function(err, result){
+            if(err){
+                console.log("Error trying to unenroll a user");
+                res.status(500).json({
+                    "message" : "Error trying to unenroll a user"
+                });
+            }
+            else{
+                res.status(200).end(); // successfully updated 
+            }
+        });
+    }
+}
+
+//tested
+module.exports.deleteAccount = function(req, res){
+    if(!req.payload.emailAddress){
+        res.status(401).json({
+            "message" : "User Token does not have an email"
+        });
+    }
+    else{
+        endpoints.deleteAccount(req.payload.emailAddress,function(err, result){
+            if(err){
+                console.log("Error trying to delete a user");
+                res.status(500).json({
+                    "message" : "Error trying to delete user account"
+                });
+            }
+            else{
+                res.status(200).end(); // successfully updated 
+            }
+        });
+    }
+}
 
 
 

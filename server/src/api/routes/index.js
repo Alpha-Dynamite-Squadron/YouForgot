@@ -36,11 +36,14 @@ router.get('/getInstitutionCourses', auth, generalEndpointController.getInstitut
 router.get('/getCourseInfo', auth, generalEndpointController.getCourseInfo);
 
 router.patch('/updateIsDone', auth, userEndpointController.updateIsDone);
+router.patch('/updateIForgot', auth, userEndpointController.updateIForgot);
 router.patch('/updateExcessiveNotifications', auth, userEndpointController.updateExcessiveNotifications);
 router.patch('/updateAssignmentNotifications', auth, userEndpointController.updateAssignmentNotifications);
 router.patch('/updateAssignmentNotifications', auth, userEndpointController.updateAssignmentNotifications);
 router.patch('/updateAssignmentDeadlineNotifications', auth, userEndpointController.updateAssignmentDeadlineNotifications);
 router.patch('/updateAssignmentGrade', auth, userEndpointController.updateAssignmentGrade);
 
+router.delete('/unenrollUser', auth, userEndpointController.unenroll);
+router.delete('/deleteAccount', auth, userEndpointController.deleteAccount);
 
 module.exports = router;
