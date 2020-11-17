@@ -303,7 +303,7 @@ module.exports.verifyAccessKey = function(accessKey, resultCallback) {
             resultCallback(null, user);
         }
         else {
-            console.log("No User found for AccessKey: " + email);
+            console.log("No User found for AccessKey: " + accessKey);
             resultCallback(null, null);
         }
     });

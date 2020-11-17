@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit, AfterViewInit, ViewChild, OnDestroy, Input } from '@angular/core';
+import { Component, Injectable, OnInit, ViewChild, OnDestroy, Input } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormBuilder, AbstractControl } from '@angular/forms';
@@ -26,7 +26,7 @@ export interface Institution {
   templateUrl: './finish-register.component.html',
   styleUrls: ['./finish-register.component.css']
 })
-export class FinishRegisterComponent implements OnInit, OnDestroy, AfterViewInit {
+export class FinishRegisterComponent implements OnInit, OnDestroy {
 
   email: string = '';
 
@@ -69,6 +69,7 @@ export class FinishRegisterComponent implements OnInit, OnDestroy, AfterViewInit
         },
         (error) => {
           console.log(error);
+          this.router.navigateByUrl('/login');
         }
       );
       //Create registration form

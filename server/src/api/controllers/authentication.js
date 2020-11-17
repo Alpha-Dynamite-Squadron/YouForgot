@@ -253,7 +253,6 @@ module.exports.verifyAccessKey = function(req, res)   {
           });
         }
       }else{ //User was not found
-        console.log("This accessKey was not Found");
         res.status(406).json({
           "message" : "Access Key not found."
         });
