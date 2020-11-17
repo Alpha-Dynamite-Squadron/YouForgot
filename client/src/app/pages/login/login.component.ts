@@ -14,6 +14,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   }
 }
 
+import swal from 'sweetalert2';
 declare var $: any;
 
 @Component({
@@ -47,7 +48,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     const card = document.getElementsByClassName('card')[0];
 
     this.loginForm = this.formBuilder.group({
-      email: [null, [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]],
+      //Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")
+      email: [null, Validators.required],
       password: ['', Validators.compose([Validators.required, Validators.minLength(8)])]
     });
   }
@@ -124,14 +126,29 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   onLogin() {
     if (this.loginForm.valid) {
-      console.log('Form Submitted.');
-      console.log('Submission Valid, sending POST Request: ' + JSON.stringify(this.loginForm.value));
-      alert('Submission Valid, sending POST Request: ' + JSON.stringify(this.loginForm.value));
-      this.authService.requestLogin(this.loginInfo)
+      console.log('Form Valid, sending Login Request: ' + this.loginForm.controls.email);
+      this.authService.requestLogin({
+        email: this.loginForm.controls.email.value,
+        password: this.loginForm.controls.password.value
+      })
         .subscribe(() => {
           this.router.navigateByUrl('/home/main');
         }, (error) => {
-          console.log(error);
+          if(error.status === 401) {
+            swal({
+                title: "Bad Login!",
+                text: "Please try another username or password.",
+                timer: 2000,
+                showConfirmButton: false
+            }).catch(swal.noop)
+          } else {
+            swal({
+                title: "Server Offline",
+                text: "YouForgot service appears to be down, please try again later.",
+                timer: 2000,
+                showConfirmButton: false
+            }).catch(swal.noop)
+          }
         });
 
     } else {
