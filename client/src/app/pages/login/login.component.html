@@ -4,7 +4,7 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-4 col-md-6 col-sm-6 ml-auto mr-auto">
-          <form [formGroup]="loginForm" (submit)="onLogin()" class="form">
+          <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="form">
             <div class="card">
               <div class="card-header card-header-info text-center">
                 <h4 class="card-title">Login Page</h4>

@@ -1,6 +1,6 @@
 <div class="col-md-12">
   <div class="card">
-    <form [formGroup]="updateProfileForm" ngSubmit="onSaveChanges()" class="form-horizontal">
+    <form [formGroup]="updateProfileForm" (ngSubmit)="onSaveChanges()" class="form-horizontal">
       <div class="card-header card-header-info card-header-text">
         <div class="card-text">
           <h4 class="card-title">Update Your Profile</h4>
@@ -51,7 +51,7 @@
         </div>
       </div>
       <div id="saveChangesBtn" class="card-footer text-center">
-        <button mat-raised-button type="button" class="btn btn-info">Save Changes</button>
+        <button mat-raised-button type="submit" class="btn btn-info">Save Changes</button>
       </div>
     </form>
   </div>

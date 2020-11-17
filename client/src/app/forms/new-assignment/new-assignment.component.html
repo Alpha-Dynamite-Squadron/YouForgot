@@ -1,6 +1,6 @@
 <div class="col-md-12">
   <div class="card">
-    <form [formGroup]="createAssignmentForm" ngSubmit="onSubmit()" class="form-horizontal">
+    <form [formGroup]="createAssignmentForm" (ngSubmit)="onSubmit()" class="form-horizontal">
       <div class="card-header card-header-info card-header-text">
         <div class="card-text">
           <h4 class="card-title">New Assignment</h4>
