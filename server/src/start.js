@@ -14,7 +14,7 @@ var server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
-const yuh = require('../src/api/models/maintenance.js');
+const performMaintenance = require('../src/api/models/maintenance.js');
 const notify = require('../src/api/models/sendHomeworkNotifications.js');
 // import clean from './api/Models/maintenance.js';
 // import notificationMailer frocm './api/Models/sendNotifications.js';
@@ -102,7 +102,7 @@ app.get('/nicholas', (req, res) => {
 });
 
 // check every hour to clean the DB 
-// setInterval(yuh.clean, 3600000);
+//setInterval(performMaintenance.clean, 3600000);
 
-//check every 5 min to send notifications
-//setInterval(notify.sendNotification, 300000);
+//check every hour to send notifications
+//setInterval(notify.sendNotification, 3600000);
