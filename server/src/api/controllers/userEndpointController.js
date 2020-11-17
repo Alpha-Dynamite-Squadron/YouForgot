@@ -23,6 +23,7 @@ THIS GETS ALL THE COURSES A USER IS ENROLLED IN
  then send back that infromation like nameOfClass, etc
  We return the semester, course name, teacher name, imageID
 */
+//tested
 module.exports.getUserCourses = function(req, res){
     console.log("Fetching the user's courses.");
     if(!req.payload.emailAddress){
@@ -93,6 +94,33 @@ module.exports.getUserAssignments = function(req, res){
     }
 }
 
+//tested
+module.exports.getUserInfo = function(req, res){
+    if(!req.payload.emailAddress){
+        res.status(401).json({
+            "message" : "invalid token data"
+        });
+    }
+    else{
+        endpoints.getUserInfo(req.payload.emailAddress, function(err, data){
+            if(err){
+                console.log("There was an issue grabbing the user data for the email provided");
+                res.status(500).json({
+                    "message" : "Unknown database error"
+                });
+            }
+            else if(data){
+                res.status(500).json(data);
+            }
+             // no courses found for that user
+             else {
+                res.status(404).json({
+                    "message" : "This user does not exist"
+                });
+            }
+        });
+    }
+}
 
 //TESTED
 //sectioninstanceID from body, email adress from token
@@ -409,30 +437,3 @@ module.exports.deleteAccount = function(req, res){
         });
     }
 }
-
-
-
-
-/*
-Get AVG grade/ get # of upvotes
-Join PostASsociation on Posts where assingmnetID == AssignmentID
-Then do a count on the upvotes and an avg on the grade
-*/
-
-/*
-module.exports.getUserInstitution = function(req, res){
-    if(!req.payload.emailAddress){
-        res.status(401).json({
-            "message" : "Token does not contain an email address"
-        });   
-    }
- 
-    else {
-        //we have a valid email and institution ID
-        endpoints.getUserInstitution
-
-    }
-
-}
-
-*/

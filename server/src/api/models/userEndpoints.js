@@ -7,6 +7,7 @@ let createUserQuery = 'UPDATE User SET username = ?, imageID = ?, hash = ?, salt
 
 */
 //will we need to join here for userenrollment and sectioninstance ID, what will nick need
+//tested
 module.exports.getUserCourses = function(userEmail, resultCallback) {
     let getUserCourserQuery = 'SELECT * FROM UserEnrollment INNER JOIN SectionInstance ON UserEnrollment.sectionInstanceID = SectionInstance.sectionInstanceID WHERE UserEnrollment.emailAddress = ?;';
     dbPool.query(getUserCourserQuery, userEmail, function(err, res){
@@ -15,7 +16,7 @@ module.exports.getUserCourses = function(userEmail, resultCallback) {
             console.log(err);
             resultCallback(err, null);
         }
-        else if(res.length === 1){
+        else if(res.length !== 0){
             console.log("Found Courses for user" + userEmail + ". Course names");
             let userCourses = [];
             for(let i = 0; i < res.length; i++){
@@ -34,16 +35,17 @@ module.exports.getUserCourses = function(userEmail, resultCallback) {
             resultCallback(null, userCourses);
         }
         else{
-            console.log("This user does not have any courses:" + userEmail);
+            console.log("This user does not have any courses: " + userEmail);
             resultCallback(null,null);
         }
     });
     
 }
 
-module.getUserDetails = function(userEmail, resultCallback){
-    let getUserDetailsQuery = 'SELECT * FROM User WHERE emailAddress = ?;';
-    dbPool.query(getUserDetailsQuery, [userEmail], function(err, res){
+//tested
+module.exports.getUserInfo = function(userEmail, resultCallback){
+    let getUserInfoQuery = 'SELECT User.username, User.profileRating, User.imageID, Institution.schoolName FROM User INNER JOIN Institution ON User.institutionID = Institution.institutionID WHERE User.emailAddress = ?;';
+    dbPool.query(getUserInfoQuery, [userEmail], function(err, res){
         if(err){
             resultCallback(err, null);
         }
@@ -51,19 +53,23 @@ module.getUserDetails = function(userEmail, resultCallback){
             console.log("Found details for user: " + userEmail);
             let userDetails = {
                 userEmail: userEmail,
-                
+                username: res[0].username,
+                schoolName: res[0].schoolName,
+                profileRating: res[0].profileRating,
+                imageID: res[0].imageID
             }
+            resultCallback(null, userDetails);
 
         }
         else {
-
+            console.log("No user found.");
+            resultCallback(null,null);
         }
     });
 }
 
-
-
 //select request on postAssociation table
+//tested
 module.exports.getUserAssignments = function(userEmail, resultCallback){
     //if isIgnored is 0, then its not ignored else if its 1 its ignored
     let getAssignmentsQuery = 'SELECT customAssignmentName, customAssignmentDescription, customeDueDate FROM PostAssociation WHERE userEmail = ? AND isIgnored = 0;';
@@ -100,9 +106,8 @@ module.exports.getUserAssignments = function(userEmail, resultCallback){
 
 
 //user enroll we want defaultGetRemindernotifications, updateDefaultGetRemindernotifications end point is cherry on top
-// TESTED  ASK CHRISTIAN ON DUPES
+//tested
 module.exports.userEnroll = function(userEmail, sectionInstanceID, getRemindernotifications, resultCallback){
-
     let userEnrollQuery = 'INSERT INTO UserEnrollment (emailAddress, sectionInstanceID, getReminderNotifications) VALUES (?,?,?);';
     dbPool.query(userEnrollQuery, [userEmail, sectionInstanceID, getRemindernotifications], function(err,res){
         //db err
@@ -213,6 +218,7 @@ module.exports.updateAssignmentGrade = function(userEmail, gradeRecieved, assign
     });
 }
 
+//tested
 module.exports.updateIForgot = function(userEmail, assignmentID, resultCallback){
     let selectIForgotQuery = 'SELECT iForgot FROM PostAssociation WHERE emailAddress = ? AND assignmentID = ?;';
     let newIForgotStatus;
