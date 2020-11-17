@@ -27,13 +27,11 @@ export class AssignmentComponent implements OnInit {
     '11/7/2020', 
     '12/13/2020', 
     '11/13/2020'];
-  assignmentGradeOptions: boolean[] = [true, false];
 
   selectedIcon: string;
   selectedAssignmentName: string;
   selectedAssignmentDesc: string;
   selectedAssignmentDueDate: string;
-  selectedGradingOption: boolean;
 
   forgotCount: number;
   rememberedCount: number;
@@ -46,7 +44,6 @@ export class AssignmentComponent implements OnInit {
     this.selectedAssignmentName = this.assignmentName[Math.floor(Math.random() * this.assignmentName.length)];
     this.selectedAssignmentDesc = this.assignmentDescription[Math.floor(Math.random() * this.assignmentDescription.length)];
     this.selectedAssignmentDueDate = this.assignmentDueDate[Math.floor(Math.random() * this.assignmentDueDate.length)];
-    this.selectedGradingOption = this.assignmentGradeOptions[Math.floor(Math.random() * this.assignmentGradeOptions.length)];
     this.forgotCount = Math.floor(Math.random() * 100);
     this.rememberedCount = Math.floor(Math.random() * 100);
     this.assignmentPostedDate = this.selectedAssignmentDueDate;
