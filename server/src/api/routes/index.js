@@ -27,7 +27,7 @@ router.post('/verifyAccessKey', controllerAuthentication.verifyAccessKey);
 router.post('/createCourse', auth, generalEndpointController.createCourse);
 router.post('/createAssignment', auth, generalEndpointController.createAssignment);
 router.post('/enrollUser', auth, userEndpointController.userEnroll);
-router.post('/sendResetEmail', controllerAuthentication.sendResetEmail);
+
 
 
 router.get('/getUserAssignments', auth, userEndpointController.getUserAssignments);
@@ -46,6 +46,9 @@ router.patch('/updateAssignmentNotifications', auth, userEndpointController.upda
 router.patch('/updateAssignmentNotifications', auth, userEndpointController.updateAssignmentNotifications);
 router.patch('/updateAssignmentDeadlineNotifications', auth, userEndpointController.updateAssignmentDeadlineNotifications);
 router.patch('/updateAssignmentGrade', auth, userEndpointController.updateAssignmentGrade);
+router.patch('/resetEmail', controllerAuthentication.resetPassword);
+router.patch('/sendResetEmail', controllerAuthentication.sendResetEmail);
+
 
 router.delete('/unenrollUser', auth, userEndpointController.unenroll);
 router.delete('/deleteAccount', auth, userEndpointController.deleteAccount);

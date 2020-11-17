@@ -51,6 +51,37 @@ module.exports.resetPassword = function(req, res){
     });
   }
   else{
+    users.resetEmail(req.body.emailAddress, req.body.password, req.body.accessKey, function(err, code){
+      if(err){
+        if(code == null){
+          res.status(500).json({
+            "message" : "unknown database error"
+          });
+        }
+        else{
+          console.log(err);
+          res.status(500).json({
+            "message" : "Database error on upate user"
+          });
+        }
+      }
+      else{
+        if(code == 1){
+          res.status(403).json({
+            "message" : "Invalid Access Key"
+          });
+        }
+        else if(code == 3) {
+          console.log(err);
+          res.status(403).json({
+            "message" : "Database error on selecting access key"
+          });
+        }
+        else{
+          res.status(200).end();
+        }
+      }
+    });
   }
 }
 
