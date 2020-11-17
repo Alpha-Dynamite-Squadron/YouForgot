@@ -36,6 +36,7 @@ export class FinishRegisterComponent implements OnInit, OnDestroy, AfterViewInit
   validConfirmPasswordRegister: boolean = false;
   matcher = new MyErrorStateMatcher();
   finishRegisterForm: FormGroup;
+  public search: FormControl = new FormControl('');
 
   //Replace this with a database query and populate list with *ngFor
   protected institutions: Institution[] = [];
@@ -183,6 +184,10 @@ export class FinishRegisterComponent implements OnInit, OnDestroy, AfterViewInit
       this.filteredInstitutions.next(
         this.institutions.filter(institution => institution.name.toLowerCase().indexOf(search) > -1)
       )
+    }
+
+    queryDatabase() {
+      console.log("Searching for Institutions with the value: " +  this.search.value);
     }
 
     ngAfterViewInit() {
