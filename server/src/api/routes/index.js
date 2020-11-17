@@ -35,7 +35,7 @@ router.get('/getUserCourses', auth, userEndpointController.getUserCourses);
 router.get('/getUserInfo', auth, userEndpointController.getUserInfo);
 router.get('/getCourseInfo', auth, generalEndpointController.getCourseInfo);
 router.get('/getInstitutionCourses', auth, generalEndpointController.getInstitutionCourses);
-router.get('/getInstitutions', auth, generalEndpointController.getInstitutions);
+router.get('/getInstitutions', generalEndpointController.getInstitutions);
 
 
 

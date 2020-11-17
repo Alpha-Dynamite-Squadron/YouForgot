@@ -93,33 +93,36 @@ export class RegisterComponent implements OnInit, OnDestroy {
   onRegister() {
     if (this.registerForm.valid) {
       console.log('Form Valid, sending preregister Request: ' + this.registerForm.controls.email.value);
-      this.authService.preregister(this.registerForm.controls.email.value).subscribe(() => {
-        this.router.navigateByUrl('/verify');
-      }, (error) => {
-        if(error.status === 406) {
-          if(error.message === "Non-edu address provided.") {
-            swal({
-                title: "Bad Email!",
-                text: "Please provide a proper .edu address",
-                timer: 2000,
-                showConfirmButton: false
-            }).catch(swal.noop);
+      this.authService.preregister(this.registerForm.controls.email.value).subscribe(
+        () => {
+          console.log("Redirecting to /verify");
+          this.router.navigateByUrl('/verify');
+        }, (error) => {
+          console.log(error);
+          if(error.status === 406) {
+            if(error.message === "Non-edu address provided.") {
+              swal({
+                  title: "Bad Email!",
+                  text: "Please provide a proper .edu address",
+                  timer: 2000,
+                  showConfirmButton: false
+              }).catch(swal.noop);
+            } else {
+              swal({
+                  title: "Already registered!",
+                  text: "Please provide a different .edu address",
+                  timer: 2000,
+                  showConfirmButton: false
+              }).catch(swal.noop);
+            }
           } else {
             swal({
-                title: "Already registered!",
-                text: "Please provide a different .edu address",
+                title: "Server Offline",
+                text: "YouForgot service appears to be down, please try again later.",
                 timer: 2000,
                 showConfirmButton: false
-            }).catch(swal.noop);
+            }).catch(swal.noop)
           }
-        } else {
-          swal({
-              title: "Server Offline",
-              text: "YouForgot service appears to be down, please try again later.",
-              timer: 2000,
-              showConfirmButton: false
-          }).catch(swal.noop)
-        }
       });
     } else {
       this.validateAllFormFields(this.registerForm);

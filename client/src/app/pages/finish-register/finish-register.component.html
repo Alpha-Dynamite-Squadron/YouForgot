@@ -60,7 +60,7 @@
                     </mat-form-field>
                   </div>
                   <mat-checkbox class="form-check" type="mat-checkbox" name="terms"
-                    formControlName="termsAndConditions">
+                    formControlName="termsAndConditions" (ngModelChange)="truthyValidationType($event)">
                     I agree to the <a href="#something">terms and conditions</a>.
                   </mat-checkbox>
                   <mat-checkbox class="form-check" type="mat-checkbox" name="notifications"
@@ -69,7 +69,7 @@
                   </mat-checkbox>
                   <div class="row" class="text-center">
                     <button class="btn btn-info btn-primary btn-round" type="submit" (click)="onFinishRegistration()"
-                      [disabled]="!finishRegisterForm.valid || !institutionCtrl.valid">
+                      [disabled]="!finishRegisterForm.valid || !institutionCtrl.valid || !validTermsType">
                       Create Account
                     </button>
                   </div>

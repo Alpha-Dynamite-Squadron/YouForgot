@@ -1,15 +1,15 @@
 require('dotenv').config();
 const csv = require('csv-parser');
 const fs = require('fs');
-let dbPool = require('../src/api/Models/database.js');
+let dbPool = require('../src/api/models/database.js');
 
 let valueArray = [];
 //Should have Code to manually download CSV file from server to run completely autonomously
-fs.createReadStream('../server/database/InstitutionCampus.csv')
+fs.createReadStream('./database/InstitutionCampus.csv')
   .pipe(csv())
   .on('data', (row) => {
     if(row.LocationType === 'Institution') {
-      valueArray.push([row.DapipId, row.LocationName, row.Address]);
+      valueArray.push([row.DapipId, row.LocationName.toUpperCase(), row.Address]);
     }
   })
   .on('end', () => {
@@ -45,6 +45,7 @@ fs.createReadStream('../server/database/InstitutionCampus.csv')
                 else {
                   connection.release();
                   console.log("Successful with " + result.affectedRows + " affected rows");
+                  process.exit(0);
                 }
               });
             }
