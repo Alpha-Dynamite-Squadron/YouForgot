@@ -14,6 +14,7 @@ if(process.env.NODE_ENV === 'production') {
 // code 3 the email sent successfully
 module.exports.sendResetEmail = function(emailAddress, resultCallback){
     let accessKey = crypto.randomBytes(20).toString('hex');
+    console.log(accessKey);
     const url = baseUrl + '/reset_password/' + accessKey;
     let setAccessKeyQuery = 'UPDATE User SET accessKey = ? WHERE emailAddress = ?;';
     dbPool.query(setAccessKeyQuery, [accessKey, emailAddress], function(err, result) {
@@ -39,6 +40,53 @@ module.exports.sendResetEmail = function(emailAddress, resultCallback){
               });
         }
     });
+}
+// error code 1 is that the access keys do not match
+// error code 2 is that the update did not work
+module.exports.resetEmail = function(emailAddress, password, accessKey, resultCallback){
+    let checkAccessKeyQuery = 'SELECT accessKey FROM User WHERE emailAddress = ?;';
+    dbPool.query(checkAccessKeyQuery, [emailAddress], function(err, res){
+        console.log(res);
+        if(err){
+            resultCallback(err, null);
+        }
+        else if(res.length !== 0){
+            console.log(res[0].accessKey);
+            if(accessKey === res[0].accessKey){
+                let user = {
+                    setPassword: funcSetPassword
+                  };
+                  user.setPassword(password);
+                  let hash = user.hash;
+                  let salt = user.salt;
+                let updatePasswordQuery = 'UPDATE User SET accessKey = NULL, hash = ?, salt = ?  WHERE emailAddress = ?;';
+                dbPool.query(updatePasswordQuery, [hash, salt, emailAddress], function(error, result){
+                    if(error){
+                        console.log(error);
+                        resultCallback(error, 2);
+                    }else{
+                        resultCallback(null, null); // if it gets here then the user has been updated
+                    }
+                })
+            }
+            else{
+                console.log("This error should never happen. This is dead code. If you are reading this and it did happen. This happened in the else of a select err check.")
+                resultCallback(null, 1); // this user does not have an accesskey
+            }
+        }
+        else{
+            resultCallback(null, 3); // this user does not have an accesskey
+        }
+    })
+    
+    let user = {
+        setPassword: funcSetPassword
+      };
+      user.setPassword(password);
+      let hash = user.hash;
+      let salt = user.salt;
+      let createUserQuery = 'UPDATE User SET username = ?, imageID = ?, hash = ?, salt = ?, accessKey = NULL WHERE emailAddress = ?;';
+    let updatePasswordQuery = 'UPDATE User SET accessKey = ? WHERE emailAddress = ?;';
 }
 
 //kwqmeposdms1dsnfd812j312nj38sdvh
