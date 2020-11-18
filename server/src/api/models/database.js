@@ -3,7 +3,7 @@ var mysqllib = require("mysql");
 var dbpassword = process.env.DB_PASSWORD;
 
 if(dbpassword == undefined) {
-  console.log("Database Password Undefined in enviroment `DB_PASSWORD`");
+  console.log("Database Password Undefined in environment `DB_PASSWORD`");
   process.exit(1);
 }
 

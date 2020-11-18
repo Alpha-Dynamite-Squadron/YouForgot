@@ -101,6 +101,8 @@ app.get('/nicholas', (req, res) => {
   res.send("I like Moose.");
 });
 
+//performMaintenance.clean();
+
 // check every hour to clean the DB 
 //setInterval(performMaintenance.clean, 3600000);
 
