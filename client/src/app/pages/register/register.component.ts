@@ -26,10 +26,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
   test: Date = new Date();
   registerEmail: string = '';
 
-  emailFormControl = new FormControl('', [
-    Validators.required,
-    Validators.email,
-  ]);
   validEmailRegister: boolean = false;
   matcher = new MyErrorStateMatcher();
   registerForm: FormGroup;
@@ -48,7 +44,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       email: ['', [
         Validators.required,
         Validators.email,
-        Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")]
+        Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.edu$")]
       ]
     });
   }
@@ -121,7 +117,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
                 text: "YouForgot service appears to be down, please try again later.",
                 timer: 2000,
                 showConfirmButton: false
-            }).catch(swal.noop)
+            }).catch(swal.noop);
           }
       });
     } else {

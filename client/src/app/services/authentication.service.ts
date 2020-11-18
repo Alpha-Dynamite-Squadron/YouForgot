@@ -17,6 +17,20 @@ export class AuthenticationService {
 
   //Expanded Communication Methods
 
+  public completePasswordReset(email: string, password: string, accessKey: string): Observable<any> {
+    return this.makeRequest('post', 'resetEmail', {
+      emailAddress: email,
+      password: password,
+      accessKey: accessKey
+    });
+  }
+
+  public requestPasswordReset(email: string): Observable<any> {
+    return this.makeRequest('post', 'sendResetEmail', {
+      emailAddress: email
+    });
+  }
+
   public loadInstitutions(query: string): Observable<any> {
     return this.requestData('post', 'getInstitutions', {
       institution: query
@@ -61,8 +75,8 @@ export class AuthenticationService {
     return request;
   }
 
-  public makeRequest(method: 'post'|'get'|'patch'|'delete', location: string, data?): Observable<any> {
-    if(method == 'post' || method === 'patch' || method === 'delete') {
+  public makeRequest(method: 'post'|'get', location: string, data?): Observable<any> {
+    if(method == 'post') {
       return this.http.post(`/api/${location}`, data, { headers: { Authorization: `Bearer ${this.getToken()}` } });
     } else {
       return this.http.get(`/api/${location}`, { headers: { Authorization: `Bearer ${this.getToken()}` } });
@@ -70,7 +84,7 @@ export class AuthenticationService {
   }
 
 
-  public requestData(method: 'post'|'get'|'patch'|'delete', location: string, data?): Observable<any> {
+  public requestData(method: 'post'|'get', location: string, data?): Observable<any> {
     let base;
     if(method == 'post') {
       base = this.http.post(`/api/${location}`, data, { headers: { Authorization: `Bearer ${this.getToken()}` } });

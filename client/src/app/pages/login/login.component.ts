@@ -120,8 +120,46 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   forgotPassword() {
-    //Add backend endpoint code here
-    this.router.navigateByUrl('/verify_password');
+    swal({
+        title: 'Enter Your Email:',
+        html: '<div class="form-group">' +
+            '<input id="input-field" required type="text" class="form-control" />' +
+            '</div>',
+        showCancelButton: true,
+        confirmButtonClass: 'btn btn-info',
+        cancelButtonClass: 'btn btn-danger',
+        buttonsStyling: false
+    }).then((result) => {
+      console.log("Recieved Email: " + $('#input-field').val());
+      this.authService.requestPasswordReset($('#input-field').val())
+        .subscribe(
+          () => {
+            console.log("Password Reset Completed");
+            this.router.navigateByUrl('/verify_password');
+          }, (error) => {
+            console.log(error);
+            if(error.status == 400) {
+              console.log("Email entered invalid");
+              swal({
+                  type: 'error',
+                  html: '<strong>' +
+                      $('#input-field').val() +
+                      '</strong> not a registered Email!',
+                  confirmButtonClass: 'btn btn-info',
+                  buttonsStyling: false
+              });
+            } else {
+              console.log("Email failed to send");
+              swal({
+                  type: 'error',
+                  html: '<strong>Whoops, something went wrong! Please try again later.</strong>',
+                  confirmButtonClass: 'btn btn-info',
+                  buttonsStyling: false
+              });
+            }
+        });
+    }).catch(swal.noop);
+
   }
 
   onLogin() {

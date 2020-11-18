@@ -4,7 +4,9 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { FormBuilder, AbstractControl } from '@angular/forms';
 import { PasswordValidation } from '../../forms/validationforms/password-validator';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import swal from 'sweetalert2';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -20,6 +22,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class PasswordResetComponent implements OnInit {
 
+  email: string = '';
   validConfirmPasswordReset: boolean = false;
   validPasswordReset: boolean = false;
   validTextType: boolean = false;
@@ -30,9 +33,21 @@ export class PasswordResetComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private authService: AuthenticationService) { }
+    private authService: AuthenticationService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.authService.verifyAccessKey(this.route.snapshot.paramMap.get('id'))
+    .subscribe(
+      (email) => {
+        console.log("Found Email: " + email);
+        this.email = email;
+      },
+      (error) => {
+        console.log(error);
+        this.router.navigateByUrl('/register');
+      }
+    );
     this.passwordResetForm = this.formBuilder.group({
       password: ['', Validators.compose([Validators.required, Validators.minLength(8)])],
       confirmPassword: ['', Validators.required],
@@ -80,14 +95,39 @@ export class PasswordResetComponent implements OnInit {
 
   onResetPassword() {
     if (this.passwordResetForm.valid) {
-      console.log('Form Submitted.');
-      console.log('Submission Valid, sending POST Request: ' + JSON.stringify(this.passwordResetForm.value));
-      alert('Submission Valid, sending POST Request: ' + JSON.stringify(this.passwordResetForm.value));
-      //Add endpoint code here
-      this.router.navigateByUrl('/login');
+      console.log('Form Valid, sending POST Request to reset password ');
+      this.authService.completePasswordReset(
+        this.email,
+        this.passwordResetForm.value.password,
+        this.route.snapshot.paramMap.get('id')
+      ).subscribe(() => {
+          console.log("Successfully Reset Password");
+          swal({
+              title: "Password Reset!",
+              text: "You will be sent to the Login page now!",
+              buttonsStyling: false,
+              confirmButtonClass: "btn btn-success",
+              type: "success"
+          }).then(() => {
+            this.router.navigateByUrl('/login');
+          }).catch(swal.noop);
+        }, (error) => {
+          if(error.status === 403) {
+            this.router.navigateByUrl('/login');//Should not be possible by accessKeyRequest
+          } else if (error.status === 406) {
+            this.router.navigateByUrl('/login');//Should not be possible by accessKeyRequest
+          } else {
+            swal({
+                title: "Server Offline",
+                text: "YouForgot service appears to be down, please try again later.",
+                timer: 2000,
+                showConfirmButton: false
+            }).catch(swal.noop);
+          }
+        });
     } else {
       this.validateAllFormFields(this.passwordResetForm);
     }
   }
-  
+
 }

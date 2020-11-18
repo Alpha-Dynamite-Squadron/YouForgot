@@ -9,17 +9,20 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   baseUrl = 'http://localhost:8080';
 }
-// error 1 there was a duplicate entry
+// error 1 email did not exist
 // error 2 the email did not send
-// code 3 the email sent successfully
+// code 0 the email sent successfully
 module.exports.sendResetEmail = function (emailAddress, resultCallback) {
   let accessKey = crypto.randomBytes(20).toString('hex');
-  console.log(accessKey);
   const url = baseUrl + '/reset_password/' + accessKey;
-  let setAccessKeyQuery = 'UPDATE User SET accessKey = ? WHERE emailAddress = ?;';
+  let setAccessKeyQuery = 'UPDATE User SET accessKey = ? WHERE emailAddress = ? AND hash IS NOT NULL AND salt IS NOT NULL;';
   dbPool.query(setAccessKeyQuery, [accessKey, emailAddress], function (err, result) {
     if (err) {
       resultCallback(err, null);
+    }
+    else if(result.affectedRows === 0) { //No Email Found
+      console.log("Email was never registered: " + emailAddress);
+      resultCallback(null, 1);
     }
     else {
       let info = nodeMailerTransport.sendMail({
@@ -31,11 +34,11 @@ module.exports.sendResetEmail = function (emailAddress, resultCallback) {
         if (error) {
           console.log("Failed to send email to " + emailAddress);
           console.log(error);
-          resultCallback(error, 2); //failed to send email
+          resultCallback(null, 2); //failed to send email
         } else {
           console.log("Successfully sent the email to " + emailAddress);
           console.log(result);
-          resultCallback(null, null);
+          resultCallback(null, 0);
         }
       });
     }
@@ -43,39 +46,39 @@ module.exports.sendResetEmail = function (emailAddress, resultCallback) {
 }
 // error code 1 is that the access keys do not match
 // error code 2 is that the update did not work
+// error code 3 User does not exist, or did not request a password change
 module.exports.resetEmail = function (emailAddress, password, accessKey, resultCallback) {
-  let checkAccessKeyQuery = 'SELECT accessKey FROM User WHERE emailAddress = ?;';
+  let checkAccessKeyQuery = 'SELECT accessKey FROM User WHERE emailAddress = ? AND accessKey IS NOT NULL AND hash IS NOT NULL AND salt IS NOT NULL LIMIT 1;';
   dbPool.query(checkAccessKeyQuery, [emailAddress], function (err, res) {
     console.log(res);
     if (err) {
-      resultCallback(err, null);
+      resultCallback(err, -1);
     }
-    else if (res.length !== 0) {
+    else if (res.length === 1) {
       console.log(res[0].accessKey);
       if (accessKey === res[0].accessKey) {
         let user = {
           setPassword: funcSetPassword
         };
         user.setPassword(password);
-        let hash = user.hash;
-        let salt = user.salt;
-        let updatePasswordQuery = 'UPDATE User SET accessKey = NULL, hash = ?, salt = ?  WHERE emailAddress = ?;';
-        dbPool.query(updatePasswordQuery, [hash, salt, emailAddress], function (error, result) {
+        let updatePasswordQuery = 'UPDATE User SET accessKey = NULL, hash = ?, salt = ?  WHERE emailAddress = ? LIMIT 1;';
+        dbPool.query(updatePasswordQuery, [user.hash, user.salt, emailAddress], function (error, result) {
           if (error) {
-            console.log(error);
-            resultCallback(error, 2);
+            resultCallback(error, -2);
+          } else if (result.affectedRows == 1) {
+            resultCallback(null, 0);
           } else {
-            resultCallback(null, null); // if it gets here then the user has been updated
+            resultCallback(null, 2); //Email instantanously deleted, unlikely
           }
-        })
+        });
       }
       else {
-        console.log("This error should never happen. This is dead code. If you are reading this and it did happen. This happened in the else of a select err check.")
-        resultCallback(null, 1); // this user does not have an accesskey
+        console.log("Invalid Access Key Provided")
+        resultCallback(null, 1); // Incorrect access key, malicious!
       }
     }
     else {
-      resultCallback(null, 3); // this user does not have an accesskey
+      resultCallback(null, 3); //User does not exist, or did not request password change
     }
   })
 
@@ -145,7 +148,7 @@ module.exports.findAccountByEmail = function (email, resultCallback) {
         getPostReminderNotifications: result[0].getPostReminderNotifications,
         getHomeworkReminderNotifications: result[0].getHomeworkReminderNotifications,
         institutionID: result[0].institutionID,
-        sendExcessively: result[0].sendxcessively,
+        sendExcessively: result[0].sendExcessively,
         setPassword: funcSetPassword,
         validPassword: funcCheckPassword,
         generateJwt: funcGenerateJwt
@@ -201,7 +204,11 @@ module.exports.registerUser = function (accessKey, emailAddress, username, passw
         let createUserQuery = 'UPDATE User SET username = ?, imageID = 1, hash = ?, salt = ?, institutionID = ?, getPostReminderNotifications = ?, getHomeworkReminderNotifications = ?, accessKey = NULL WHERE emailAddress = ?;';
         dbPool.query(createUserQuery, [username, hash, salt, institution, getNotifications, getNotifications, emailAddress], function (err, result) {
           if (err) {
-            resultCallback(err, null);
+            if(err.code === 'ER_DUP_ENTRY') {
+              resultCallback(null, 4);
+            } else {
+              resultCallback(err, null);
+            }
           }
           else if (result.affectedRows == 0) {
             console.log("The email was found but the query did not complete");
@@ -253,8 +260,7 @@ module.exports.preRegistration = function (email, resultCallback) {
     let setAccessKeyQuery = 'INSERT INTO User (emailAddress, accessKey) VALUES (?, ?);';
     dbPool.getConnection(function (err, connection) {
       if (err) {
-        connection.release();
-        returnCallback(err, -1);
+        resultCallback(err, -1);
       }
       else {
         connection.beginTransaction(function (err) {
@@ -267,10 +273,10 @@ module.exports.preRegistration = function (email, resultCallback) {
           else {
             connection.query(setAccessKeyQuery, [email, accessKey], function (err, result) {
               if (err) {
-                if (err.code === "ER_DUP_ENTRY") {
+                if (err.code === 'ER_DUP_ENTRY') {
                   connection.rollback(function () {
                     connection.release();
-                    resultCallback(err, -2);
+                    resultCallback(null, 3);
                   });
                 }
                 else {
@@ -293,7 +299,7 @@ module.exports.preRegistration = function (email, resultCallback) {
                     console.log(error);
                     connection.rollback(function () {
                       connection.release();
-                      resultCallback(err, 2);
+                      resultCallback(null, 2);
                     });
                   } else {
                     console.log("Successfully sent the email to " + email);
@@ -325,8 +331,7 @@ module.exports.preRegistration = function (email, resultCallback) {
 // function() {
 //   dbPool.getConnection(function (err, connection) {
 //     if (err) {
-//       connection.release();
-//       returnCallback(err, -1);
+//       resultCallback(err, -1);
 //     }
 //     else {
 //       connection.beginTransaction(function (err) {
