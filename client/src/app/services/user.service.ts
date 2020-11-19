@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Course } from '../models/course.model';
+import { PublicAssignment } from '../models/public-assignment.model';
 import { User } from '../models/user.model';
 import { AuthenticationService } from './authentication.service';
 
@@ -14,6 +15,8 @@ export class UserService {
 
   user: User;
   userCourses: Course[];
+  courseAssignments: PublicAssignment[];
+  currentCourseID: number;
 
   constructor(
     private http: HttpClient,
@@ -43,6 +46,20 @@ export class UserService {
     });
   }
 
+  public createAssignment(
+    sectionInstanceID: number,
+    assignmentName: string,
+    forGrade: boolean,
+    assignmentDueDate: string
+  ) {
+    return this.authService.makeRequest('post', 'createAssignment', {
+      sectionInstanceID: sectionInstanceID,
+      assignmentName: assignmentName,
+      forGrade: forGrade,
+      assignmentDueDate: assignmentDueDate
+    });
+  }
+
   public fetchInstitutionCourses(): Observable<any> {
     return this.authService.requestData('get', 'getInstitutionCourses');
   }
@@ -58,6 +75,32 @@ export class UserService {
           return this.user;
         })
       );
+    }
+  }
+
+  public fetchCourseInfo(instanceID: number): Observable<any> {
+    if (this.courseAssignments && this.currentCourseID === instanceID) {
+      console.log("Same Course Selected as Previous, Passing Reference to Course Data...");
+      return of(this.courseAssignments);
+    } else {
+      console.log("Retrieving Course Info from Server...");
+      this.courseAssignments = [];
+      return this.authService.requestData('post', 'getCourseAssignments', { sectionInstanceID: instanceID }).pipe(
+        map((data) => {
+          data.forEach(element => {
+            this.courseAssignments.push(new PublicAssignment(
+              element.nameOfClass,
+              element.uploadDate,
+              element.assignmentName,
+              element.dueDate,
+              element.forGrade,
+              element.assignmentAverage,
+              element.iForgotCount
+            ));
+          });
+          return this.courseAssignments;
+        })
+      )
     }
   }
 

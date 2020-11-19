@@ -41,7 +41,8 @@ export class NewCourseComponent implements OnInit {
     { value: 1, viewValue: 'assignment'},
     { value: 2, viewValue:'book'},
     { value: 3, viewValue:'science'},
-    { value: 4, viewValue:'calculate'}];
+    { value: 4, viewValue:'calculate'}
+  ];
 
   validTextType: boolean = false;
   validNumberType: boolean = false;
@@ -132,6 +133,15 @@ export class NewCourseComponent implements OnInit {
           window.location.reload();
         }).catch(swal.noop)
         
+      }, (error) => {
+        console.log(error);
+        swal({
+          title: "Creation Failed!",
+          text: "Oops! Something went wrong. Please try again later.",
+          buttonsStyling: false,
+          confirmButtonClass: "btn btn-info",
+          type: "error"
+        }).catch(swal.noop)
       });
     } else {
       this.validateAllFormFields(this.createCourseForm);

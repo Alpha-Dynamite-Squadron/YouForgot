@@ -1,4 +1,5 @@
 export class PublicAssignment {
+  nameOfClass: string;
   uploadDate: string;
   assignmentName: string;
   assignmentDueDate: string;
@@ -7,6 +8,7 @@ export class PublicAssignment {
   iForgotCount: number;
 
   constructor(
+    className: string,
     upload: string,
     name: string,
     dueDate: string,
@@ -14,6 +16,7 @@ export class PublicAssignment {
     avg: number,
     count: number
   ) {
+    this.nameOfClass = className;
     this.uploadDate = upload;
     this.assignmentName = name;
     this.assignmentDueDate = dueDate;

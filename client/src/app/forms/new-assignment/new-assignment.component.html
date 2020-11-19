@@ -1,6 +1,6 @@
 <div class="col-md-12">
   <div class="card">
-    <form [formGroup]="createAssignmentForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+    <form [formGroup]="createAssignmentForm" #formDirective="ngForm" (ngSubmit)="onSubmit(formDirective)" class="form-horizontal">
       <div class="card-header card-header-info card-header-text">
         <div class="card-text">
           <h4 class="card-title">New Assignment</h4>
@@ -20,7 +20,7 @@
             </mat-form-field>
           </div>
         </div>
-        <div class="row">
+        <!-- <div class="row">
           <label class="col-sm-2 col-form-label text-right">Assignment Description</label>
           <div class="col-sm-7">
             <mat-form-field class="example-full-width has-label" [ngClass]="{'has-success':validTextType===true}"
@@ -32,7 +32,7 @@
               </app-field-error-display>
             </mat-form-field>
           </div>
-        </div>
+        </div> -->
         <div class="row">
           <label class="col-sm-2 col-form-label text-right">Assignment Due Date (Day)</label>
           <div class="col-sm-7">
@@ -60,8 +60,8 @@
           <div class="col-sm-7">
             <mat-form-field>
               <mat-select placeholder="Course" name="course" formControlName="assignmentCourse">
-                <mat-option *ngFor="let course of courses" [value]="course.value">
-                  {{ course.viewValue }}
+                <mat-option *ngFor="let course of courses" [value]="course.instanceID">
+                  {{ course.disciplineLetters }}{{ course.courseNumber + ': ' + course.nameOfClass }}
                 </mat-option>
               </mat-select>
             </mat-form-field>

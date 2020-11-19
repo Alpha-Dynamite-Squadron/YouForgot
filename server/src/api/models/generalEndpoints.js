@@ -68,7 +68,7 @@ module.exports.getInstitutions = function(institution, resultCallback){
 // GET THE INFO OF A SPECIFIC CLASS GIVEN THE SECTION INSTANCE ID
 // gives you a assignment ID if you want to subscribe to the assignment, forGrade determines whether or not it shows assignmentAverage
 //tested
-module.exports.getCourseInfo = function(sectionInstanceID, resultCallback){
+module.exports.getCourseAssignments = function(sectionInstanceID, resultCallback){
     let getCourseInfoQuery = 'SELECT SectionInstance.nameOfClass, Post.assignmentID, Post.uploadDate, Post.assignmentName, Post.assignmentDueDate, Post.forGrade, Post.assignmentAverage, Post.iForgotCount FROM SectionInstance INNER JOIN Post ON SectionInstance.sectionInstanceID = Post.sectionInstance WHERE SectionInstance.sectionInstanceID = ?;';
     dbPool.query(getCourseInfoQuery, [sectionInstanceID], function(err, res){
         if(err){
@@ -84,6 +84,7 @@ module.exports.getCourseInfo = function(sectionInstanceID, resultCallback){
                     nameOfClass : res[i].nameOfClass,
                     assignmentID: res[i].assignmentID,
                     uploadDate: res[i].uploadDate,
+                    dueDate: res[i].assignmentDueDate,
                     assignmentName : res[i].assignmentName,
                     forGrade: res[i].forGrade,
                     iForgotCount: res[i].iForgotCount,

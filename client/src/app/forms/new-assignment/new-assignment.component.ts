@@ -1,8 +1,10 @@
 import { Component, Injectable, OnInit } from '@angular/core';
-
 import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormBuilder, AbstractControl } from '@angular/forms';
+import { UserService } from 'src/app/services/user.service';
+import { Course } from 'src/app/models/course.model';
+import swal from 'sweetalert2';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -20,28 +22,27 @@ export class NewAssignmentComponent implements OnInit {
 
   selectedValue: string;
   currentCourse: string[];
-  courses = [
-    { value: 'course-1520', viewValue: 'Physics 1520: Electronegativity and Magnetism' },
-    { value: 'course-3110', viewValue: 'CS3110: Formal Languages and Automata' },
-    { value: 'course-4750', viewValue: 'CS4750: Mobile Applications Development' },
-  ];
+  courses: Course[];
 
   validTextType: boolean = false;
   validNumberType: boolean = false;
   matcher = new MyErrorStateMatcher();
   createAssignmentForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private userService: UserService) { }
 
   ngOnInit() {
-    //For the time being it will be assumed all assignments are due at 11:59pm
-    //This can be replaced once the datepicker has a timepicker as well
+    this.userService.fetchUserCourses().subscribe((courses) => {
+      this.courses = courses;
+    });
     this.createAssignmentForm = this.formBuilder.group({
       assignmentTitle: ['', Validators.required],
-      assignmentDesc: ['', Validators.required],
+      // assignmentDesc: ['', Validators.required],
       assignmentDueDate: ['', Validators.required],
       assignmentTimeDueDate: ['', Validators.required],
-      assignmentGrading: ['', Validators],
+      assignmentGrading: [0, Validators],
       assignmentCourse: ['', Validators.required]
     });
   }
@@ -67,7 +68,7 @@ export class NewAssignmentComponent implements OnInit {
       }
     });
   }
-  
+
   textValidationType(e) {
     if (e) {
       this.validTextType = true;
@@ -84,14 +85,51 @@ export class NewAssignmentComponent implements OnInit {
     }
   }
 
-  onSubmit() {
+  onSubmit(formDirective: FormGroupDirective) {
     if (this.createAssignmentForm.valid) {
-      console.log('Form Submitted.');
-      console.log('Submission Valid, sending POST Request: ' + JSON.stringify(this.createAssignmentForm.value));
-      alert('Submission Valid, sending POST Request: ' + JSON.stringify(this.createAssignmentForm.value));
+      console.log('Form Valid, sending POST Request: ' + JSON.stringify(this.createAssignmentForm.value))
+      //Combine User Date and User Time into one String
+      let assignmentDueDate: string = this.combineDateAndTime(
+        this.createAssignmentForm.value.assignmentDueDate, 
+        this.createAssignmentForm.value.assignmentTimeDueDate
+        );
+      this.userService.createAssignment(
+        this.createAssignmentForm.value.assignmentCourse,
+        this.createAssignmentForm.value.assignmentTitle,
+        this.createAssignmentForm.value.assignmentGrading,
+        assignmentDueDate
+      ).subscribe(() => {
+        formDirective.resetForm();
+        this.createAssignmentForm.reset();
+        swal({
+          title: "Assignment Created!",
+          text: "You have successfully created an assignment in this course and are subscribed to it.",
+          buttonsStyling: false,
+          confirmButtonClass: "btn btn-info",
+          type: "success"
+        }).then(() => {
+          window.location.reload();
+        }).catch(swal.noop)
+      }, (error) => {
+        console.log(error);
+        swal({
+          title: "Creation Failed!",
+          text: "Oops! Something went wrong. Please try again later.",
+          buttonsStyling: false,
+          confirmButtonClass: "btn btn-info",
+          type: "error"
+        }).catch(swal.noop)
+      });
     } else {
       this.validateAllFormFields(this.createAssignmentForm);
     }
+  }
+
+  private combineDateAndTime(dueDate: string, timeDueDate: string): string {
+    let combinedDueDate: Date;
+    let temp = dueDate.toString().replace('00:00:00', timeDueDate);
+    combinedDueDate = new Date(temp);
+    return combinedDueDate.toString();
   }
 
 }

@@ -4,14 +4,14 @@ let generalEndpoints = require('../models/generalEndpoints');
 // WE TAKE IN A SECTIONID WHEN A USER CLICKS A HYPERLINK IN THEIR MY COURSES SECTION TO GO THEIR COURSE
 // THIS DISPLAYS ALL THE INFO OF A SPECIFIC COURSE INCLUDING ASSIGMNETS
 //tested
-module.exports.getCourseInfo = function(req,res){
+module.exports.getCourseAssignments = function(req,res){
     if(!req.body.sectionInstanceID){
         res.status(400).json({
             "message" : "Section Instance ID Required"
           });
     }
     else {
-        generalEndpoints.getCourseInfo(req.body.sectionInstanceID, function(err,data){
+        generalEndpoints.getCourseAssignments(req.body.sectionInstanceID, function(err,data){
             console.log("Fetching all information for this course: " + req.body.sectionInstanceID);
             if(err){
                 //DB error
@@ -198,7 +198,7 @@ module.exports.createAssignment = function(req, res){
             "message" : "No assignment name provided."
         });
     }
-    else if(!req.body.forGrade){
+    else if(req.body.forGrade == null){
         res.status(400).json({
             "message" : "forGrade not provided."
         });

@@ -31,7 +31,7 @@ router.post('/getInstitutions', generalEndpointController.getInstitutions);
 router.get('/getUserAssignments', auth, userEndpointController.getUserAssignments);
 router.get('/getUserCourses', auth, userEndpointController.getUserCourses);
 router.get('/getUserInfo', auth, userEndpointController.getUserInfo);
-router.get('/getCourseInfo', auth, generalEndpointController.getCourseInfo);
+router.post('/getCourseAssignments', auth, generalEndpointController.getCourseAssignments);
 router.get('/getInstitutionCourses', auth, generalEndpointController.getInstitutionCourses);
 router.post('/updateIsDone', auth, userEndpointController.updateIsDone);
 router.post('/updateIForgot', auth, userEndpointController.updateIForgot);

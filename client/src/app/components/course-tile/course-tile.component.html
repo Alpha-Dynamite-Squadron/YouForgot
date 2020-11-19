@@ -1,9 +1,9 @@
 <div class="row">
   <div class="card card-product">
-    <div routerLinkActive="true" class="card-body">
+    <div class="card-body">
       <h4 class="card-title">
-        <i class="material-icons pull-left">{{ course.imageID }}</i>
-        <a routerLink="/components/course">{{ course.disciplineLetters }}{{ course.courseNumber }}</a>
+        <i class="material-icons pull-left">{{ courseIcon }}</i>
+        <a (click)="goToCourse()">{{ course.disciplineLetters }}{{ course.courseNumber }}</a>
         <i class="material-icons pull-right">{{ course.imageID }}</i>
       </h4>
       <div class="card-description">
