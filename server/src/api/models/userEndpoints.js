@@ -111,15 +111,15 @@ module.exports.getUserAssignments = function(userEmail, resultCallback){
 //tested
 module.exports.userEnroll = function(userEmail, sectionInstanceID, getRemindernotifications, resultCallback){
     let userEnrollQuery = 'INSERT INTO UserEnrollment (emailAddress, sectionInstanceID, getReminderNotifications) VALUES (?,?,?);';
-    dbPool.query(userEnrollQuery, [userEmail, sectionInstanceID, getRemindernotifications], function(err,res){
+    dbPool.query(userEnrollQuery, [userEmail, sectionInstanceID, getRemindernotifications], function(er1r,res){
         //db err
-        if(err){
-            if(err.code === "ER_DUP_ENTRY"){
-                resultCallback(err, 1);
+        if(err1){
+            if(err.code === "ER_DUP_ENTRY") {
+                resultCallback(err1, 1);
             }
             else {
                 //console.log(err);
-                resultCallback(err, null);
+                resultCallback(err1, null);
             }
         }
         else{
@@ -134,31 +134,24 @@ module.exports.userEnroll = function(userEmail, sectionInstanceID, getReminderno
                     let createPostAssociationQuery = 'INSERT INTO PostAssociation (emailAddress, assignmentID, isIgnored, isReported, customUploadDate, customAssignmentName, customAssignmentDescription, customDueDate, sentNotification, iForgot) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
                     let innerError = false;
                     for(let i = 0; i < res2.length; i++){
-                        if(innerError){
-                            break;
-                        }
+                        let counter = 0;
                         dbPool.query(createPostAssociationQuery, [userEmail, res2[i].assignmentID,0,0,res2[i].uploadDate, res2[i].assignmentName, "default description", res2[i].assignmentDueDate, 0, 0], function(err3, res3){
                             if(err3){
-                                if(err3.code === "ER_DUP_ENTRY"){
-                                    innerError = err3;
-                                    resultCallback(err3, 5);
-                                }
-                                else {
-                                    innerError = err3;
                                     console.log("Error creating post associations for user:" + userEmail);
-                                    resultCallback(err3, 4);
-                                }
+                                    resultCallback(err3, 3);
                             }
                             else{
-                                resultCallback(null,null);
+                                counter++;
+                                if(counter === res2.length) {
+                                    resultCallback(null, 0);
+                                }
                             }
                         });
                     }
                 }
-                
                 else{
                     console.log("There are no Posts associated with this sectionInstanceID");
-                    resultCallback(err,3);
+                    resultCallback(null, 0);
                 }
             });
         }
