@@ -41,11 +41,12 @@
             </tfoot>
             <tbody>
               <tr *ngFor="let row of dataTable.dataRows">
-                <td>{{row[0]}}</td>
-                <td>{{row[1]}}</td>
-                <td>{{row[2]}}</td>
-                <td>{{row[3]}}</td>
-                <td>{{row[4]}}</td>
+                <td>{{row.nameOfClass}}</td>
+                <td>{{row.courseNumber}}</td>
+                <td>{{row.sectionNumber}}</td>
+                <td>{{row.instructorName}}</td>
+                <td>{{row.academicTerm}} {{ row.academicYear }}</td>
+                <td>{{row.enrollmentCount}}</td>
                 <td class="text-right">
                   <a href="#" class="btn btn-link btn-info btn-just-icon enroll">
                     <i (click)="showSwal('enrolled')" class="material-icons">done</i>

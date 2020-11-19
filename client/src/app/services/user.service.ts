@@ -41,6 +41,10 @@ export class UserService {
     });
   }
 
+  public fetchInstitutionCourses(): Observable<any> {
+    return this.authService.requestData('get', 'getInstitutionCourses');
+  }
+
   public fetchUserInformation(): Observable<any> {
     if(this.user) {
       return of(this.user);
