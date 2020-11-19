@@ -44,7 +44,7 @@ module.exports.getUserCourses = function(userEmail, resultCallback) {
 
 //tested
 module.exports.getUserInfo = function(userEmail, resultCallback){
-    let getUserInfoQuery = 'SELECT User.username, User.profileRating, User.imageID, Institution.schoolName FROM User INNER JOIN Institution ON User.institutionID = Institution.institutionID WHERE User.emailAddress = ?;';
+    let getUserInfoQuery = 'SELECT User.username, User.profileRating, User.imageID, User.getPostReminderNotifications, User.getHomeworkReminderNotifications, User.sendExcessively, Institution.schoolName FROM User INNER JOIN Institution ON User.institutionID = Institution.institutionID WHERE User.emailAddress = ?;';
     dbPool.query(getUserInfoQuery, [userEmail], function(err, res){
         if(err){
             resultCallback(err, null);
@@ -54,12 +54,14 @@ module.exports.getUserInfo = function(userEmail, resultCallback){
             let userDetails = {
                 userEmail: userEmail,
                 username: res[0].username,
+                imageID: res[0].imageID,
+                postNotifications: res[0].getPostReminderNotifications,
+                deadlineNotification: res[0].getHomeworkReminderNotifications,
+                sendExcessively: res[0].sendExcessively,
                 schoolName: res[0].schoolName,
                 profileRating: res[0].profileRating,
-                imageID: res[0].imageID
             }
             resultCallback(null, userDetails);
-
         }
         else {
             console.log("No user found.");

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import PerfectScrollbar from 'perfect-scrollbar';
+import { User } from '../models/user.model';
 import { AuthenticationService } from '../services/authentication.service';
 import { UserService } from '../services/user.service';
 
@@ -51,7 +52,7 @@ export class SidebarComponent implements OnInit {
   public menuItems: any[];
   ps: any;
 
-  username: string = 'Username';
+  user: User;
 
   constructor(
     private authService: AuthenticationService,
@@ -66,8 +67,9 @@ export class SidebarComponent implements OnInit {
   };
 
   ngOnInit() {
-    //this.username = this.authService.getUserDetails().username;
-    this.userService.fetchUserInformation();
+    this.userService.fetchUserInformation().subscribe((user) => {
+      this.user = user;
+    });
     
     this.menuItems = ROUTES.filter(menuItem => menuItem);
     if (window.matchMedia(`(min-width: 960px)`).matches && !this.isMac()) {
