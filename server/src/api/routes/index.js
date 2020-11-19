@@ -42,5 +42,6 @@ router.post('/resetEmail', controllerAuthentication.resetPassword);
 router.post('/sendResetEmail', controllerAuthentication.sendResetEmail);
 router.post('/unenrollUser', auth, userEndpointController.unenroll);
 router.post('/deleteAccount', auth, userEndpointController.deleteAccount);
+router.post('/getCourseName', auth, generalEndpointController.getCourseName);
 
 module.exports = router;

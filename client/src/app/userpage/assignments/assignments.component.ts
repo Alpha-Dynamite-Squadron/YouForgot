@@ -1,5 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { PersonalAssignment } from 'src/app/models/personal-assignment.model';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-assignments',
@@ -10,10 +12,12 @@ export class AssignmentsComponent implements OnInit {
 
   createNewAssignment: boolean = false;
   myAssignments: boolean = false;
-  assignments: number[] = [1, 2, 3, 4, 5]; 
+  assignments: PersonalAssignment[];
   location: Location;
 
-  constructor(location: Location) {
+  constructor(
+    private userService: UserService,
+    location: Location) {
     this.location = location;
    }
 
@@ -28,5 +32,8 @@ export class AssignmentsComponent implements OnInit {
     if(title === '/user/myassignments') {
       this.myAssignments = true;
     }
+    this.userService.fetchUserAssignments().subscribe((data) => {
+      this.assignments = data;
+    });
   }
 }

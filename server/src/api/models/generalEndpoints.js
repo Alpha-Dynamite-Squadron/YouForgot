@@ -69,7 +69,7 @@ module.exports.getInstitutions = function(institution, resultCallback){
 // gives you a assignment ID if you want to subscribe to the assignment, forGrade determines whether or not it shows assignmentAverage
 //tested
 module.exports.getCourseAssignments = function(sectionInstanceID, resultCallback){
-    let getCourseInfoQuery = 'SELECT SectionInstance.nameOfClass, Post.assignmentID, Post.uploadDate, Post.assignmentName, Post.assignmentDueDate, Post.forGrade, Post.assignmentAverage, Post.iForgotCount, PostAssociation.iForgot FROM SectionInstance INNER JOIN Post ON SectionInstance.sectionInstanceID = Post.sectionInstance AND SectionInstance.sectionInstanceID = ? AND PostAssociation.assignmentID = Post.assignmentID;';
+    let getCourseInfoQuery = 'SELECT SectionInstance.nameOfClass, Post.assignmentID, Post.uploadDate, Post.assignmentName, Post.assignmentDueDate, Post.forGrade, Post.assignmentAverage, Post.iForgotCount, PostAssociation.iForgot FROM SectionInstance INNER JOIN Post ON SectionInstance.sectionInstanceID = Post.sectionInstance AND SectionInstance.sectionInstanceID = ? LEFT OUTER JOIN PostAssociation ON PostAssociation.assignmentID = Post.assignmentID;';
     dbPool.query(getCourseInfoQuery, [sectionInstanceID], function(err, res){
         if(err){
             console.log(err);
@@ -101,6 +101,23 @@ module.exports.getCourseAssignments = function(sectionInstanceID, resultCallback
             resultCallback(null,null);
         }
     });
+}
+
+module.exports.getCourseName = function(sectionInstanceID, resultCallback){
+  let getCourseInfoQuery = 'SELECT nameOfClass FROM SectionInstance WHERE sectionInstanceID = ? LIMIT 1;';
+  dbPool.query(getCourseInfoQuery, [sectionInstanceID], function(err, res){
+      if(err){
+          console.log(err);
+          resultCallback(err,null);
+      }
+      else if (res.length === 1){
+          resultCallback(null, res[0].nameOfClass);
+      }
+      else{
+          console.log("Could not find sectionInstanceID");
+          resultCallback(null,null);
+      }
+  });
 }
 
 // how to creat sectionInstance ID?
@@ -153,19 +170,15 @@ module.exports.createAssignment = function(postAuthorEmail , assignmentName, due
             resultCallback(err, null);
         }
         else{
-            let getClassMatesQuery = 'SELECT emailAddress, getReminderNotifications FROM UserEnrollment WHERE sectionInstanceID = ? AND emailAddress != ?;';
+            let getClassMatesQuery = 'SELECT emailAddress, getReminderNotifications FROM UserEnrollment WHERE sectionInstanceID = ?;';
             dbPool.query(getClassMatesQuery, [sectionInstanceID, postAuthorEmail], function(error3, result3){
                 if(error3){
                     resultCallback(error3, 3);
                 }
                 else if(result3.length != 0){
                     let createPostAssociationsQuery = 'INSERT INTO PostAssociation (emailAddress, assignmentID, isIgnored, isReported, customUploadDate, customAssignmentName, customAssignmentDescription, customDueDate, sentNotification, iForgot) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
-                    let innerError = false;
+                    let counter = 0;
                     for(let i = 0; i < result3.length; i++){
-                        //create post associations for users
-                        if(innerError){
-                            break;
-                        }
                         dbPool.query(createPostAssociationsQuery, [result3[i].emailAddress, res.insertId,0,0,uploadDate,assignmentName,'default description',assignmentDueDate,0,0], function(error4, result4){
                             if(error4){
                                 if(error4.code === "ER_DUP_ENTRY"){
@@ -180,33 +193,34 @@ module.exports.createAssignment = function(postAuthorEmail , assignmentName, due
                             //Find email addresses where they have defaultNotificationsTurnedOn for the Class
                             //doing nodemailer where getReminderNotifications = 1, 1 is true
                             else{
-
-                                let getClassInfo = 'SELECT nameOfClass from SectionInstance WHERE sectionInstanceID = ?;';
-                                dbPool.query(getClassInfo, [sectionInstanceID], function(error5, result5){
-                                    if(error5){
-                                        resultCallback(error5, 6);
-                                    }
-                                    else if(result5.length !== 0){
-                                        let nameOfClass = result5[0].nameOfClass;
-                                        for(let i =0; i < result3.length; i++){
-                                            //only email people who have notifications on for this course
-                                            if(result3[i].getReminderNotifications === 1){
-                                                bodyText = "Hello! \nThere is a new assignment posted in your class:  " + nameOfClass+ ". Please make sure to check it out on our website.\n" + "https://youforgot.school/assignment";
-                                                nodeMailerTransporter.sendMail({
-                                                    from: '"Kenny Foo 👻" <admin@youforgot.school>', // sender address
-                                                    to: result3[i].emailAddress, // list of receivers
-                                                    subject: "You Forgot an Assignment!", // Subject line
-                                                    text: bodyText, // plain text body
-                                                });
-                                            }
-                                        }
-                                        resultCallback(null, null);
-                                    }
-                                    else{
-                                        resultCallback(null, 7);
-                                    }
-                                });
-
+                                counter++;
+                                if(counter == result3.length) {
+                                  let getClassInfo = 'SELECT nameOfClass from SectionInstance WHERE sectionInstanceID = ?;';
+                                  dbPool.query(getClassInfo, [sectionInstanceID], function(error5, result5){
+                                      if(error5){
+                                          resultCallback(error5, 6);
+                                      }
+                                      else if(result5.length !== 0){
+                                          let nameOfClass = result5[0].nameOfClass;
+                                          for(let i =0; i < result3.length; i++){
+                                              //only email people who have notifications on for this course
+                                              if(result3[i].getReminderNotifications === 1){
+                                                  bodyText = "Hello! \nThere is a new assignment posted in your class:  " + nameOfClass+ ". Please make sure to check it out on our website.\n" + "https://youforgot.school/assignment";
+                                                  nodeMailerTransporter.sendMail({
+                                                      from: '"Your friends at YouForgot" <admin@youforgot.school>', // sender address
+                                                      to: result3[i].emailAddress, // list of receivers
+                                                      subject: "You Forgot an Assignment!", // Subject line
+                                                      text: bodyText, // plain text body
+                                                  });
+                                              }
+                                          }
+                                          resultCallback(null, null);
+                                      }
+                                      else{
+                                          resultCallback(null, 7);
+                                      }
+                                  });
+                              }
                             }
                         });
                     }

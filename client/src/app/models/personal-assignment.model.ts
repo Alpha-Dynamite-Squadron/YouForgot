@@ -5,6 +5,9 @@ export class PersonalAssignment {
   customDueDate: string;
   isDone: string;
   grade: number;
+  forGrade: boolean;
+  assignmentID: number;
+  isIgnored: boolean;
 
   constructor(
     upload: string,
@@ -12,7 +15,10 @@ export class PersonalAssignment {
     desc: string,
     due: string,
     done: string,
-    grade: number
+    grade: number,
+    forGrade: boolean,
+    id: number,
+    ignored: boolean
   ) {
     this.customUploadDate = upload;
     this.customAssignmentName = name;
@@ -20,5 +26,8 @@ export class PersonalAssignment {
     this.customDueDate = due;
     this.isDone = done;
     this.grade = grade;
+    this.forGrade = forGrade;
+    this.assignmentID = id;
+    this.isIgnored = ignored;
   }
 }

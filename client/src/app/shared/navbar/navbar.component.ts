@@ -220,7 +220,7 @@ export class NavbarComponent implements OnInit {
       return 'My Assignments';
     } else if (title === '/user/mycourses') {
       return 'My Courses';
-    } else if (title === '/components/course') {
+    } else if (title.startsWith('/components/course')) {
       return 'Course Name';
     } else {
       return title;

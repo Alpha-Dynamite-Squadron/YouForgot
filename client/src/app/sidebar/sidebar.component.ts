@@ -35,12 +35,13 @@ export const ROUTES: RouteInfo[] = [
     title: 'Find Courses',
     type: 'link',
     icontype: 'search'
-  }, {
-    path: '/calendar',
-    title: 'Calendar',
-    type: 'link',
-    icontype: 'date_range'
   }
+  // , {
+  //   path: '/calendar',
+  //   title: 'Calendar',
+  //   type: 'link',
+  //   icontype: 'date_range'
+  // }
 ];
 @Component({
   selector: 'app-sidebar-cmp',

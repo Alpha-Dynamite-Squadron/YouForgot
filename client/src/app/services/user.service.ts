@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Course } from '../models/course.model';
+import { PersonalAssignment } from '../models/personal-assignment.model';
 import { PublicAssignment } from '../models/public-assignment.model';
 import { User } from '../models/user.model';
 import { AuthenticationService } from './authentication.service';
@@ -15,8 +16,10 @@ export class UserService {
 
   user: User;
   userCourses: Course[];
+  userAssignments: PersonalAssignment[];
   courseAssignments: PublicAssignment[];
   currentCourseID: number;
+  currentCourseName: string;
 
   constructor(
     private http: HttpClient,
@@ -44,6 +47,22 @@ export class UserService {
       academicTerm: academicTerm,
       academicYear: academicYear
     });
+  }
+
+  public getCourseName(instanceID: number) {
+    if (this.currentCourseName) {
+      return of(this.currentCourseName);
+    } else {
+      console.log("Retrieving Course Name from Server...");
+      return this.authService.requestData('post', 'getCourseName', {
+        sectionInstanceID: instanceID
+      }).pipe(
+        map((data) => {
+          this.currentCourseName = data;
+          return this.currentCourseName;
+        })
+      );
+    }
   }
 
   public createAssignment(
@@ -96,12 +115,40 @@ export class UserService {
               element.forGrade,
               element.assignmentAverage,
               element.iForgotCount,
-              element.assignmentID
+              element.assignmentID,
+              element.iForgot
             ));
           });
           return this.courseAssignments;
         })
       )
+    }
+  }
+
+  public fetchUserAssignments(): Observable<any> {
+    if (this.userAssignments) {
+      return of(this.userAssignments);
+    } else {
+      console.log("Retrieving User Assignments from Server...");
+      this.userAssignments = [];
+      return this.authService.requestData('get', 'getUserAssignments').pipe(
+        map((data) => {
+          data.forEach(element => {
+            this.userAssignments.push(new PersonalAssignment(
+              element.uploadDate,
+              element.assignmentName,
+              element.assignmentDescription,
+              element.dueDate,
+              element.isDone,
+              element.grade,
+              element.forGrade,
+              element.assignmentID,
+              element.isIgnored
+            ));
+          });
+          return this.userAssignments;
+        })
+      );
     }
   }
 
@@ -151,6 +198,19 @@ export class UserService {
     );
   }
 
+  public subscribeToPost(assignmentID: number) {
+    return this.authService.makeRequest('post', 'subscribeToPost', {
+      assignmentID: assignmentID
+    });
+  }
+
+  public completeAssignment(assignmentID: number) {
+    return this.authService.makeRequest('post', 'updateIsDone', {
+      assignmentID: assignmentID
+    });
+  }
+
+
   public enrollUser(instanceID: number, notifications: boolean) {
     return this.authService.makeRequest('post', 'enrollUser', {
       sectionInstanceID: instanceID,
@@ -174,11 +234,17 @@ export class UserService {
   public wipeData() {
     this.user = null;
     this.userCourses = null;
+    this.userAssignments = null;
+    this.courseAssignments = null;
+    this.currentCourseID = null;
   }
 
   public deleteAccount() {
     this.user = null;
     this.userCourses = null;
+    this.userAssignments = null;
+    this.courseAssignments = null;
+    this.currentCourseID = null;
     return this.authService.makeRequest('post', 'deleteAccount');
   }
 }

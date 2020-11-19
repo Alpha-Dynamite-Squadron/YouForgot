@@ -93,10 +93,11 @@ export class NewAssignmentComponent implements OnInit {
         this.createAssignmentForm.value.assignmentDueDate, 
         this.createAssignmentForm.value.assignmentTimeDueDate
         );
+        
       this.userService.createAssignment(
         this.createAssignmentForm.value.assignmentCourse,
         this.createAssignmentForm.value.assignmentTitle,
-        this.createAssignmentForm.value.assignmentGrading,
+        !this.createAssignmentForm.value.assignmentGrading,
         assignmentDueDate
       ).subscribe(() => {
         formDirective.resetForm();

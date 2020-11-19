@@ -69,8 +69,8 @@ module.exports.getUserAssignments = function(req, res){
     }
     else{
         //we have a valid email address
-        endpoints.getUserCourses(req.payload.emailAddress, function(err,data){
-            console.log("Fetching all the courses for user: " + req.payload.emailAddress);
+        endpoints.getUserAssignments(req.payload.emailAddress, function(err,data){
+            console.log("Fetching all the assignments for user: " + req.payload.emailAddress);
             if(err){
                 //DB error
                 if(data == null){
