@@ -4,27 +4,21 @@
       <i class="material-icons">{{ selectedIcon }}</i>
     </div>
     <div class="timeline-panel">
+      <button *ngIf="!assignment.isIgnored" type="button" (click)="onSubscribe()" mat-raised-button class="btn btn-danger btn-round pull-right">
+        <i class="material-icons">add_alert</i> Ignore Assignment
+      </button>
       <div class="timeline-heading">
-        <span class="badge badge-info">{{ selectedAssignmentName }}</span>
-      </div>
-      <div class="timeline-body">
-        <p>{{ selectedAssignmentDesc }}</p>
+        <span class="badge badge-info">{{ assignment.customAssignmentName }}</span>
       </div>
       <h4>
-        <i id="dueDateIcon" class="ti-time material-icons">date_range</i> Due {{ selectedAssignmentDueDate }}
+        <i id="dueDateIcon" class="ti-time material-icons">date_range</i> Due {{ formattedDueDate }}
       </h4>
       <hr>
       <div class="row">
-        <!-- <button id="forgotBtn" mat-raised-button class="btn btn-info btn-round">
-          <i class="material-icons">assignment</i>  Start Assignment
-        </button> -->
-        <button id="rememberBtn" mat-raised-button class="btn btn-info btn-round">
+        <button type="button" id="rememberBtn" (click)="onComplete()" mat-raised-button class="btn btn-info btn-round">
           <i class="material-icons">assignment_turned_in</i>  Complete Assignment
         </button>
-        <!-- <span *ngIf="selectedGradingOption == false" class="text-center text-info">
-          Assignment is for Credit/No Credit
-        </span> -->
-        <div *ngIf="selectedGradingOption == true" class="dropdown">
+        <div *ngIf="assignment.forGrade" class="dropdown">
           <button id="gradeReceivedBtn" mat-raised-button type="button" class="btn btn-round btn-info dropdown-toggle" data-toggle="dropdown">
             <i class="material-icons">grading</i> Grade Received
             <span class="caret"></span>
@@ -49,7 +43,7 @@
         </div>
       </div>
       <span class="text-center text-gray pull-right">
-        Posted {{ assignmentPostedDate }}
+        Posted {{ formattedUploadDate }}
       </span>
     </div>
   </li>

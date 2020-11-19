@@ -4,9 +4,6 @@
       <i class="material-icons">assignment</i>
     </div>
     <div class="timeline-panel">
-      <button mat-raised-button class="btn btn-info btn-round pull-right">
-        <i class="material-icons">add_alert</i> Subscribe to Assignment
-      </button>
       <div class="timeline-heading">
         <h6 class="text-info">{{ assignment.assignmentName }}</h6>
       </div>
@@ -20,7 +17,7 @@
         <button *ngIf="!assignment.iForgot" type="button" id="forgotBtn" mat-raised-button class="btn btn-info btn-round" (click)="onForgot()">
           <i class="material-icons">favorite</i> I Forgot! {{ assignment.iForgotCount }}
         </button>
-        <button *ngIf="assignment.iForgot" type="button" id="forgotBtn" mat-raised-button class="btn btn-warning btn-round" (click)="onForgot()">
+        <button *ngIf="assignment.iForgot" type="button" id="forgotBtn" mat-raised-button class="btn btn-danger btn-round" (click)="onForgot()">
           <i class="material-icons">favorite</i> I Remembered. {{ assignment.iForgotCount }}
         </button>
         <!-- <button type="button" id="reportBtn" mat-raised-button class="btn btn-info btn-round" (click)="onReport()">

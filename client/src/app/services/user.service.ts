@@ -19,6 +19,7 @@ export class UserService {
   userAssignments: PersonalAssignment[];
   courseAssignments: PublicAssignment[];
   currentCourseID: number;
+  currentCourseName: string;
 
   constructor(
     private http: HttpClient,
@@ -46,6 +47,22 @@ export class UserService {
       academicTerm: academicTerm,
       academicYear: academicYear
     });
+  }
+
+  public getCourseName(instanceID: number) {
+    if (this.currentCourseName) {
+      return of(this.currentCourseName);
+    } else {
+      console.log("Retrieving Course Name from Server...");
+      return this.authService.requestData('post', 'getCourseName', {
+        sectionInstanceID: instanceID
+      }).pipe(
+        map((data) => {
+          this.currentCourseName = data;
+          return this.currentCourseName;
+        })
+      );
+    }
   }
 
   public createAssignment(
@@ -113,6 +130,7 @@ export class UserService {
       return of(this.userAssignments);
     } else {
       console.log("Retrieving User Assignments from Server...");
+      this.userAssignments = [];
       return this.authService.requestData('get', 'getUserAssignments').pipe(
         map((data) => {
           data.forEach(element => {
@@ -122,9 +140,13 @@ export class UserService {
               element.assignmentDescription,
               element.dueDate,
               element.isDone,
-              element.grade
+              element.grade,
+              element.forGrade,
+              element.assignmentID,
+              element.isIgnored
             ));
           });
+          return this.userAssignments;
         })
       );
     }
@@ -175,6 +197,19 @@ export class UserService {
       })
     );
   }
+
+  public subscribeToPost(assignmentID: number) {
+    return this.authService.makeRequest('post', 'subscribeToPost', {
+      assignmentID: assignmentID
+    });
+  }
+
+  public completeAssignment(assignmentID: number) {
+    return this.authService.makeRequest('post', 'updateIsDone', {
+      assignmentID: assignmentID
+    });
+  }
+
 
   public enrollUser(instanceID: number, notifications: boolean) {
     return this.authService.makeRequest('post', 'enrollUser', {

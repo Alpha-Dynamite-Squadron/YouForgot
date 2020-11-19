@@ -35,6 +35,33 @@ module.exports.getCourseAssignments = function(req,res){
 }
 
 
+module.exports.getCourseName = function(req,res){
+  if(!req.body.sectionInstanceID){
+      res.status(400).json({
+          "message" : "Section Instance ID Required"
+        });
+  }
+  else {
+      generalEndpoints.getCourseName(req.body.sectionInstanceID, function(err,data){
+          if(err){
+              //DB error
+              if(data == null){
+                  res.status(500).json({
+                      "message" : "Internal DB Error"
+                    });
+              }
+          }
+          else if(data){
+              res.status(200).json(data);
+          }
+          else{
+              res.status(401).json({
+                  "message" : "SectionInstanceID does not exists"
+              });
+          }
+      });
+  }
+}
 
 // given an institution id this is returns all of the courses
 // for the given institution.

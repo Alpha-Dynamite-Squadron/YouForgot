@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Course } from 'src/app/models/course.model';
 import { PublicAssignment } from 'src/app/models/public-assignment.model';
 import { UserService } from 'src/app/services/user.service';
+import { Location } from '@angular/common';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-assignment',
@@ -14,8 +16,13 @@ export class AssignmentComponent implements OnInit {
   assignmentIcon: string;
   formattedUploadDate: string;
   formattedDueDate: string;
+  public location: Location;
 
-  constructor(private userService: UserService) { }
+  constructor(
+    private userService: UserService,
+    location: Location) { 
+      this.location = location;
+    }
 
   ngOnInit(): void {
     this.formattedUploadDate = new Date(this.assignment.uploadDate).toLocaleString();
@@ -23,11 +30,20 @@ export class AssignmentComponent implements OnInit {
   }
 
   onForgot() {
-    console.log('Clicked iForgot Button');
+    console.log("Clicked iForgot Button");
     this.userService.updateForgotStatus(this.assignment.assignmentID).subscribe(() => {
-
+      window.location.reload();
     }, (error) => {
-      
+      console.log(error);
+        swal({
+          title: "Oops! Something went wrong.",
+          text: "Please try again later.",
+          buttonsStyling: false,
+          confirmButtonClass: "btn btn-info",
+          type: "error"
+        }).then(() => {
+          window.location.reload();
+        }).catch(swal.noop)
     });
   }
 
