@@ -69,7 +69,7 @@ module.exports.getInstitutions = function(institution, resultCallback){
 // gives you a assignment ID if you want to subscribe to the assignment, forGrade determines whether or not it shows assignmentAverage
 //tested
 module.exports.getCourseAssignments = function(sectionInstanceID, resultCallback){
-    let getCourseInfoQuery = 'SELECT SectionInstance.nameOfClass, Post.assignmentID, Post.uploadDate, Post.assignmentName, Post.assignmentDueDate, Post.forGrade, Post.assignmentAverage, Post.iForgotCount FROM SectionInstance INNER JOIN Post ON SectionInstance.sectionInstanceID = Post.sectionInstance WHERE SectionInstance.sectionInstanceID = ?;';
+    let getCourseInfoQuery = 'SELECT SectionInstance.nameOfClass, Post.assignmentID, Post.uploadDate, Post.assignmentName, Post.assignmentDueDate, Post.forGrade, Post.assignmentAverage, Post.iForgotCount PostAssociation.iForgot FROM SectionInstance INNER JOIN Post ON SectionInstance.sectionInstanceID = Post.sectionInstance AND SectionInstance.sectionInstanceID = ? AND PostAssociation.assignmentID = Post.assignmentID;';
     dbPool.query(getCourseInfoQuery, [sectionInstanceID], function(err, res){
         if(err){
             console.log(err);
@@ -87,6 +87,7 @@ module.exports.getCourseAssignments = function(sectionInstanceID, resultCallback
                     dueDate: res[i].assignmentDueDate,
                     assignmentName : res[i].assignmentName,
                     forGrade: res[i].forGrade,
+                    iForgot: res[i].iForgot,
                     iForgotCount: res[i].iForgotCount,
                     assignmentAverage: res[i].assignmentAverage,
                     sectionInstanceID: sectionInstanceID
