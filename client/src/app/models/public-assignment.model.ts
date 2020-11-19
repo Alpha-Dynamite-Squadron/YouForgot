@@ -6,6 +6,7 @@ export class PublicAssignment {
   forGrade: boolean;
   assignmentAverage: number;
   iForgotCount: number;
+  assignmentID: number;
 
   constructor(
     className: string,
@@ -14,7 +15,8 @@ export class PublicAssignment {
     dueDate: string,
     graded: boolean,
     avg: number,
-    count: number
+    count: number,
+    id: number
   ) {
     this.nameOfClass = className;
     this.uploadDate = upload;
@@ -23,5 +25,6 @@ export class PublicAssignment {
     this.forGrade = graded;
     this.assignmentAverage = avg;
     this.iForgotCount = count;
+    this.assignmentID = id;
   }
 }

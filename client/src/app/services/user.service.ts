@@ -78,12 +78,12 @@ export class UserService {
     }
   }
 
-  public fetchCourseInfo(instanceID: number): Observable<any> {
+  public fetchCourseAssignments(instanceID: number): Observable<any> {
     if (this.courseAssignments && this.currentCourseID === instanceID) {
       console.log("Same Course Selected as Previous, Passing Reference to Course Data...");
       return of(this.courseAssignments);
     } else {
-      console.log("Retrieving Course Info from Server...");
+      console.log("Retrieving Course Assignments from Server...");
       this.courseAssignments = [];
       return this.authService.requestData('post', 'getCourseAssignments', { sectionInstanceID: instanceID }).pipe(
         map((data) => {
@@ -95,7 +95,8 @@ export class UserService {
               element.dueDate,
               element.forGrade,
               element.assignmentAverage,
-              element.iForgotCount
+              element.iForgotCount,
+              element.assignmentID
             ));
           });
           return this.courseAssignments;
@@ -162,6 +163,13 @@ export class UserService {
       sectionInstanceID: instanceID
     });
   }
+
+  public updateForgotStatus(assignmentID: number) {
+    return this.authService.makeRequest('post', 'updateIForgot', {
+      assignmentID: assignmentID
+    });
+  }
+
 
   public wipeData() {
     this.user = null;

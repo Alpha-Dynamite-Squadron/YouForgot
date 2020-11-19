@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Course } from 'src/app/models/course.model';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-course',
@@ -7,12 +10,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CourseComponent implements OnInit {
 
-  assignments: number[] = [1, 2, 3, 4, 5]; 
+  assignments: []; 
   courseName: string = 'Course Name';
   
-  constructor() { }
+  constructor(
+    private userService: UserService,
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit(): void {
+    let courseURL: string = this.route.snapshot.paramMap.get('id');
+    if (isNaN(parseInt(courseURL))) {
+      this.router.navigateByUrl('/user/mycourses');
+    } else {
+      this.userService.fetchCourseAssignments(parseInt(courseURL)).subscribe((data) => {
+        this.assignments = data;
+      });
+    }
   }
 
 }
