@@ -17,10 +17,12 @@ module.exports.getInstitutionCourses = function(institutionID, resultCallback){
                 let institutionCourse = {
                     sectionInstanceID: res[i].sectionInstanceID,
                     nameOfClass: res[i].nameOfClass,
+                    imageID: res[i].imageID,
                     instructorName: res[i].instructorName,
                     disciplineLetters: res[i].disciplineLetters,
                     courseNumber: res[i].courseNumber,
                     courseEnrollment: res[i].enrollmentCount,
+                    sectionNumber: res[i].sectionNumber,
                     academicSession: res[i].academicSession,
                     year: res[i].year
                 }
