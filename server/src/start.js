@@ -1,34 +1,25 @@
 require('dotenv').config();
+const fs = require('fs');
+const https = require('https');
 var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
 var routesApi = require('../src/api/routes/index.js')
 require('../src/api/config/passport');
-var app = express();
-app.use(bodyParser.json()); // convert requests into json
-app.use(bodyParser.urlencoded({ extended: false}));
-var http = require('http');
-var port = '8080';
-app.set('port', port);
-var server = http.createServer(app);
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
 const performMaintenance = require('../src/api/models/maintenance.js');
 const notify = require('../src/api/models/sendHomeworkNotifications.js');
-// import clean from './api/Models/maintenance.js';
-// import notificationMailer frocm './api/Models/sendNotifications.js';
-// import nodemailer from 'nodemailer';
-/**
- * Event listener for HTTP server "listening" event.
- */
 
-
-function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-  console.log('Listening on ' + bind);
-}
+var port = '8080';
+var app = express();
+app.set('port', port);
+app.use(bodyParser.json()); // convert requests into json
+app.use(bodyParser.urlencoded({ extended: false}));
+app.use(function(req, res, result){
+  if(req.protocol === 'http'){
+    res.redirect('301', `https://${req.headers.host} ${req.url}`)
+  }
+  next();
+});
 
 const allowedExt = [
   '.js',
@@ -50,11 +41,29 @@ app.get('*', (req, res) => {
   }
 });
 
+var http = require('http');
+var server = http.createServer(app);
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
 
-
+if(process.env.NODE_ENV == 'production') {
+  const httpsOptions = {
+    cert: fs.readFileSync('/home/ec2-user/ssl/youforgotsecurity/certificate.pem'),
+    ca: fs.readFileSync('/home/ec2-user/ssl/youforgotsecurity/chain.pem'),
+    key: fs.readFileSync('/home/ec2-user/ssl/youforgotsecurity/private.key')
+  };
+  const httpsServer = https.createServer(httpsOptions, app);
+  httpsServer.listen(6969, '172.31.15.26');
+}
 /**
- * Normalize a port into a number, string, or false.
+ * Event listener for HTTP server "listening" event.
  */
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+  console.log('Listening on ' + bind);
+}
 
 function onError(error) {
   if (error.syscall !== 'listen') {
@@ -77,34 +86,26 @@ function onError(error) {
       throw error;
   }
 }
-//run clean every hour
-//setInterval(clean, 3600000);
-//send notifications every 5 minutes
-//setInterval(notificationMailer, 300000);
-
-
 
 //Christian Devile's Simple API Request Assignment 3
-app.get('/test1', (req, res) => {
-  res.send("Hello world");
-});
+// app.get('/test1', (req, res) => {
+//   res.send("Hello world");
+// });
 //Kenny Lee's Simple API Request for Assignment 3
-app.get('/yeet', (req, res) => {
-  res.send("yeet");
-});
+// app.get('/yeet', (req, res) => {
+//   res.send("yeet");
+// });
 //Ryan Dimitri Ramos's Simple API Request for Assignment 3
-app.get('/dimitri', (req, res) => {
-  res.send("Hi, this is Dimitri's test");
-});
+// app.get('/dimitri', (req, res) => {
+//   res.send("Hi, this is Dimitri's test");
+// });
 //Nicholas Stewart's Simple API Request for Assignment 3
-app.get('/nicholas', (req, res) => {
-  res.send("I like Moose.");
-});
-
-//performMaintenance.clean();
+// app.get('/nicholas', (req, res) => {
+//   res.send("I like Moose.");
+// });
 
 // check every hour to clean the DB 
-//setInterval(performMaintenance.clean, 3600000);
+setInterval(performMaintenance.clean, 3600000);
 
 //check every hour to send notifications
-//setInterval(notify.sendNotification, 3600000);
+setInterval(notify.sendNotification, 3600000);

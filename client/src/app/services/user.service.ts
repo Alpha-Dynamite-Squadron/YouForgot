@@ -19,6 +19,13 @@ export class UserService {
     private authService: AuthenticationService
   ) { }
 
+  public createCourse(
+    nameOfClass: string,
+    instructorName: string
+  ) {
+    
+  }
+
   public fetchUserInformation(): Observable<any> {
     if(this.user) {
       return of(this.user);

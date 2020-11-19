@@ -3,6 +3,7 @@ import { Component, Injectable, OnInit } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormBuilder } from '@angular/forms';
+import { User } from 'src/app/models/user.model';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -17,14 +18,6 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./new-course.component.css']
 })
 export class NewCourseComponent implements OnInit {
-
-  selectedInstitutionValue: string;
-  currentInstitution: string[];
-  institutions = [
-    { value: 'school-1', viewValue: 'California Polytechnic Institute - Pomona' },
-    { value: 'school-2', viewValue: 'University of Southern California' },
-    { value: 'school-3', viewValue: 'Grand Canyon University' },
-  ];
 
   selectedTermValue: string;
   currentTerm: string[];
@@ -102,9 +95,8 @@ export class NewCourseComponent implements OnInit {
   
   onSubmit() {
     if (this.createCourseForm.valid) {
-      console.log('Form Submitted.');
-      console.log('Submission Valid, sending POST Request: ' + JSON.stringify(this.createCourseForm.value));
-      alert('Submission Valid, sending POST Request: ' + JSON.stringify(this.createCourseForm.value));
+      console.log('Form Valid, sending POST Request: ' + JSON.stringify(this.createCourseForm.value));
+      
     } else {
       this.validateAllFormFields(this.createCourseForm);
     }
