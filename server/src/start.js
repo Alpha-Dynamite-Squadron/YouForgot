@@ -14,7 +14,7 @@ var app = express();
 app.set('port', port);
 app.use(bodyParser.json()); // convert requests into json
 app.use(bodyParser.urlencoded({ extended: false}));
-app.use(function(req, res, result){
+app.use(function(req, res, next){
   if(req.protocol === 'http'){
     res.redirect('301', `https://${req.headers.host} ${req.url}`)
   }
