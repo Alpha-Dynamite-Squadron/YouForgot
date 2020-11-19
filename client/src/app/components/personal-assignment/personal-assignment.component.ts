@@ -34,9 +34,6 @@ export class PersonalAssignmentComponent implements OnInit {
   selectedAssignmentDesc: string;
   selectedAssignmentDueDate: string;
   selectedGradingOption: boolean;
-
-  forgotCount: number;
-  rememberedCount: number;
   assignmentPostedDate: string;
 
   constructor() { }
@@ -47,8 +44,6 @@ export class PersonalAssignmentComponent implements OnInit {
     this.selectedAssignmentDesc = this.assignmentDescription[Math.floor(Math.random() * this.assignmentDescription.length)];
     this.selectedAssignmentDueDate = this.assignmentDueDate[Math.floor(Math.random() * this.assignmentDueDate.length)];
     this.selectedGradingOption = this.assignmentGradeOptions[Math.floor(Math.random() * this.assignmentGradeOptions.length)];
-    this.forgotCount = Math.floor(Math.random() * 100);
-    this.rememberedCount = Math.floor(Math.random() * 100);
     this.assignmentPostedDate = this.selectedAssignmentDueDate;
   }
 
