@@ -23,12 +23,14 @@ module.exports.getUserCourses = function(userEmail, resultCallback) {
                 let userCourse = {
                     userEmail: userEmail,
                     nameOfClass: res[i].nameOfClass,
+                    imageID: res[i].imageID,
                     instructorName: res[i].instructorName,
                     disciplineLetters: res[i].disciplineLetters,
                     courseNumber: res[i].courseNumber,
+                    sectionNumber: res[i].sectionNumber,
                     sectionInstanceID: res[i].sectionInstanceID,
-                    academicSession: res[i].academicSession,
-                    year: res[i].year
+                    academicTerm: res[i].academicTerm,
+                    academicYear: res[i].academicYear
                 }
                 userCourses.push(userCourse);
             }
@@ -111,10 +113,10 @@ module.exports.getUserAssignments = function(userEmail, resultCallback){
 //tested
 module.exports.userEnroll = function(userEmail, sectionInstanceID, getRemindernotifications, resultCallback){
     let userEnrollQuery = 'INSERT INTO UserEnrollment (emailAddress, sectionInstanceID, getReminderNotifications) VALUES (?,?,?);';
-    dbPool.query(userEnrollQuery, [userEmail, sectionInstanceID, getRemindernotifications], function(er1r,res){
+    dbPool.query(userEnrollQuery, [userEmail, sectionInstanceID, getRemindernotifications], function(err1,res){
         //db err
         if(err1){
-            if(err.code === "ER_DUP_ENTRY") {
+            if(err1.code === "ER_DUP_ENTRY") {
                 resultCallback(err1, 1);
             }
             else {

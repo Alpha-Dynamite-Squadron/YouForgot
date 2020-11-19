@@ -153,14 +153,14 @@ module.exports.userEnroll = function(req, res){
             if(err){
                 if(result == 1){
                     console.log("Trying to enroll a user that has been enrolled");
-                    console.log(err);
+                    // console.log(err);
                     res.status(400).json({
                         "message" : "Tried to enroll a user that has been enrolled"
                     });
                 }
                 else {
                     console.log("There is an DB error");
-                    console.log(err);
+                    // console.log(err);
                     res.status(500).json({
                         "message" : "Internal Database Error"
                     });

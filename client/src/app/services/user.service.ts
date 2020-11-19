@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Course } from '../models/course.model';
 import { User } from '../models/user.model';
 import { AuthenticationService } from './authentication.service';
 
@@ -12,6 +13,7 @@ import { AuthenticationService } from './authentication.service';
 export class UserService {
 
   user: User;
+  userCourses: Course[];
 
   constructor(
     private http: HttpClient,
@@ -46,10 +48,10 @@ export class UserService {
   }
 
   public fetchUserInformation(): Observable<any> {
-    if(this.user) {
+    if (this.user) {
       return of(this.user);
     } else {
-      console.log("Retrieving User Data from Server");
+      console.log("Retrieving User Data from Server...");
       return this.authService.requestData('get', 'getUserInfo').pipe(
         map((data) => {
           this.user = new User(data.userEmail, data.username, data.imageID, data.postNotifications, data.deadlineNotifications, data.sendExcessively, data.schoolName, data.profileRating);
@@ -59,7 +61,34 @@ export class UserService {
     }
   }
 
-  public submitProfileUpdate(username: string, imageID: number, postN: boolean, deadlineN: boolean, excessiveN: boolean): Observable<any> {    
+  public fetchUserCourses(): Observable<any> {
+    if (this.userCourses) {
+      console.log("User Course Already Retrieved, Passing Reference...");
+      return of(this.userCourses);
+    } else {
+      console.log("Retrieving User Courses from Server...");
+      this.userCourses = [];
+      return this.authService.requestData('get', 'getUserCourses').pipe(
+        map((data) => {
+          data.forEach(element => {
+            this.userCourses.push(new Course(
+              element.nameOfClass,
+              element.imageID,
+              element.instructorName,
+              element.disciplineLetters,
+              element.courseNumber,
+              element.sectionNumber,
+              element.academicTerm,
+              element.academicYear
+            ));
+          });
+          return this.userCourses;
+        })
+      );
+    }
+  }
+
+  public submitProfileUpdate(username: string, imageID: number, postN: boolean, deadlineN: boolean, excessiveN: boolean): Observable<any> {
     return this.authService.makeRequest('post', 'updateProfile', {
       username: username,
       imageID: imageID,
@@ -81,15 +110,23 @@ export class UserService {
     return this.authService.makeRequest('post', 'enrollUser', {
       sectionInstanceID: instanceID,
       getNotifications: notifications
-    })
+    });
+  }
+
+  public unenrollUser(instanceID: number) {
+    return this.authService.makeRequest('post', 'unenrollUser', {
+      sectionInstanceID: instanceID
+    });
   }
 
   public wipeData() {
     this.user = null;
+    this.userCourses = null;
   }
 
   public deleteAccount() {
     this.user = null;
+    this.userCourses = null;
     return this.authService.makeRequest('post', 'deleteAccount');
   }
 }

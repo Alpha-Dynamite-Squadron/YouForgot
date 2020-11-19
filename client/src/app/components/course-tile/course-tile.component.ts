@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Course } from 'src/app/models/course.model';
+import { UserService } from 'src/app/services/user.service';
 import swal from 'sweetalert2';
 
 @Component({
@@ -8,58 +10,11 @@ import swal from 'sweetalert2';
 })
 export class CourseTileComponent implements OnInit {
 
-  icons: string[] = [
-    'assignment',
-    'book',
-    'science',
-    'calculate'];
-  courseNumber: string[] = [
-    '4750',
-    '3110',
-    '4990',
-    '2400',
-    '4310'];
-  courseName: string[] = [
-    'Operating Systems',
-    'Formal Languages and Automata',
-    'Mobile Applications Development',
-    'Social Computing',
-    'Data Structures'];
-  courseDiscipline: string[] = ['CS'];
-  courseInstructor: string[] = [
-    'Fuh Sang',
-    'David Johannsen',
-    'John Korah',
-    'Yu Sun',
-    'Gilbert Young'];
-  courseTerm: string[] = [
-    'Fall',
-    'Winter',
-    'Spring',
-    'Summer'];
-  courseYear: string[] = ['2020', '2021', '2022'];
-
-  selectedIcon: string;
-  selectedCourseNumber: string;
-  selectedSection: string;
-  selectedCourseName: string;
-  selectedCourseDiscipline: string;
-  selectedCourseInstructor: string;
-  selectedCourseTerm: string;
-  selectedCourseYear: string;
+  @Input() course: Course;
 
   constructor() { }
 
-  ngOnInit(): void {
-    this.selectedIcon = this.icons[Math.floor(Math.random() * this.icons.length)];
-    this.selectedCourseNumber = this.courseNumber[Math.floor(Math.random() * this.courseNumber.length)];
-    this.selectedSection = (Math.floor(Math.random() * 20) + 1).toString();
-    this.selectedCourseName = this.courseName[Math.floor(Math.random() * this.courseName.length)];
-    this.selectedCourseDiscipline = this.courseDiscipline[Math.floor(Math.random() * this.courseDiscipline.length)];
-    this.selectedCourseInstructor = this.courseInstructor[Math.floor(Math.random() * this.courseInstructor.length)];
-    this.selectedCourseTerm = this.courseTerm[Math.floor(Math.random() * this.courseTerm.length)];
-    this.selectedCourseYear = this.courseYear[Math.floor(Math.random() * this.courseYear.length)];
-  }
+  ngOnInit(): void {}
 
   showSwal(type) {
     if (type == 'warning-message-and-confirmation') {
