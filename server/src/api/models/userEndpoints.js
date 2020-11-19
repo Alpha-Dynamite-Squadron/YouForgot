@@ -307,7 +307,6 @@ module.exports.unenroll = function(userEmail, sectionInstanceID, resultCallback)
             console.log(err);
             resultCallback(err,null);
         }
-        //else its deleted 
         else{
             let getAssignmentIDs = 'SELECT assignmentID FROM Post WHERE sectionInstance = ?;';
             dbPool.query(getAssignmentIDs, [sectionInstanceID], function(err2, res2){
@@ -317,25 +316,25 @@ module.exports.unenroll = function(userEmail, sectionInstanceID, resultCallback)
                 }
                 else if(res2.length !== 0){
                     let deletePostAssociations = 'DELETE FROM PostAssociation WHERE assignmentID = ? AND emailAddress = ?;';
-                    let InternalError = false;
+                    let counter = 0;
                     for(let i = 0; i < res2.length; i++){
-                        if(InternalError)
-                            break;
                         dbPool.query(deletePostAssociations, [res2[i].assignmentID, userEmail], function(err3,res3){
                             if(err3){
-                                InternalError = true;
                                 console.log(err3);
                                 resultCallback(err3,3);
                             }
                             else{
-                                resultCallback(null,null);
+                                counter++;
+                                if(counter == res2.length) {
+                                    resultCallback(null, 0);
+                                }
                             }
                         });
                     }
                 }
                 // nothing from select query
                 else{
-                    (err, 1);
+                    resultCallback(null, 0);
                 }
             });
         }
