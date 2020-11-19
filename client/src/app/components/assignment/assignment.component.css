@@ -3,13 +3,17 @@ span {
 }
 
 h4 {
-  font-weight: bold;
-  color: #00bcd4;
+  font-size: medium;
 }
 
 span.text-center.text-gray {
   font-size: small;
   font-weight: bold;
+}
+
+.text-info {
+  font-weight: bolder;
+  font-size: large;
 }
 
 #forgotBtn {
@@ -24,6 +28,7 @@ span.text-center.text-gray {
 
 #dueDateIcon {
   vertical-align: top;
+  color: #00bcd4;
 }
 
 #gradeReceivedBtn {

@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Course } from 'src/app/models/course.model';
+import { PublicAssignment } from 'src/app/models/public-assignment.model';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-assignment',
@@ -7,52 +10,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AssignmentComponent implements OnInit {
 
-  icons: string[] = [
-    'assignment', 
-    'book', 
-    'science', 
-    'calculate'];
-  assignmentName: string[] = [
-    'Challenging Problem Homework #6', 
-    'CriminalIntent Application Chapters 9-13', 
-    'Homework#7 Problems 13-26 Odd', 
-    'Argumentative Essay'];
-  assignmentDescription: string[] = [
-    'Complete the homework posted on Black Board', 
-    'Submit the assignment as soon as possible', 
-    'This assignment will prepare you for final',
-    'Do not wait to start this assignment'];
-  assignmentDueDate: string[] = [
-    '10/29/2020', 
-    '11/7/2020', 
-    '12/13/2020', 
-    '11/13/2020'];
+  @Input() assignment: PublicAssignment;
+  assignmentIcon: string;
+  formattedUploadDate: string;
+  formattedDueDate: string;
 
-  selectedIcon: string;
-  selectedAssignmentName: string;
-  selectedAssignmentDesc: string;
-  selectedAssignmentDueDate: string;
-
-  forgotCount: number;
-  assignmentPostedDate: string;
-
-  constructor() { }
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-    this.selectedIcon = this.icons[Math.floor(Math.random() * this.icons.length)];
-    this.selectedAssignmentName = this.assignmentName[Math.floor(Math.random() * this.assignmentName.length)];
-    this.selectedAssignmentDesc = this.assignmentDescription[Math.floor(Math.random() * this.assignmentDescription.length)];
-    this.selectedAssignmentDueDate = this.assignmentDueDate[Math.floor(Math.random() * this.assignmentDueDate.length)];
-    this.forgotCount = Math.floor(Math.random() * 100);
-    this.assignmentPostedDate = this.selectedAssignmentDueDate;
+    this.formattedUploadDate = new Date(this.assignment.uploadDate).toLocaleString();
+    this.formattedDueDate = new Date(this.assignment.assignmentDueDate).toLocaleString();
   }
 
   onForgot() {
-    console.log('Forgot Button Clicked.');
+    console.log('Clicked iForgot Button');
+    this.userService.updateForgotStatus(this.assignment.assignmentID).subscribe(() => {
+
+    });
   }
 
-  onReport() {
-    console.log('Assignment Reported.');
-  }
+  // onReport() {
+  //   console.log('Assignment Reported.');
+  // }
 
 }

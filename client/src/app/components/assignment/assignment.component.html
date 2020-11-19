@@ -1,32 +1,31 @@
 <ul class="timeline timeline-simple mt-0 mb-0">
   <li class="timeline-inverted mt-0 mb-0">
     <div class="timeline-badge info">
-      <i class="material-icons">{{ selectedIcon }}</i>
+      <i class="material-icons">assignment</i>
     </div>
     <div class="timeline-panel">
+      <button mat-raised-button class="btn btn-info btn-round pull-right">
+        <i class="material-icons">add_alert</i> Subscribe to Assignment
+      </button>
       <div class="timeline-heading">
-        <span class="badge badge-info">{{ selectedAssignmentName }}</span>
-        <button mat-raised-button class="btn btn-info btn-round pull-right">
-          <i class="material-icons">add_alert</i> Subscribe to Assignment
-        </button>
+        <h6 class="text-info">{{ assignment.assignmentName }}</h6>
       </div>
       <div class="timeline-body">
-        <p>{{ selectedAssignmentDesc }}</p>
       </div>
-      <h4>
-        <i id="dueDateIcon" class="ti-time material-icons">date_range</i> Due {{ selectedAssignmentDueDate }}
+      <h4 class="text-gray">
+        <i id="dueDateIcon" class="ti-time material-icons">date_range</i> Due {{ formattedDueDate }}
       </h4>
       <hr>
       <div class="row">
         <button type="button" id="forgotBtn" mat-raised-button class="btn btn-info btn-round" (click)="onForgot()">
-          <i class="material-icons">favorite</i> I Forgot! {{ forgotCount }}
+          <i class="material-icons">favorite</i> I Forgot! {{ assignment.iForgotCount }}
         </button>
-        <button type="button" id="reportBtn" mat-raised-button class="btn btn-info btn-round" (click)="onReport()">
+        <!-- <button type="button" id="reportBtn" mat-raised-button class="btn btn-info btn-round" (click)="onReport()">
           <i class="material-icons">flag</i> Report Abuse
-        </button>
+        </button> -->
       </div>
       <span class="text-center text-gray pull-right">
-        Posted {{ assignmentPostedDate }}
+        Uploaded {{ formattedUploadDate }}
       </span>
     </div>
   </li>

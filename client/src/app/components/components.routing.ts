@@ -63,7 +63,15 @@ export const ComponentsRoutes: Routes = [
   }, {
     path: '',
     children: [{
+      path: 'course/:id',
+      component: CourseComponent
+    }]
+  }, {
+    path: '',
+    children: [{
       path: 'course',
+      pathMatch: 'full',
+      redirectTo: '/user/mycourses',
       component: CourseComponent
     }]
   }

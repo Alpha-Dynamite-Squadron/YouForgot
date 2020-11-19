@@ -69,8 +69,8 @@ export class CourseTileComponent implements OnInit {
   }
 
   goToCourse() {
-    console.log("Navigating to Course...");
-    this.router.navigateByUrl('/components/course');
+    console.log("Navigating to Course: ", this.course.nameOfClass);
+    this.router.navigate(['/components/course', this.course.instanceID]);
   }
 
   //In Case we want to add code to turn off notifications without dropping course
