@@ -23,10 +23,10 @@ export class NewCourseComponent implements OnInit {
 
   selectedTermValue: string;
   terms = [
-    { value: 'fall', viewValue: 'Fall' },
-    { value: 'winter', viewValue: 'Winter' },
-    { value: 'spring', viewValue: 'Spring' },
-    { value: 'summer', viewValue: 'Summer' }
+    { value: 'Fall', viewValue: 'Fall' },
+    { value: 'Winter', viewValue: 'Winter' },
+    { value: 'Spring', viewValue: 'Spring' },
+    { value: 'Summer', viewValue: 'Summer' }
   ];
 
   selectedYearValue: string;

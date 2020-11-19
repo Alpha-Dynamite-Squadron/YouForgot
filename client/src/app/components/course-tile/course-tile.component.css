@@ -17,6 +17,10 @@ a {
   font-size: larger;
 }
 
+a:hover {
+  cursor: pointer;
+}
+
 p {
   font-size: medium;
 }

@@ -2,33 +2,27 @@
   <div class="card card-product">
     <div routerLinkActive="true" class="card-body">
       <h4 class="card-title">
-        <i class="material-icons pull-left">{{ selectedIcon }}</i>
-        <a routerLink="/components/course" href="#">{{ selectedCourseDiscipline}}{{ selectedCourseNumber }}</a>
-        <i class="material-icons pull-right">{{ selectedIcon }}</i>
+        <i class="material-icons pull-left">{{ course.imageID }}</i>
+        <a routerLink="/components/course">{{ course.disciplineLetters }}{{ course.courseNumber }}</a>
+        <i class="material-icons pull-right">{{ course.imageID }}</i>
       </h4>
       <div class="card-description">
-        {{ selectedCourseName }}
+        {{ course.nameOfClass }}
         <br>
-        <h6>Section# {{ selectedSection }}</h6>
+        <h6>Section# {{ course.sectionNumber }}</h6>
       </div>
       <div class="row">
-        <!-- <a (click)="showSwal('unsubscribe')" class="btn btn-link btn-danger btn-just-icon">
-          <i class="material-icons">notification_important</i>
-        </a> -->
         <button (click)="showSwal('warning-message-and-confirmation')" class="btn btn-danger btn-round">Drop Course</button>
-        <!-- <a (click)="showSwal('subscribe')" class="btn btn-link btn-success btn-just-icon">
-          <i class="material-icons">add_alert</i>
-        </a> -->
       </div>
     </div>
     <div class="card-footer">
       <div class="price">
-        <h4>{{ selectedCourseInstructor }}</h4>
+        <h4>{{ course.instructorName }}</h4>
       </div>
       <div class="stats">
         <p class="card-category">
           <i class="material-icons">date_range</i>
-          {{ selectedCourseTerm }} Semester {{ selectedCourseYear }}
+          {{ course.academicTerm }} Semester {{ course.academicYear }}
         </p>
       </div>
     </div>

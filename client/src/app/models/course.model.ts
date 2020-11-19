@@ -1,7 +1,6 @@
 export class Course {
   public nameOfClass: string;
   public imageID: number;
-  public enrollmentCount: number;
   public instructorName: string;
   public disciplineLetters: string;
   public courseNumber: number;
@@ -12,7 +11,6 @@ export class Course {
   constructor(
     nameOfClass: string,
     img: number,
-    count: number,
     instructor: string,
     disc: string,
     courseNum: number,
@@ -22,7 +20,6 @@ export class Course {
   ) {
     this.nameOfClass = nameOfClass;
     this.imageID = img;
-    this.enrollmentCount = count;
     this.instructorName = instructor;
     this.disciplineLetters = disc;
     this.courseNumber = courseNum;

@@ -1,5 +1,6 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-courses',
@@ -10,17 +11,22 @@ export class CoursesComponent implements OnInit {
 
   myCourses: boolean;
   location: Location;
-  courses: number[] = [1, 2, 3, 4, 5];
+  courses: any[];
 
-  constructor(location: Location) { 
+  constructor(
+    location: Location,
+    private userService: UserService) {
     this.location = location;
   }
 
   ngOnInit(): void {
     var title = this.location.prepareExternalUrl(this.location.path());
-    if(title === '/user/mycourses') {
+    if (title === '/user/mycourses') {
       this.myCourses = true;
     }
+    this.userService.fetchUserCourses().subscribe((courses) => {
+      this.courses = courses;
+    });
   }
 
 }

@@ -4,3 +4,7 @@
   justify-content: center;
   font-weight: bold;
 }
+
+i:hover {
+  cursor: pointer;
+}

@@ -6,7 +6,7 @@
     <hr>
     <div class="row">
       <div class="col-md-11" *ngFor="let course of courses">
-        <app-course-tile></app-course-tile>
+        <app-course-tile [course]="course"></app-course-tile>
       </div>
     </div>
   </div>
@@ -19,7 +19,7 @@
   <hr>
   <div class="row">
     <div class="col-md-11" *ngFor="let course of courses">
-      <app-course-tile></app-course-tile>
+      <app-course-tile [course]="course"></app-course-tile>
     </div>
   </div>
 </div>
