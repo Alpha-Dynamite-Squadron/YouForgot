@@ -152,42 +152,17 @@ module.exports.userEnroll = function(req, res){
         endpoints.userEnroll(req.payload.emailAddress, req.body.sectionInstanceID, req.body.getNotifications, function(err, result){
             if(err){
                 if(result == 1){
-                    console.log("Database error in UserEnrollment, trying to enroll a user that has been enrolled");
+                    console.log("Trying to enroll a user that has been enrolled");
                     console.log(err);
-                    res.status(500).json({
-                        "message" : "Database error in UserEnrollment, trying to enroll a user that has been enrolled"
+                    res.status(400).json({
+                        "message" : "Tried to enroll a user that has been enrolled"
                     });
                 }
-                else if(result == 2){
-                    console.log("Error doing the select query on Post to get all Posts for that class");
+                else {
+                    console.log("There is an DB error");
                     console.log(err);
                     res.status(500).json({
-                        "message" : "Error in the select query on Post."
-                    });
-                }
-                else if(result == 3){
-                    console.log("There are no Posts for that sectonInstanceID");
-                    console.log(err);
-                    res.status(500).json({
-                        "message" : "No Posts for the given sectionInstanceID."
-                    });
-                }
-                else if(result == 4){
-                    console.log("There is an error creating post associations for the user who just enrolled into a class");
-                    console.log(err);
-                    res.status(500).json({
-                        "message" : "Error creating Post Associations for that user"
-                    });
-                }
-                else if(result == 5){
-                    console.log("There is a duplicate entry when inserting post associations for the user who just enrolled in the class");
-                    res.status(500).end();
-                }
-                else{
-                    console.log();
-                    console.log(err);
-                    res.status(500).json({
-                        "message" : "Unknown database error"
+                        "message" : "Internal Database Error"
                     });
                 }
             }
