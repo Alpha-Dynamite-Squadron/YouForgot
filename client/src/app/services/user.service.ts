@@ -79,7 +79,8 @@ export class UserService {
               element.courseNumber,
               element.sectionNumber,
               element.academicTerm,
-              element.academicYear
+              element.academicYear,
+              element.sectionInstanceID
             ));
           });
           return this.userCourses;

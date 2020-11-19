@@ -1,10 +1,9 @@
 import { Component, Injectable, OnInit } from '@angular/core';
-
 import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormBuilder } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
-
+import { Location } from '@angular/common';
 import swal from 'sweetalert2';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -49,9 +48,14 @@ export class NewCourseComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
   createCourseForm: FormGroup;
 
+  location: Location;
+
   constructor(
     private formBuilder: FormBuilder,
-    private userService: UserService) { }
+    private userService: UserService,
+    location: Location) {
+      this.location = location;
+     }
 
   ngOnInit() {
     this.createCourseForm = this.formBuilder.group({
@@ -124,7 +128,10 @@ export class NewCourseComponent implements OnInit {
           buttonsStyling: false,
           confirmButtonClass: "btn btn-info",
           type: "success"
+        }).then(() => {
+          window.location.reload();
         }).catch(swal.noop)
+        
       });
     } else {
       this.validateAllFormFields(this.createCourseForm);

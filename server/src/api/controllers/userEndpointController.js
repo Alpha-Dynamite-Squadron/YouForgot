@@ -135,7 +135,7 @@ module.exports.userEnroll = function(req, res){
             "message" : "User Token does not have an email"
         });
     }
-    else if(!req.body.getNotifications){
+    else if(req.body.getNotifications == null){
         res.status(400).json({
             "message" : "You need to pass in a whether or not the user wants reminder notifications for this course, using defaultGetReminderNotifications."
         });

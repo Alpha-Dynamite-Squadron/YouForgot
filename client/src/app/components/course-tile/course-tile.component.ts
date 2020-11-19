@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Course } from 'src/app/models/course.model';
 import { UserService } from 'src/app/services/user.service';
+import { Location } from '@angular/common';
 import swal from 'sweetalert2';
 
 @Component({
@@ -11,24 +12,30 @@ import swal from 'sweetalert2';
 export class CourseTileComponent implements OnInit {
 
   @Input() course: Course;
+  location: Location;
 
-  constructor() { }
+  constructor(
+    private userService: UserService,
+    location: Location
+    ) { 
+      this.location = location;
+    }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
-  showSwal(type) {
-    if (type == 'warning-message-and-confirmation') {
-      swal({
-        title: 'Are you sure?',
-        text: "You can always re-enroll later!",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonClass: 'btn btn-danger',
-        cancelButtonClass: 'btn btn-info',
-        confirmButtonText: 'Yes, drop it!',
-        buttonsStyling: false
-      }).then((result) => {
-        if (result.value) {
+  dropCourse() {
+    swal({
+      title: 'Are you sure?',
+      text: "You can always re-enroll later!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonClass: 'btn btn-danger',
+      cancelButtonClass: 'btn btn-info',
+      confirmButtonText: 'Yes, drop it!',
+      buttonsStyling: false
+    }).then((result) => {
+      if (result.value) {
+        this.userService.unenrollUser(this.course.instanceID).subscribe(() => {
           swal(
             {
               title: 'Dropped!',
@@ -37,10 +44,17 @@ export class CourseTileComponent implements OnInit {
               confirmButtonClass: "btn btn-info",
               buttonsStyling: false
             }
-          )
-        }
-      })
-    } else if (type == 'subscribe') {
+          ).then(() => {
+            window.location.reload();
+          });
+        });
+      }
+    })
+  }
+
+  //In Case we want to add code to turn off notifications without dropping course
+  showSwal(type) {
+    if (type == 'subscribe') {
       swal({
         title: "Notifications Enabled!",
         text: "Notfications can be disabled at any time.",

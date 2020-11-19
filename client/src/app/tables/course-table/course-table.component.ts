@@ -1,6 +1,7 @@
 // IMPORTANT: this is a plugin which requires jQuery for initialisation and data manipulation
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
+import { Location } from '@angular/common';
 import swal from 'sweetalert2';
 
 declare interface DataTable {
@@ -20,8 +21,13 @@ export class CourseTableComponent implements OnInit, AfterViewInit {
 
   public dataTable: DataTable;
   public courses: string[][];
+  public location: Location;
 
-  constructor(private userService: UserService) { }
+  constructor(
+    private userService: UserService,
+    location: Location) {
+      this.location = location;
+     }
 
   ngOnInit() {
     this.userService.fetchInstitutionCourses().subscribe((institutions) => {
@@ -87,6 +93,8 @@ export class CourseTableComponent implements OnInit, AfterViewInit {
         text: "You enrolled in the course with notifications " + notifications?"enabled.":"disabled.",
         timer: 2000,
         showConfirmButton: false
+      }).then(() => {
+        window.location.reload();
       }).catch(swal.noop)
     }, (err) => {
       if (err.status === 400) {
