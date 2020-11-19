@@ -25,9 +25,9 @@ export const PagesRoutes: Routes = [
     },
     {
       path: 'finish_registration',
-      component: FinishRegisterComponent
-      // redirectTo: '/login',
-      // pathMatch: 'full'
+      component: FinishRegisterComponent,
+      redirectTo: '/login',
+      pathMatch: 'full'
     },
     {
       path: 'finish_registration/:id',
@@ -39,9 +39,9 @@ export const PagesRoutes: Routes = [
     },
     {
       path: 'reset_password',
-      component: PasswordResetComponent
-      //redirectTo: 'login',
-      //pathMatch: 'full'
+      component: PasswordResetComponent,
+      redirectTo: 'login',
+      pathMatch: 'full'
     },
     {
       path: 'reset_password/:id',

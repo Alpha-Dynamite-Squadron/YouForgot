@@ -9,6 +9,8 @@ import { take, takeUntil } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import swal from 'sweetalert2';
+
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted = form && form.submitted;
@@ -37,7 +39,7 @@ export class FinishRegisterComponent implements OnInit, OnDestroy {
   validConfirmPasswordRegister: boolean = false;
   matcher = new MyErrorStateMatcher();
   finishRegisterForm: FormGroup;
-  public search: FormControl = new FormControl('');
+  public search: FormControl = new FormControl('', Validators.minLength(3));
 
   //Replace this with a database query and populate list with *ngFor
   protected institutions: Institution[] = [];
@@ -69,7 +71,7 @@ export class FinishRegisterComponent implements OnInit, OnDestroy {
         },
         (error) => {
           console.log(error);
-          this.router.navigateByUrl('/login');
+          this.router.navigateByUrl('/register');
         }
       );
       //Create registration form
@@ -189,6 +191,12 @@ export class FinishRegisterComponent implements OnInit, OnDestroy {
         },
         (error) => {
           console.log("Failed to retrieve institutions");
+          swal({
+              title: "Server Error!",
+              text: "Failed to retrieve institutions, please try again.",
+              timer: 2000,
+              showConfirmButton: false
+          }).catch(swal.noop)
         }
       );
     }
@@ -213,6 +221,23 @@ export class FinishRegisterComponent implements OnInit, OnDestroy {
           this.router.navigateByUrl('/home/main');
         }, (error) => {
           console.log(error);
+          if(error.status === 401 || error.status === 403) {
+            this.router.navigateByUrl('/register');
+          } else if (error.status === 409) {
+            swal({
+                title: "Username Taken!",
+                text: "Please select another username and try again.",
+                timer: 2000,
+                showConfirmButton: false
+            }).catch(swal.noop)
+          } else {
+            swal({
+                title: "Server Offline",
+                text: "YouForgot service appears to be down, please try again later.",
+                timer: 2000,
+                showConfirmButton: false
+            }).catch(swal.noop)
+          }
         });
       } else {
         this.validateAllFormFields(this.finishRegisterForm);

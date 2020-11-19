@@ -39,18 +39,18 @@ router.get('/getInstitutionCourses', auth, generalEndpointController.getInstitut
 
 
 
-router.patch('/updateIsDone', auth, userEndpointController.updateIsDone);
-router.patch('/updateIForgot', auth, userEndpointController.updateIForgot);
-router.patch('/subscribeToPost', auth, userEndpointController.updateIsIgnored); //takes in token and section instance id
-router.patch('/updateExcessiveNotifications', auth, userEndpointController.updateExcessiveNotifications);
-router.patch('/updateAssignmentNotifications', auth, userEndpointController.updatePostNotifications); // these do not take integer literals they take string literals of the the number this one updates the fact that you get updates from people posting
-router.patch('/updateAssignmentDeadlineNotifications', auth, userEndpointController.updateAssignmentDeadlineNotifications); // this is if you want reminders for assignments you are following
-router.patch('/updateAssignmentGrade', auth, userEndpointController.updateAssignmentGrade);
-router.patch('/resetEmail', controllerAuthentication.resetPassword);
-router.patch('/sendResetEmail', controllerAuthentication.sendResetEmail);
+router.post('/updateIsDone', auth, userEndpointController.updateIsDone);
+router.post('/updateIForgot', auth, userEndpointController.updateIForgot);
+router.post('/subscribeToPost', auth, userEndpointController.updateIsIgnored); //takes in token and section instance id
+router.post('/updateExcessiveNotifications', auth, userEndpointController.updateExcessiveNotifications);
+router.post('/updateAssignmentNotifications', auth, userEndpointController.updatePostNotifications); // these do not take integer literals they take string literals of the the number this one updates the fact that you get updates from people posting
+router.post('/updateAssignmentDeadlineNotifications', auth, userEndpointController.updateAssignmentDeadlineNotifications); // this is if you want reminders for assignments you are following
+router.post('/updateAssignmentGrade', auth, userEndpointController.updateAssignmentGrade);
+router.post('/resetEmail', controllerAuthentication.resetPassword);
+router.post('/sendResetEmail', controllerAuthentication.sendResetEmail);
 
 
-router.delete('/unenrollUser', auth, userEndpointController.unenroll);
-router.delete('/deleteAccount', auth, userEndpointController.deleteAccount);
+router.post('/unenrollUser', auth, userEndpointController.unenroll);
+router.post('/deleteAccount', auth, userEndpointController.deleteAccount);
 
 module.exports = router;

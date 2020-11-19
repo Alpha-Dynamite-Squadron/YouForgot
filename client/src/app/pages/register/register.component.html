@@ -54,7 +54,7 @@
                           (ngModelChange)="emailValidationRegister($event)"
                           formControlName="email">
                         <app-field-error-display [displayError]="isFieldValid(registerForm, 'email')"
-                          errorMsg="You must provide an academic email!">
+                          errorMsg="You must provide an academic email! (.edu)">
                         </app-field-error-display>
                       </mat-form-field>
                     </div>

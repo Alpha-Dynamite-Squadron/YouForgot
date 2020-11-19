@@ -13,21 +13,25 @@ module.exports.sendResetEmail = function(req, res)   {
   else {
     users.sendResetEmail(req.body.emailAddress, function(err, code) {
       if(err) {
-        if(code == null){
-          console.log("Error Trying to insert user with email " + req.body.emailAddress);
-          console.log(err);
-          res.status(500).json({
-            "message" : "Unknown Database Error"
-          });
-        }else{
-          console.log("Error Trying to send and email to the user" + req.body.emailAddress);
-          console.log(err);
-          res.status(500).json({
-            "message" : "Unknown Email Error"
-          })
-        }
+        console.log("Error Trying to insert user with email " + req.body.emailAddress);
+        console.log(err);
+        res.status(500).json({
+          "message" : "Unknown Database Error"
+        });
+      } else if (code === 1) {
+        console.log("Could not find user in DB: " + req.body.emailAddress);
+        res.status(400).json({
+          "message" : "Invalid Email"
+        })
       }
-      else{ // code 0 the user was successfully added
+      else if (code == 2) {
+        console.log("Error Trying to send email to the user" + req.body.emailAddress);
+        console.log(err);
+        res.status(500).json({
+          "message" : "Failed to send Email"
+        })
+      }
+      else { // code 0 the user was successfully added
         res.status(200).end();
       }
     });
@@ -52,34 +56,29 @@ module.exports.resetPassword = function(req, res){
   }
   else{
     users.resetEmail(req.body.emailAddress, req.body.password, req.body.accessKey, function(err, code){
-      if(err){
-        if(code == null){
-          res.status(500).json({
-            "message" : "unknown database error"
-          });
-        }
-        else{
-          console.log(err);
-          res.status(500).json({
-            "message" : "Database error on upate user"
-          });
-        }
+      if(err) {//Code -1 or -2
+        res.status(500).json({
+          "message" : "unknown database error"
+        });
+      }
+      else if(code == 1){
+        res.status(403).json({
+          "message" : "Invalid Access Key"
+        });
+      }
+      else if(code == 2){
+        res.status(500).json({
+          "message" : "unknown database error"
+        });
+      }
+      else if(code == 3) {
+        console.log(err);
+        res.status(406).json({
+          "message" : "User not found"
+        });
       }
       else{
-        if(code == 1){
-          res.status(403).json({
-            "message" : "Invalid Access Key"
-          });
-        }
-        else if(code == 3) {
-          console.log(err);
-          res.status(403).json({
-            "message" : "Database error on selecting access key"
-          });
-        }
-        else{
-          res.status(200).end();
-        }
+        res.status(200).end();
       }
     });
   }
@@ -95,19 +94,11 @@ module.exports.preRegistration = function(req, res)   {
   else {
     users.preRegistration(req.body.email, function(err, code) {
       if(err) {
-        if(code == null){
-          console.log("Error Trying to insert user with email " + req.body.email);
-          console.log(err);
-          res.status(500).json({
-            "message" : "Unknown Database Error"
-          });
-        }else{
-          console.log("Error Trying to send an email to the user" + req.body.email);
-          console.log(err);
-          res.status(500).json({
-            "message" : "Unknown Email Error"
-          })
-        }
+        console.log("Error Trying to insert user with email " + req.body.email);
+        console.log(err);
+        res.status(500).json({
+          "message" : "Unknown Database Error"
+        });
       }
       else if(code == 1) { //the email is not valid
         console.log("This email address is not a vaild edu address");
@@ -195,6 +186,12 @@ module.exports.register = function(req, res) {
                 res.status(500).json({
                     "message" : "Unknown database error occurred"
                 });
+            }
+            else if(code == 4) {
+              console.log("Error, username was already taken: " + req.body.username);
+              res.status(409).json({
+                  "message" : "Username already taken"
+              });
             }
             else {//User Found
                 res.status(500).json({
