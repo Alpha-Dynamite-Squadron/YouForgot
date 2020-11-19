@@ -358,7 +358,6 @@ module.exports.deleteAccount = function(userEmail, resultCallback){
             console.log(err);
             resultCallback(err,null);
         }
-        //else its deleted 
         else{
             resultCallback(null,null);
         }

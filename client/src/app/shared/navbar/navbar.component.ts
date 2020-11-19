@@ -4,6 +4,7 @@ import { Router, ActivatedRoute, NavigationEnd, NavigationStart } from '@angular
 import { Subscription } from 'rxjs/Subscription';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { AuthenticationService } from '../../services/authentication.service';
+import { UserService } from 'src/app/services/user.service';
 const misc: any = {
   navbar_menu_visible: 0,
   active_collapse: true,
@@ -28,7 +29,13 @@ export class NavbarComponent implements OnInit {
 
   @ViewChild('app-navbar-cmp', { static: false }) button: any;
 
-  constructor(location: Location, private renderer: Renderer2, private element: ElementRef, private router: Router, private authService: AuthenticationService) {
+  constructor(
+    location: Location, 
+    private renderer: Renderer2, 
+    private element: ElementRef, 
+    private router: Router, 
+    private authService: AuthenticationService, 
+    private userService: UserService) {
     this.location = location;
     this.nativeElement = element.nativeElement;
     this.sidebarVisible = false;
@@ -226,6 +233,7 @@ export class NavbarComponent implements OnInit {
   logout() {
     console.log('Logging User Out...');
     this.authService.logout();
+    this.userService.wipeData();
     this.router.navigateByUrl('/login');
   }
 }

@@ -442,13 +442,14 @@ module.exports.unenroll = function(req, res){
 
 //tested
 module.exports.deleteAccount = function(req, res){
+    console.log("Attempting deletion");
     if(!req.payload.emailAddress){
         res.status(401).json({
             "message" : "User Token does not have an email"
         });
     }
     else{
-        endpoints.deleteAccount(req.payload.emailAddress,function(err, result){
+        endpoints.deleteAccount(req.payload.emailAddress, function(err, result){
             if(err){
                 console.log("Error trying to delete a user");
                 res.status(500).json({
@@ -456,6 +457,7 @@ module.exports.deleteAccount = function(req, res){
                 });
             }
             else{
+                console.log("Successful");
                 res.status(200).end(); // successfully updated 
             }
         });

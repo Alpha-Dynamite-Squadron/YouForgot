@@ -34,16 +34,14 @@
         <div class="row">
           <label class="col-sm-2 col-form-label text-right"></label>
           <div class="col-sm-7">
-            <mat-checkbox class="form-check" [checked]="receiveNotifications" formControlName="receiveNotifications">
+            <mat-checkbox class="form-check" formControlName="receiveNotifications">
               <label class="bmd-label-floating">I would like to receive new assignment notifications.</label>
             </mat-checkbox>
-            <mat-checkbox class="form-check" [checked]="receiveDeadlineNotifications"
-              formControlName="receiveDeadlineNotifications">
+            <mat-checkbox class="form-check" formControlName="receiveDeadlineNotifications">
               <label class="bmd-label-floating">I would like to receive assignment deadline
                 notifications. <br><span>(Notifications sent 24 hours before due date)</span></label>
             </mat-checkbox>
-            <mat-checkbox class="form-check" [checked]="receiveExcessiveNotifications"
-              formControlName="receiveExcessiveNotifications">
+            <mat-checkbox class="form-check" formControlName="receiveExcessiveNotifications">
               <label class="bmd-label-floating">I would like to receive excessive notifications.
                 <br><span>(Notifications sent every hour until due date)</span></label>
             </mat-checkbox>

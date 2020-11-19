@@ -31,14 +31,10 @@ export class UserComponent implements OnInit {
   logout() {
     console.log('Logging User Out...');
     this.authService.logout();
-    this.router.navigateByUrl('/login');
+    this.userService.wipeData();
   }
 
   deleteAccount() {
-    console.log('Attempting to delete account...');
-  }
-
-  showSwal() {
     swal({
       title: 'Are you sure?',
       text: "This action will be permanent.",
@@ -50,15 +46,30 @@ export class UserComponent implements OnInit {
       buttonsStyling: false
     }).then((result) => {
       if (result.value) {
-        swal(
-          {
-            title: 'Deleted!',
-            text: 'You have successfully deleted your account.',
-            type: 'success',
-            confirmButtonClass: "btn btn-info",
-            buttonsStyling: false
-          }
-        )
+        console.log("Deleting Account...");
+        this.userService.deleteAccount().subscribe(() => {
+          swal(
+            {
+              title: 'Deleted!',
+              text: 'You have successfully deleted your account.',
+              type: 'success',
+              confirmButtonClass: "btn btn-info",
+              buttonsStyling: false
+            }
+          ).then(() => {
+            this.router.navigateByUrl('register');
+          });
+        }, (error) => {
+          swal(
+            {
+              title: 'Error!',
+              text: 'You account could not be deleted at this time',
+              type: 'error',
+              confirmButtonClass: "btn btn-info",
+              buttonsStyling: false
+            }
+          );
+        });
       }
     })
   }

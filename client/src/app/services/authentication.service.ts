@@ -12,7 +12,7 @@ export class AuthenticationService implements CanActivate {
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
   ) { }
 
   //Expanded Communication Methods

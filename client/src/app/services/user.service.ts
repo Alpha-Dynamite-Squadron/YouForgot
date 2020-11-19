@@ -52,4 +52,13 @@ export class UserService {
       })
     );
   }
+
+  public wipeData() {
+    this.user = null;
+  }
+
+  public deleteAccount() {
+    this.user = null;
+    return this.authService.makeRequest('post', 'deleteAccount');
+  }
 }
