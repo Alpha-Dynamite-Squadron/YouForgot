@@ -69,7 +69,7 @@ module.exports.getInstitutions = function(institution, resultCallback){
 // gives you a assignment ID if you want to subscribe to the assignment, forGrade determines whether or not it shows assignmentAverage
 //tested
 module.exports.getCourseAssignments = function(sectionInstanceID, resultCallback){
-    let getCourseInfoQuery = 'SELECT SectionInstance.nameOfClass, Post.assignmentID, Post.uploadDate, Post.assignmentName, Post.assignmentDueDate, Post.forGrade, Post.assignmentAverage, Post.iForgotCount PostAssociation.iForgot FROM SectionInstance INNER JOIN Post ON SectionInstance.sectionInstanceID = Post.sectionInstance AND SectionInstance.sectionInstanceID = ? AND PostAssociation.assignmentID = Post.assignmentID;';
+    let getCourseInfoQuery = 'SELECT SectionInstance.nameOfClass, Post.assignmentID, Post.uploadDate, Post.assignmentName, Post.assignmentDueDate, Post.forGrade, Post.assignmentAverage, Post.iForgotCount, PostAssociation.iForgot FROM SectionInstance INNER JOIN Post ON SectionInstance.sectionInstanceID = Post.sectionInstance AND SectionInstance.sectionInstanceID = ? AND PostAssociation.assignmentID = Post.assignmentID;';
     dbPool.query(getCourseInfoQuery, [sectionInstanceID], function(err, res){
         if(err){
             console.log(err);
@@ -153,88 +153,70 @@ module.exports.createAssignment = function(postAuthorEmail , assignmentName, due
             resultCallback(err, null);
         }
         else{
-            let createPostAssociationQuery = 'INSERT INTO PostAssociation (emailAddress, assignmentID, isIgnored, isReported, customUploadDate, customAssignmentName, customAssignmentDescription, customDueDate, sentNotification, iForgot) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
-            dbPool.query(createPostAssociationQuery, [postAuthorEmail, res.insertId, 0, 0, uploadDate, assignmentName, "default description", assignmentDueDate, 0, 0], function(errorTwo, result){
-                if(errorTwo) { //this error dub no worky why i cri
-                    console.log("Failed to create association between post author: " + postAuthorEmail + " and post" + assignmentName);
-                    if(errorTwo.code === "ER_DUP_ENTRY") {
-                        resultCallback(errTwo, 1);
-                    }
-                    else{
-                        resultCallback(errorTwo,null);
-                    }
+            let getClassMatesQuery = 'SELECT emailAddress, getReminderNotifications FROM UserEnrollment WHERE sectionInstanceID = ? AND emailAddress != ?;';
+            dbPool.query(getClassMatesQuery, [sectionInstanceID, postAuthorEmail], function(error3, result3){
+                if(error3){
+                    resultCallback(error3, 3);
                 }
-                //we created the Assignment here. now find all users in that class and make post associations
-                else {
-                    let getClassMatesQuery = 'SELECT emailAddress, getReminderNotifications FROM UserEnrollment WHERE sectionInstanceID = ? AND emailAddress != ?;';
-                    dbPool.query(getClassMatesQuery, [sectionInstanceID, postAuthorEmail], function(error3, result3){
-                        if(error3){
-                            resultCallback(error3, 3);
+                else if(result3.length != 0){
+                    let createPostAssociationsQuery = 'INSERT INTO PostAssociation (emailAddress, assignmentID, isIgnored, isReported, customUploadDate, customAssignmentName, customAssignmentDescription, customDueDate, sentNotification, iForgot) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
+                    let innerError = false;
+                    for(let i = 0; i < result3.length; i++){
+                        //create post associations for users
+                        if(innerError){
+                            break;
                         }
-                        else if(result3.length != 0){
-                            let createPostAssociationsQuery = 'INSERT INTO PostAssociation (emailAddress, assignmentID, isIgnored, isReported, customUploadDate, customAssignmentName, customAssignmentDescription, customDueDate, sentNotification, iForgot) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
-                            let innerError = false;
-                            for(let i = 0; i < result3.length; i++){
-                                //create post associations for users
-                                if(innerError){
-                                    break;
+                        dbPool.query(createPostAssociationsQuery, [result3[i].emailAddress, res.insertId,0,0,uploadDate,assignmentName,'default description',assignmentDueDate,0,0], function(error4, result4){
+                            if(error4){
+                                if(error4.code === "ER_DUP_ENTRY"){
+                                    innerError = true;
+                                    resultCallback(error4, 4);
                                 }
-                                dbPool.query(createPostAssociationsQuery, [result3[i].emailAddress, res.insertId,0,0,uploadDate,assignmentName,'default description',assignmentDueDate,0,0], function(error4, result4){
-                                    if(error4){
-                                        if(error4.code === "ER_DUP_ENTRY"){
-                                            innerError = true;
-                                            resultCallback(error4, 4);
-                                        }
-                                        else{
-                                            innerError = true;
-                                            resultCallback(error4, 5);
-                                        }
+                                else{
+                                    innerError = true;
+                                    resultCallback(error4, 5);
+                                }
+                            }
+                            //Find email addresses where they have defaultNotificationsTurnedOn for the Class
+                            //doing nodemailer where getReminderNotifications = 1, 1 is true
+                            else{
+
+                                let getClassInfo = 'SELECT nameOfClass from SectionInstance WHERE sectionInstanceID = ?;';
+                                dbPool.query(getClassInfo, [sectionInstanceID], function(error5, result5){
+                                    if(error5){
+                                        resultCallback(error5, 6);
                                     }
-                                    //Find email addresses where they have defaultNotificationsTurnedOn for the Class
-                                    //doing nodemailer where getReminderNotifications = 1, 1 is true
+                                    else if(result5.length !== 0){
+                                        let nameOfClass = result5[0].nameOfClass;
+                                        for(let i =0; i < result3.length; i++){
+                                            //only email people who have notifications on for this course
+                                            if(result3[i].getReminderNotifications === 1){
+                                                bodyText = "Hello! \nThere is a new assignment posted in your class:  " + nameOfClass+ ". Please make sure to check it out on our website.\n" + "https://youforgot.school/assignment";
+                                                nodeMailerTransporter.sendMail({
+                                                    from: '"Kenny Foo 👻" <admin@youforgot.school>', // sender address
+                                                    to: result3[i].emailAddress, // list of receivers
+                                                    subject: "You Forgot an Assignment!", // Subject line
+                                                    text: bodyText, // plain text body
+                                                });
+                                            }
+                                        }
+                                        resultCallback(null, null);
+                                    }
                                     else{
-
-                                        let getClassInfo = 'SELECT nameOfClass from SectionInstance WHERE sectionInstanceID = ?;';
-                                        dbPool.query(getClassInfo, [sectionInstanceID], function(error5, result5){
-                                            if(error5){
-                                                resultCallback(error5, 6);
-                                            }
-                                            else if(result5.length !== 0){
-                                                let nameOfClass = result5[0].nameOfClass;
-                                                for(let i =0; i < result3.length; i++){
-                                                    //only email people who have notifications on for this course
-                                                    if(result3[i].getReminderNotifications === 1){
-                                                        bodyText = "Hello! \nThere is a new assignment posted in your class:  " + nameOfClass+ ". Please make sure to check it out on our website.\n" + "https://youforgot.school/assignment";
-                                                        nodeMailerTransporter.sendMail({
-                                                            from: '"Kenny Foo 👻" <admin@youforgot.school>', // sender address
-                                                            to: result3[i].emailAddress, // list of receivers
-                                                            subject: "You Forgot an Assignment!", // Subject line
-                                                            text: bodyText, // plain text body
-                                                        });
-                                                    }
-                                                }
-                                                resultCallback(null, null);
-                                            }
-                                            else{
-                                                resultCallback(null, 7);
-                                            }
-                                        });
-
+                                        resultCallback(null, 7);
                                     }
                                 });
-                            }
-                        }
-                        //no classmates in this class
-                        else{
-                            console.log("There are no classmates in this class" + sectionInstanceID);
-                            resultCallback(error3, 2);
-                        }
-                    });
 
+                            }
+                        });
+                    }
+                }
+                //no classmates in this class
+                else{
+                    console.log("There are no classmates in this class" + sectionInstanceID);
+                    resultCallback(error3, 2);
                 }
             });
-            console.log("Created association between " + postAuthorEmail + " and post: " + assignmentName);
-            resultCallback(null, null);
         }
     });
 
