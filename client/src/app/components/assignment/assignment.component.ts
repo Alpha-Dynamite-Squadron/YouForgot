@@ -26,6 +26,8 @@ export class AssignmentComponent implements OnInit {
     console.log('Clicked iForgot Button');
     this.userService.updateForgotStatus(this.assignment.assignmentID).subscribe(() => {
 
+    }, (error) => {
+      
     });
   }
 

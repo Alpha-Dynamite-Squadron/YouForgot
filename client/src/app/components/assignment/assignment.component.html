@@ -17,8 +17,11 @@
       </h4>
       <hr>
       <div class="row">
-        <button type="button" id="forgotBtn" mat-raised-button class="btn btn-info btn-round" (click)="onForgot()">
+        <button *ngIf="!assignment.iForgot" type="button" id="forgotBtn" mat-raised-button class="btn btn-info btn-round" (click)="onForgot()">
           <i class="material-icons">favorite</i> I Forgot! {{ assignment.iForgotCount }}
+        </button>
+        <button *ngIf="assignment.iForgot" type="button" id="forgotBtn" mat-raised-button class="btn btn-warning btn-round" (click)="onForgot()">
+          <i class="material-icons">favorite</i> I Remembered. {{ assignment.iForgotCount }}
         </button>
         <!-- <button type="button" id="reportBtn" mat-raised-button class="btn btn-info btn-round" (click)="onReport()">
           <i class="material-icons">flag</i> Report Abuse

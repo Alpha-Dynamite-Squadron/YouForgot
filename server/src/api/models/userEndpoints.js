@@ -76,7 +76,7 @@ module.exports.getUserInfo = function(userEmail, resultCallback){
 //tested
 module.exports.getUserAssignments = function(userEmail, resultCallback){
     //if isIgnored is 0, then its not ignored else if its 1 its ignored
-    let getAssignmentsQuery = 'SELECT customAssignmentName, customAssignmentDescription, customeDueDate FROM PostAssociation WHERE userEmail = ? AND isIgnored = 0;';
+    let getAssignmentsQuery = 'SELECT * FROM PostAssociation WHERE userEmail = ? AND isIgnored = 0;';
     dbPool.query(getAssignmentsQuery, userEmail, function(err, res){
         if(err) {
             console.log(err);
@@ -89,10 +89,12 @@ module.exports.getUserAssignments = function(userEmail, resultCallback){
 
             for(let i = 0; i < res.length; i++){
                 let userAssignment = {
-                userEmail: userEmail,
-                assignmentDescriptions: res[i].customAssignmentDescription,
-                assignmentNames: res[0].customAssignmentName,
-                dueDates: res[i].customDueDate
+                assignmentDescription: res[i].customAssignmentDescription,
+                assignmentName: res[i].customAssignmentName,
+                uploadDate: res[i].customUploadDate,
+                dueDate: res[i].customDueDate,
+                isDone: res[i].isDone,
+                grade: res[i].Grade
                 }
                 userAssignments.push(userAssignment);
             }
