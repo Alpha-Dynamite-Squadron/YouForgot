@@ -23,8 +23,8 @@ module.exports.getInstitutionCourses = function(institutionID, resultCallback){
                     courseNumber: res[i].courseNumber,
                     courseEnrollment: res[i].enrollmentCount,
                     sectionNumber: res[i].sectionNumber,
-                    academicSession: res[i].academicSession,
-                    year: res[i].year
+                    academicTerm: res[i].academicTerm,
+                    academicYear: res[i].academicYear
                 }
                 courses.push(institutionCourse);
             }

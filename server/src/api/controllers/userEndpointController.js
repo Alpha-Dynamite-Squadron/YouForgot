@@ -135,7 +135,7 @@ module.exports.userEnroll = function(req, res){
             "message" : "User Token does not have an email"
         });
     }
-    else if(!req.payload.getPostReminderNotifications){
+    else if(!req.body.getNotifications){
         res.status(400).json({
             "message" : "You need to pass in a whether or not the user wants reminder notifications for this course, using defaultGetReminderNotifications."
         });
@@ -149,7 +149,7 @@ module.exports.userEnroll = function(req, res){
     else {
         //we have no data so we just get a result
         console.log("enrolling user into a course with an email of: " + req.payload.emailAddress);
-        endpoints.userEnroll(req.payload.emailAddress, req.body.sectionInstanceID, req.payload.getPostReminderNotifications, function(err, result){
+        endpoints.userEnroll(req.payload.emailAddress, req.body.sectionInstanceID, req.body.getNotifications, function(err, result){
             if(err){
                 if(result == 1){
                     console.log("Database error in UserEnrollment, trying to enroll a user that has been enrolled");
