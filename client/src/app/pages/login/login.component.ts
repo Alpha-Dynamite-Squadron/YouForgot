@@ -168,8 +168,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.loginForm.valid) {
       console.log('Form Valid, sending Login Request: ' + this.loginForm.controls.email.value);
       this.authService.requestLogin({
-        email: this.loginForm.controls.email.value,
-        password: this.loginForm.controls.password.value
+        email: this.loginForm.value.email,
+        password: this.loginForm.value.password
       })
         .subscribe(() => {
           this.router.navigateByUrl('/home/main');

@@ -89,7 +89,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   onRegister() {
     if (this.registerForm.valid) {
       console.log('Form Valid, sending preregister Request: ' + this.registerForm.controls.email.value);
-      this.authService.preregister(this.registerForm.controls.email.value).subscribe(
+      this.authService.preregister(this.registerForm.value.email).subscribe(
         () => {
           console.log("Redirecting to /verify");
           this.router.navigateByUrl('/verify');

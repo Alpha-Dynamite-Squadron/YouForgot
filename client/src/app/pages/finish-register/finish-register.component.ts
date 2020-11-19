@@ -209,13 +209,13 @@ export class FinishRegisterComponent implements OnInit, OnDestroy {
     onFinishRegistration() {
       if (this.finishRegisterForm.valid) {
         console.log('Form Submitted: '
-         + this.finishRegisterForm.controls.username.value);
+         + this.finishRegisterForm.value.username);
         this.authService.completeRegistration(
           this.email,
-          this.finishRegisterForm.controls.username.value,
-          this.finishRegisterForm.controls.password.value,
+          this.finishRegisterForm.value.username,
+          this.finishRegisterForm.value.password,
           this.institutionCtrl.value.id,
-          this.finishRegisterForm.controls.receiveNotifications.value,
+          this.finishRegisterForm.value.receiveNotifications,
           this.route.snapshot.paramMap.get('id')
         ).subscribe(() => {
           this.router.navigateByUrl('/home/main');
