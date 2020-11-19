@@ -153,7 +153,7 @@ module.exports.createAssignment = function(postAuthorEmail , assignmentName, due
         }
         else{
             let createPostAssociationQuery = 'INSERT INTO PostAssociation (emailAddress, assignmentID, isIgnored, isReported, customUploadDate, customAssignmentName, customAssignmentDescription, customDueDate, sentNotification, iForgot) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
-            dbPool.query(createPostAssociationQuery, [postAuthorEmail, res.insertId, 0, 0, uploadDate, assignmentName, "default description", dueDate, 0, 0], function(errorTwo, result){
+            dbPool.query(createPostAssociationQuery, [postAuthorEmail, res.insertId, 0, 0, uploadDate, assignmentName, "default description", assignmentDueDate, 0, 0], function(errorTwo, result){
                 if(errorTwo) { //this error dub no worky why i cri
                     console.log("Failed to create association between post author: " + postAuthorEmail + " and post" + assignmentName);
                     if(errorTwo.code === "ER_DUP_ENTRY") {
