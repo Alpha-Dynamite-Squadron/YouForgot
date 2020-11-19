@@ -34,7 +34,6 @@ export class AssignmentComponent implements OnInit {
   selectedAssignmentDueDate: string;
 
   forgotCount: number;
-  rememberedCount: number;
   assignmentPostedDate: string;
 
   constructor() { }
@@ -45,8 +44,15 @@ export class AssignmentComponent implements OnInit {
     this.selectedAssignmentDesc = this.assignmentDescription[Math.floor(Math.random() * this.assignmentDescription.length)];
     this.selectedAssignmentDueDate = this.assignmentDueDate[Math.floor(Math.random() * this.assignmentDueDate.length)];
     this.forgotCount = Math.floor(Math.random() * 100);
-    this.rememberedCount = Math.floor(Math.random() * 100);
     this.assignmentPostedDate = this.selectedAssignmentDueDate;
+  }
+
+  onForgot() {
+    console.log('Forgot Button Clicked.');
+  }
+
+  onReport() {
+    console.log('Assignment Reported.');
   }
 
 }

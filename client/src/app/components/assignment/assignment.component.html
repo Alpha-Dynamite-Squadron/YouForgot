@@ -7,7 +7,7 @@
       <div class="timeline-heading">
         <span class="badge badge-info">{{ selectedAssignmentName }}</span>
         <button mat-raised-button class="btn btn-info btn-round pull-right">
-          <i class="material-icons">add_alert</i>  Subscribe to Assignment
+          <i class="material-icons">add_alert</i> Subscribe to Assignment
         </button>
       </div>
       <div class="timeline-body">
@@ -18,11 +18,11 @@
       </h4>
       <hr>
       <div class="row">
-        <button id="forgotBtn" mat-raised-button class="btn btn-info btn-round">
-          <i class="material-icons">favorite</i>  I Forgot! {{ forgotCount }}
+        <button type="button" id="forgotBtn" mat-raised-button class="btn btn-info btn-round" (click)="onForgot()">
+          <i class="material-icons">favorite</i> I Forgot! {{ forgotCount }}
         </button>
-        <button id="rememberBtn" mat-raised-button class="btn btn-info btn-round">
-          <i class="material-icons">thumb_up</i>  I Remembered!  {{ rememberedCount }} 
+        <button type="button" id="reportBtn" mat-raised-button class="btn btn-info btn-round" (click)="onReport()">
+          <i class="material-icons">flag</i> Report Abuse
         </button>
       </div>
       <span class="text-center text-gray pull-right">
