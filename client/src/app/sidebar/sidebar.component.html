@@ -8,14 +8,14 @@
 </div>
 
 <div class="sidebar-wrapper">
-  <div class="user">
+  <div class="user" *ngIf="user != null">
     <div class="photo">
-      <img src="../../assets/img/default-avatar.png" />
+      <img src="../../assets/img/avatars/{{user.imageID}}.png" />
     </div>
     <div class="user-info">
       <a data-toggle="collapse" href="#collapseExample" class="collapsed">
         <span>
-          {{ username }}
+          {{ user.username }}
           <b class="caret"></b>
         </span>
       </a>

@@ -110,10 +110,9 @@ module.exports.getUserInfo = function(req, res){
                 });
             }
             else if(data){
-                res.status(500).json(data);
+                res.status(200).json(data);
             }
-             // no courses found for that user
-             else {
+            else {
                 res.status(404).json({
                     "message" : "This user does not exist"
                 });

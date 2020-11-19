@@ -25,15 +25,15 @@ export class UpdateProfileComponent implements OnInit {
   receiveExcessiveNotifications: boolean = false;
 
   avatars = [
-    { value: 'img-1', viewValue: 'Clipboard' },
-    { value: 'img-2', viewValue: 'Clock' },
-    { value: 'img-3', viewValue: 'Notepad' },
-    { value: 'img-4', viewValue: 'Pin' },
-    { value: 'img-5', viewValue: 'Thumbtack' }
+    { value: 1, viewValue: 'Clipboard' },
+    { value: 2, viewValue: 'Clock' },
+    { value: 3, viewValue: 'Notepad' },
+    { value: 4, viewValue: 'Pin' },
+    { value: 5, viewValue: 'Thumbtack' }
   ];
   defaultAvatarValue = this.avatars[0].value;
   defaultAvatar: string = this.avatars[0].viewValue;
-  selectedAvatarValue: string = this.defaultAvatarValue;
+  selectedAvatarValue: number = this.defaultAvatarValue;
   currentAvatar: string[];
 
   validTextType: boolean = false;

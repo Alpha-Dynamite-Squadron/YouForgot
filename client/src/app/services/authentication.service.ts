@@ -1,13 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, CanActivate } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthenticationService {
+export class AuthenticationService implements CanActivate {
   private token: string;
 
   constructor(
@@ -141,6 +141,14 @@ export class AuthenticationService {
     window.localStorage.removeItem('youforgot-user-token');
     console.log("User Logged Off");
     this.router.navigateByUrl('/');
+  }
+
+  public canActivate(): boolean {
+    if(!this.isLoggedIn()) {
+      this.router.navigateByUrl('/login');
+      return false;
+    }
+    return true;
   }
 }
 

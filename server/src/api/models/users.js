@@ -146,7 +146,7 @@ module.exports.findAccountByEmail = function (email, resultCallback) {
         salt: result[0].salt,
         profileRating: result[0].profileRating,
         getPostReminderNotifications: result[0].getPostReminderNotifications,
-        getHomeworkReminderNotifications: result[0].getHomeworkReminderNotifications,
+        getHomeworkReminderNotifications: result  [0].getHomeworkReminderNotifications,
         institutionID: result[0].institutionID,
         sendExcessively: result[0].sendExcessively,
         setPassword: funcSetPassword,

@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 
 import { DashboardLayoutComponent } from './layouts/dashboard/dashboard-layout.component';
 import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
+import { AuthenticationService } from './services/authentication.service';
 
 export const AppRoutes: Routes = [
   {
@@ -11,6 +12,7 @@ export const AppRoutes: Routes = [
   }, {
     path: '',
     component: DashboardLayoutComponent,
+    canActivate: [AuthenticationService],
     children: [
       {
         path: 'home',
