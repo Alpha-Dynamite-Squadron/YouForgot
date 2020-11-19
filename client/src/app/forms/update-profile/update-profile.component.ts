@@ -4,6 +4,12 @@ import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup } from '
 import { ErrorStateMatcher } from '@angular/material/core';
 import { FormBuilder, AbstractControl } from '@angular/forms';
 import { PasswordValidation } from '../validationforms/password-validator';
+import { UserService } from 'src/app/services/user.service';
+import { User } from 'src/app/models/user.model';
+
+import swal from 'sweetalert2';
+import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -19,10 +25,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class UpdateProfileComponent implements OnInit {
 
-  username: string = 'Account Username';
-  receiveNotifications: boolean = false;
-  receiveDeadlineNotifications: boolean = false;
-  receiveExcessiveNotifications: boolean = false;
+  user: User;
 
   avatars = [
     { value: 1, viewValue: 'Clipboard' },
@@ -34,21 +37,27 @@ export class UpdateProfileComponent implements OnInit {
   defaultAvatarValue = this.avatars[0].value;
   defaultAvatar: string = this.avatars[0].viewValue;
   selectedAvatarValue: number = this.defaultAvatarValue;
-  currentAvatar: string[];
 
   validTextType: boolean = false;
   matcher = new MyErrorStateMatcher();
   updateProfileForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private userService: UserService,
+    private authService: AuthenticationService
+    ) { }
 
   ngOnInit() {
-    this.updateProfileForm = this.formBuilder.group({
-      username: [this.username, Validators],
-      avatar: [this.selectedAvatarValue, Validators],
-      receiveNotifications: [this.receiveNotifications, Validators],
-      receiveDeadlineNotifications: [this.receiveDeadlineNotifications, Validators],
-      receiveExcessiveNotifications: [this.receiveExcessiveNotifications, Validators]
+    this.userService.fetchUserInformation().subscribe((user) => {
+      this.user = user;
+      this.updateProfileForm = this.formBuilder.group({
+        username: [user.username, Validators],
+        avatar: [this.user.imageID, Validators],
+        receiveNotifications: [this.user.receivePostNotifications, Validators],
+        receiveDeadlineNotifications: [this.user.receiveDeadlineNotifications, Validators],
+        receiveExcessiveNotifications: [this.user.receiveExcessiveDeadlineNotifications, Validators]
+      });
     });
   }
 
@@ -84,9 +93,33 @@ export class UpdateProfileComponent implements OnInit {
 
   onSaveChanges() {
     if (this.updateProfileForm.valid) {
-      console.log('Form Submitted.');
-      console.log('Submission Valid, sending POST Request: ' + JSON.stringify(this.updateProfileForm.value));
-      alert('Submission Valid, sending POST Request: ' + JSON.stringify(this.updateProfileForm.value));
+      console.log('Form Valid, sending POST Request: ' + JSON.stringify(this.updateProfileForm.value));
+      this.userService.submitProfileUpdate(
+        this.updateProfileForm.value.username,
+        this.updateProfileForm.value.avatar, 
+        this.updateProfileForm.value.receiveNotifications, 
+        this.updateProfileForm.value.receiveDeadlineNotifications, 
+        this.updateProfileForm.value.receiveExcessiveNotifications, 
+      ).subscribe(() => {
+        swal({
+          title: "Profile Updated!",
+          buttonsStyling: false,
+          confirmButtonClass: "btn btn-success",
+          type: "success"
+        }).catch(swal.noop)
+      }, (error) => {
+        if(error.message === "username not unique") {
+          swal({
+            title: "Username Taken!",
+            text: "Please select another username and try again.",
+            timer: 2000,
+            showConfirmButton: false
+          }).catch(swal.noop)
+        } else {
+          console.log("Email deleted somehow?");
+          this.authService.logout();
+        }
+      });
     } else {
       this.validateAllFormFields(this.updateProfileForm);
     }

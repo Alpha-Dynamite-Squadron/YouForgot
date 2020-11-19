@@ -32,4 +32,24 @@ export class UserService {
       );
     }
   }
+
+  public submitProfileUpdate(username: string, imageID: number, postN: boolean, deadlineN: boolean, excessiveN: boolean): Observable<any> {
+    console.log("Send Excessively: " + excessiveN);
+    
+    return this.authService.makeRequest('post', 'updateProfile', {
+      username: username,
+      imageID: imageID,
+      postNotifications: postN,
+      deadlineNotifications: deadlineN,
+      sendExcessively: excessiveN
+    }).pipe(
+      map(() => {
+        this.user.username = username;
+        this.user.imageID = imageID;
+        this.user.receivePostNotifications = postN;
+        this.user.receiveDeadlineNotifications = deadlineN;
+        this.user.receiveExcessiveDeadlineNotifications = excessiveN;
+      })
+    );
+  }
 }

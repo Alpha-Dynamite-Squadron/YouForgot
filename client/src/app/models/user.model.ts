@@ -14,7 +14,7 @@ export class User {
     id: number, 
     post: boolean, 
     deadline: boolean, 
-    execessive: boolean,
+    excessive: boolean,
     schoolName: string, 
     rating: number) {
     this.email = email;
@@ -22,7 +22,7 @@ export class User {
     this.imageID = id;
     this.receivePostNotifications = post;
     this.receiveDeadlineNotifications = deadline;
-    this.receiveExcessiveDeadlineNotifications = execessive;
+    this.receiveExcessiveDeadlineNotifications = excessive;
     this.schoolName = schoolName;
     this.profileRating = rating;
   }

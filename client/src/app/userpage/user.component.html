@@ -2,17 +2,17 @@
   <div class="container-fluid">
     <app-update-profile></app-update-profile>
     <br>
-    <div class="row profile-summary">
+    <div class="row profile-summary" *ngIf="user != null">
       <div class="col-md-8">
         <div class="card card-profile">
           <div class="card-avatar">
-            <img class="img" [src]='userImagePath'/>
+            <img class="img" src="../../assets/img/avatars/{{user.imageID}}.png"/>
           </div>
           <div class="card-body">
-            <h6 class="card-category text-gray">{{ userEmail }}</h6>
-            <h4 class="card-title">{{ username }}</h4>
-            <p class="card-description">{{ userInstitution }}</p>
-            <h6 id="profileRating" class="card-category text-info">Profile Rating {{ userProfileRating }}<i class="material-icons text-warning">star_rate</i></h6>
+            <h6 class="card-category text-gray">{{ user.email }}</h6>
+            <h4 class="card-title">{{ user.username }}</h4>
+            <p class="card-description">{{ user.schoolName}}</p>
+            <h6 id="profileRating" class="card-category text-info">Profile Rating {{ user.profileRating }}<i class="material-icons text-warning">star_rate</i></h6>
             <div class="row action-btns">
               <button (click)="logout()" class="btn btn-info btn-round">Logout</button>
             </div>

@@ -199,53 +199,56 @@ module.exports.userEnroll = function(req, res){
     }
 }
 
-module.exports.updateExcessiveNotifications = function(req, res){
+module.exports.updateProfile = function(req, res){
+    console.log("Attempting to update profile for: ", req.body);
     if(!req.payload.emailAddress){
         res.status(401).json({
             "message" : "User Token does not have an email"
         });
     }
-    else if(!req.body.notificationStatus){
+    else if(!req.body.username){
         res.status(401).json({
-            "message" : "Notification status not provided"
+            "message" : "username not provided"
+        });
+    }
+    else if(!req.body.imageID){
+        res.status(401).json({
+            "message" : "imageID not provided"
+        });
+    }
+    else if(req.body.postNotifications == null){
+        res.status(401).json({
+            "message" : "postNotifications not provided"
+        });
+    }
+    else if(req.body.deadlineNotifications == null){
+        res.status(401).json({
+            "message" : "deadlineNotifications not provided"
+        });
+    }
+    else if(req.body.sendExcessively == null){
+        res.status(401).json({
+            "message" : "sendExcessively not provided"
         });
     }
     else{
-        endpoints.updateExcessiveNotifications(req.payload.emailAddress, req.body.notificationStatus, function(err, result){
+        endpoints.updateProfile(req.payload.emailAddress, req.body.username, req.body.imageID, req.body.postNotifications, req.body.deadlineNotifications, req.body.sendExcessively, function(err, result){
             if(err){
                 console.log("Unable to update users excessive notification status");
                 res.status(500).json({
                     "message" : "Unable to update user excessive notification status"
                 });
             }
-            else{
-                res.status(200).end(); // successfully updated 
-            }
-        });
-    }
-}
-
-module.exports.updateAssignmentDeadlineNotifications = function(req, res){
-    if(!req.payload.emailAddress){
-        res.status(401).json({
-            "message" : "User Token does not have an email"
-        });
-    }
-    else if(!req.body.notificationStatus){
-        res.status(401).json({
-            "message" : "Notification status not provided"
-        });
-    }
-    else{
-        endpoints.updateAssignmentDeadlineNotifications(req.payload.emailAddress, req.body.notificationStatus, function(err, result){
-            if(err){
-                console.log("Unable to update users assignment deadline notification status");
-                res.status(500).json({
-                    "message" : "Unable to update user assignment deadline notification status"
+            else if(result === 0) {
+                res.status(200).end();
+            } else if (result === 1) {
+                res.status(400).json({
+                    "message" : "email not found"
                 });
-            }
-            else{
-                res.status(200).end(); // successfully updated 
+            } else {//Code 2, username not unique
+                res.status(400).json({
+                    "message" : "username not unique"
+                });
             }
         });
     }
@@ -273,32 +276,6 @@ module.exports.updateAssignmentGrade = function(req, res){
                 console.log("Unable to update user's assignment assignment grade.");
                 res.status(500).json({
                     "message" : "Unable to update user's assignment grade"
-                });
-            }
-            else{
-                res.status(200).end(); // successfully updated 
-            }
-        });
-    }
-}
-
-module.exports.updatePostNotifications = function(req, res){
-    if(!req.payload.emailAddress){
-        res.status(401).json({
-            "message" : "User Token does not have an email"
-        });
-    }
-    else if(!req.body.notificationStatus){
-        res.status(401).json({
-            "message" : "Notification status not provided"
-        });
-    }
-    else{
-        endpoints.updatePostNotifications(req.payload.emailAddress, req.body.notificationStatus, function(err, result){
-            if(err){
-                console.log("Unable to update users assignment notification status");
-                res.status(500).json({
-                    "message" : "Unable to update user assignment notification status"
                 });
             }
             else{

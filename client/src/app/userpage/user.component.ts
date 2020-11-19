@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 
 import swal from 'sweetalert2';
 import { UserService } from '../services/user.service';
+import { User } from '../models/user.model';
 
 @Component({
   selector: 'app-user-cmp',
@@ -13,11 +14,7 @@ import { UserService } from '../services/user.service';
 
 export class UserComponent implements OnInit {
 
-  userEmail: string = 'student@college.edu';
-  username: string = 'Student User Name';
-  userImagePath: string = '../../assets/img/default-avatar.png';
-  userInstitution: string = 'Academic Institution Name';
-  userProfileRating: string = '5.0';
+  user: User;
 
   constructor(
     private authService: AuthenticationService,
@@ -26,7 +23,9 @@ export class UserComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.userService.fetchUserInformation();
+    this.userService.fetchUserInformation().subscribe((user) => {
+      this.user = user;
+    });
   }
 
   logout() {

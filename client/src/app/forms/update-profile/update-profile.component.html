@@ -1,6 +1,6 @@
 <div class="col-md-12">
   <div class="card">
-    <form [formGroup]="updateProfileForm" (ngSubmit)="onSaveChanges()" class="form-horizontal">
+    <form [formGroup]="updateProfileForm" (ngSubmit)="onSaveChanges()" class="form-horizontal" *ngIf="user != null">
       <div class="card-header card-header-info card-header-text">
         <div class="card-text">
           <h4 class="card-title">Update Your Profile</h4>
@@ -12,7 +12,7 @@
           <div class="col-sm-7">
             <mat-form-field class="example-full-width has-label" [ngClass]="{'has-success':validTextType===true}"
               [ngClass]="displayFieldCss(updateProfileForm, 'username')">
-              <input type="text" matInput id="username" [placeholder]='username'
+              <input type="text" matInput id="username"
                 (ngModelChange)="textValidationType($event)" formControlName="username">
               <app-field-error-display [displayError]="isFieldValid(updateProfileForm, 'username')"
                 errorMsg="You must provide a username!"></app-field-error-display>
@@ -23,7 +23,7 @@
           <label class="col-sm-2 col-form-label text-right">Profile Avatar</label>
           <div class="col-sm-7">
             <mat-form-field>
-              <mat-select [placeholder]="defaultAvatar" name="avatar" formControlName="avatar">
+              <mat-select name="avatar" formControlName="avatar">
                 <mat-option *ngFor="let avatar of avatars" [value]="avatar.value">
                   {{ avatar.viewValue }}
                 </mat-option>

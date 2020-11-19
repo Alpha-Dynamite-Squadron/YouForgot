@@ -56,7 +56,7 @@ module.exports.getUserInfo = function(userEmail, resultCallback){
                 username: res[0].username,
                 imageID: res[0].imageID,
                 postNotifications: res[0].getPostReminderNotifications,
-                deadlineNotification: res[0].getHomeworkReminderNotifications,
+                deadlineNotifications: res[0].getHomeworkReminderNotifications,
                 sendExcessively: res[0].sendExcessively,
                 schoolName: res[0].schoolName,
                 profileRating: res[0].profileRating,
@@ -168,41 +168,21 @@ module.exports.userEnroll = function(userEmail, sectionInstanceID, getReminderno
 }
 
 //tested
-module.exports.updateExcessiveNotifications = function(userEmail, notificationStatus, resultCallback){
-    let updateExcessiveNotificationsQuery = 'UPDATE User SET sendExcessively = ? WHERE emailAddress = ?;';
-    dbPool.query(updateExcessiveNotificationsQuery, [notificationStatus, userEmail], function(err, res){
+module.exports.updateProfile = function(userEmail, username, imageID, postNotifications, deadlineNotifications, sendExcessively, resultCallback){
+    let updateProfileQuery = 'UPDATE User SET username = ?, imageID = ?, getPostReminderNotifications = ?, getHomeworkReminderNotifications = ?, sendExcessively = ? WHERE emailAddress = ? LIMIT 1;';
+    dbPool.query(updateProfileQuery, [username, imageID, postNotifications, deadlineNotifications, sendExcessively, userEmail], function(err, res){
         if(err){
-            console.log(err);
-            resultCallback(err, null);
+            if(err.code == 'ER_DUP_ENTRY') {
+                resultCallback(null, 2);
+            } else {
+                resultCallback(err, null);
+            }
         }
-        else{
-            resultCallback(null, null);
+        else if(res.affectedRows === 1) {
+            resultCallback(null, 0);
         }
-    });
-}
-//tested
-module.exports.updatePostNotifications = function(userEmail, notificationStatus, resultCallback){
-    let updateAssignmentNotificationsQuery = 'UPDATE User SET getPostReminderNotifications = ? WHERE emailAddress = ?;';
-    dbPool.query(updateAssignmentNotificationsQuery, [notificationStatus, userEmail], function(err, res){
-        if(err){
-            console.log(err);
-            resultCallback(err, null);
-        }
-        else{
-            resultCallback(null, null);
-        }
-    });
-}
-//tested 
-module.exports.updateAssignmentDeadlineNotifications = function(userEmail, notificationStatus, resultCallback){
-    let updateAssignmentNotificationsQuery = 'UPDATE User SET getHomeworkReminderNotifications = ? WHERE emailAddress = ?;';
-    dbPool.query(updateAssignmentNotificationsQuery, [notificationStatus, userEmail], function(err, res){
-        if(err){
-            console.log(err);
-            resultCallback(err, null);
-        }
-        else{
-            resultCallback(null, null);
+        else{//Email not Found
+            resultCallback(null, 1);
         }
     });
 }
