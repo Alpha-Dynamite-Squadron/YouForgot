@@ -77,6 +77,13 @@ export class UserService {
     );
   }
 
+  public enrollUser(instanceID: number, notifications: boolean) {
+    return this.authService.makeRequest('post', 'enrollUser', {
+      sectionInstanceID: instanceID,
+      getNotifications: notifications
+    })
+  }
+
   public wipeData() {
     this.user = null;
   }
