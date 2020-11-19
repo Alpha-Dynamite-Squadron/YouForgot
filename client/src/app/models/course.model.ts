@@ -7,6 +7,7 @@ export class Course {
   public sectionNumber: number;
   public academicTerm: string;
   public academicYear: string;
+  public instanceID: number;
 
   constructor(
     nameOfClass: string,
@@ -16,7 +17,8 @@ export class Course {
     courseNum: number,
     sectionNum: number,
     term: string,
-    year: string
+    year: string,
+    instanceID: number
   ) {
     this.nameOfClass = nameOfClass;
     this.imageID = img;
@@ -26,5 +28,6 @@ export class Course {
     this.sectionNumber = sectionNum;
     this.academicTerm = term;
     this.academicYear = year;
+    this.instanceID = instanceID;
   }
 }
