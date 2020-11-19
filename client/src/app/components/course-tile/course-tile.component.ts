@@ -41,6 +41,7 @@ export class CourseTileComponent implements OnInit {
 
   selectedIcon: string;
   selectedCourseNumber: string;
+  selectedSection: string;
   selectedCourseName: string;
   selectedCourseDiscipline: string;
   selectedCourseInstructor: string;
@@ -52,6 +53,7 @@ export class CourseTileComponent implements OnInit {
   ngOnInit(): void {
     this.selectedIcon = this.icons[Math.floor(Math.random() * this.icons.length)];
     this.selectedCourseNumber = this.courseNumber[Math.floor(Math.random() * this.courseNumber.length)];
+    this.selectedSection = (Math.floor(Math.random() * 20) + 1).toString();
     this.selectedCourseName = this.courseName[Math.floor(Math.random() * this.courseName.length)];
     this.selectedCourseDiscipline = this.courseDiscipline[Math.floor(Math.random() * this.courseDiscipline.length)];
     this.selectedCourseInstructor = this.courseInstructor[Math.floor(Math.random() * this.courseInstructor.length)];

@@ -1,15 +1,33 @@
 export class Course {
-  public name: string;
-  public number: string;
-  public image: string;
-  public instructor: string;
-  public semester: string;
+  public nameOfClass: string;
+  public imageID: number;
+  public enrollmentCount: number;
+  public instructorName: string;
+  public disciplineLetters: string;
+  public courseNumber: number;
+  public sectionNumber: number;
+  public academicTerm: string;
+  public academicYear: string;
 
-  constructor(name: string, num: string, img: string, instr: string, sem: string) {
-    this.name = name;
-    this.number = num;
-    this.image = img;
-    this.instructor = instr;
-    this.semester = sem;
+  constructor(
+    nameOfClass: string,
+    img: number,
+    count: number,
+    instructor: string,
+    disc: string,
+    courseNum: number,
+    sectionNum: number,
+    term: string,
+    year: string
+  ) {
+    this.nameOfClass = nameOfClass;
+    this.imageID = img;
+    this.enrollmentCount = count;
+    this.instructorName = instructor;
+    this.disciplineLetters = disc;
+    this.courseNumber = courseNum;
+    this.sectionNumber = sectionNum;
+    this.academicTerm = term;
+    this.academicYear = year;
   }
 }
