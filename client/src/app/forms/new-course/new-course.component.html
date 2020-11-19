@@ -1,6 +1,6 @@
 <div class="col-md-12">
   <div class="card">
-    <form [formGroup]="createCourseForm" (ngSubmit)="onSubmit()" class="form-horizontal">
+    <form [formGroup]="createCourseForm" #formDirective="ngForm" (ngSubmit)="onSubmit(formDirective)" class="form-horizontal">
       <div class="card-header card-header-info card-header-text">
         <div class="card-text">
           <h4 class="card-title">Add New Course</h4>
@@ -27,7 +27,7 @@
               <input type="text" matInput id="discipline" (ngModelChange)="textValidationType($event)"
                 formControlName="courseDiscipline">
               <app-field-error-display [displayError]="isFieldValid(createCourseForm, 'courseDiscipline')"
-                errorMsg="You must provide a course discipline!"></app-field-error-display>
+                errorMsg="You must provide a course discipline! (max 4 letters)"></app-field-error-display>
             </mat-form-field>
           </div>
         </div>
@@ -36,10 +36,22 @@
           <div class="col-sm-7">
             <mat-form-field class="example-full-width has-label" [ngClass]="{'has-success':validNumberType===true}"
               [ngClass]="displayFieldCss(createCourseForm, 'courseNumber')">
-              <input type="number" name="number" matInput (ngModelChange)="numberValidationType($event)"
+              <input type="number" name="cNumber" matInput max="99999" min="0" (ngModelChange)="numberValidationType($event)"
                 formControlName="courseNumber">
               <app-field-error-display [displayError]="isFieldValid(createCourseForm, 'courseNumber')"
-                errorMsg="You must provide a course number!"></app-field-error-display>
+                errorMsg="You must provide a course number! (max 5 digits)"></app-field-error-display>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <label class="col-sm-2 col-form-label text-right">Section Number</label>
+          <div class="col-sm-7">
+            <mat-form-field class="example-full-width has-label" [ngClass]="{'has-success':validNumberType===true}"
+              [ngClass]="displayFieldCss(createCourseForm, 'sectionNumber')">
+              <input type="number" name="sNumber" matInput max="99" min="0" (ngModelChange)="numberValidationType($event)"
+                formControlName="sectionNumber">
+              <app-field-error-display [displayError]="isFieldValid(createCourseForm, 'sectionNumber')"
+                errorMsg="You must provide a section number! (max 2 digits)"></app-field-error-display>
             </mat-form-field>
           </div>
         </div>
@@ -52,6 +64,21 @@
                 formControlName="courseInstructor">
               <app-field-error-display [displayError]="isFieldValid(createCourseForm, 'courseInstructor')"
                 errorMsg="You must provide a course title!"></app-field-error-display>
+            </mat-form-field>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <label class="col-sm-2 col-form-label text-right">Select Course Icon</label>
+          <div class="col-sm-7">
+            <mat-form-field>
+              <mat-select placeholder="Class Icon" name="icon" formControlName="courseIcon">
+                <mat-option *ngFor="let icon of icons" [value]="icon.value">
+                  {{ icon.viewValue }}
+                </mat-option>
+              </mat-select>
+              <app-field-error-display [displayError]="isFieldValid(createCourseForm, 'courseIcon')"
+                errorMsg="You must select a course icon!"></app-field-error-display>
             </mat-form-field>
           </div>
         </div>

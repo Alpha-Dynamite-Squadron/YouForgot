@@ -21,9 +21,24 @@ export class UserService {
 
   public createCourse(
     nameOfClass: string,
-    instructorName: string
+    imageID: number,
+    instructorName: string,
+    disciplineLetters: string,
+    courseNumber: number,
+    sectionNumber: number,
+    academicTerm: string,
+    academicYear: string,
   ) {
-    
+    return this.authService.makeRequest('post', 'createCourse', {
+      nameOfClass: nameOfClass,
+      imageID: imageID,
+      instructorName: instructorName,
+      disciplineLetters: disciplineLetters,
+      courseNumber: courseNumber,
+      sectionNumber: sectionNumber,
+      academicTerm: academicTerm,
+      academicYear: academicYear
+    });
   }
 
   public fetchUserInformation(): Observable<any> {
@@ -40,9 +55,7 @@ export class UserService {
     }
   }
 
-  public submitProfileUpdate(username: string, imageID: number, postN: boolean, deadlineN: boolean, excessiveN: boolean): Observable<any> {
-    console.log("Send Excessively: " + excessiveN);
-    
+  public submitProfileUpdate(username: string, imageID: number, postN: boolean, deadlineN: boolean, excessiveN: boolean): Observable<any> {    
     return this.authService.makeRequest('post', 'updateProfile', {
       username: username,
       imageID: imageID,

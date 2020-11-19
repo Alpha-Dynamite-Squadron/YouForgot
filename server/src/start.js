@@ -14,12 +14,6 @@ var app = express();
 app.set('port', port);
 app.use(bodyParser.json()); // convert requests into json
 app.use(bodyParser.urlencoded({ extended: false}));
-app.use(function(req, res, next){
-  if(req.protocol === 'http'){
-    res.redirect('301', `https://${req.headers.host} ${req.url}`)
-  }
-  next();
-});
 
 const allowedExt = [
   '.js',
@@ -48,6 +42,13 @@ server.on('error', onError);
 server.on('listening', onListening);
 
 if(process.env.NODE_ENV == 'production') {
+  app.use(function(req, res, next){
+    if(req.protocol === 'http'){
+      res.redirect('301', `https://${req.headers.host} ${req.url}`)
+    }
+    next();
+  });
+  
   const httpsOptions = {
     cert: fs.readFileSync('/home/ec2-user/ssl/youforgotsecurity/certificate.pem'),
     ca: fs.readFileSync('/home/ec2-user/ssl/youforgotsecurity/chain.pem'),

@@ -16,30 +16,39 @@ export const AppRoutes: Routes = [
     children: [
       {
         path: 'home',
+        canActivate: [AuthenticationService],
         loadChildren: './dashboard/dashboard.module#DashboardModule'
       }, {
         path: 'components',
+        canActivate: [AuthenticationService],
         loadChildren: './components/components.module#ComponentsModule'
       }, {
         path: 'forms',
+        canActivate: [AuthenticationService],
         loadChildren: './forms/forms.module#Forms'
       }, {
         path: 'tables',
+        canActivate: [AuthenticationService],
         loadChildren: './tables/tables.module#TablesModule'
       }, {
         path: 'widgets',
+        canActivate: [AuthenticationService],
         loadChildren: './widgets/widgets.module#WidgetsModule'
       }, {
         path: 'charts',
+        canActivate: [AuthenticationService],
         loadChildren: './charts/charts.module#ChartsModule'
       }, {
         path: 'calendar',
+        canActivate: [AuthenticationService],
         loadChildren: './calendar/calendar.module#CalendarModule'
       }, {
         path: 'courses',
+        canActivate: [AuthenticationService],
         loadChildren: './course-search/course-search.module#CourseSearchModule'
       }, {
         path: 'user',
+        canActivate: [AuthenticationService],
         loadChildren: './userpage/user.module#UserModule'
       }
     ]
