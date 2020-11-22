@@ -42,14 +42,8 @@ module.exports.getUserCourses = function(req, res){
                 });
             }
             //we have data
-            else if(data){
-                res.status(200).json(data);
-            }
-            // no courses found for that user
             else {
-                res.status(404).json({
-                    "message" : "This user does not have any courses."
-                });
+                res.status(200).json(data);
             }
         });
     }

@@ -9,7 +9,7 @@ module.exports.getInstitutionCourses = function(institutionID, resultCallback){
             console.log(err);
             resultCallback(err, null);
         }
-        else if (res){
+        else {
             console.log(res);
             console.log("Courses found");
             let courses = [];
@@ -30,10 +30,6 @@ module.exports.getInstitutionCourses = function(institutionID, resultCallback){
             }
             console.log(courses);
             resultCallback(null, courses);
-        }
-        else{
-            console.log("No courses found");
-            resultCallback(null,null);
         }
     });
 }
