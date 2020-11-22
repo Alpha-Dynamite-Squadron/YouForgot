@@ -76,8 +76,8 @@ module.exports.getCourseAssignments = function(sectionInstanceID, resultCallback
             resultCallback(err,null);
         }
         //sql query ran
-        else if (res.length !== 0){
-            console.log("Assignments found for Course:" + sectionInstanceID);
+        else {
+            console.log("Found " + res.length + " Assignments found for Course: " + sectionInstanceID);
             let courseAssignments = [];
             for(let i = 0; i < res.length; i++){
                 let courseAssignment = {
@@ -95,10 +95,6 @@ module.exports.getCourseAssignments = function(sectionInstanceID, resultCallback
                 courseAssignments.push(courseAssignment);
             }
             resultCallback(null, courseAssignments);
-        }
-        else{
-            console.log("This section currently has no assignments");
-            resultCallback(null,null);
         }
     });
 }

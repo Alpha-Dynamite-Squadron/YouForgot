@@ -21,14 +21,8 @@ module.exports.getCourseAssignments = function(req,res){
                       });
                 }
             }
-            else if(data){
+            else {
                 res.status(200).json(data);
-            }
-            //this section has no assignemnts
-            else{
-                res.status(404).json({
-                    "message" : "This course does not have any assignments"
-                });
             }
         });
     }

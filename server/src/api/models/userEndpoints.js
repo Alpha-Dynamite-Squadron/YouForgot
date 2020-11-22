@@ -83,8 +83,8 @@ module.exports.getUserAssignments = function(userEmail, resultCallback){
             resultCallback(err, null);
         }
         // worked properly
-        else if(res.length !== 0) {
-            console.log("Found Assignments for user: " + userEmail + "Assingments Names:  " + res[0].customAssignmentDescription);
+        else {
+            console.log("Found " + res.length + "Assignments for user: " + userEmail);
             let userAssignments = [];
 
             for(let i = 0; i < res.length; i++){
@@ -102,10 +102,6 @@ module.exports.getUserAssignments = function(userEmail, resultCallback){
                 userAssignments.push(userAssignment);
             }
             resultCallback(null, userAssignments);
-        }
-        else {
-            console.log("No Assignments Found for:  " + userEmail);
-            resultCallback(null, null);
         }
     });
 

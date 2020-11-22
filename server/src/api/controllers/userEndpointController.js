@@ -82,13 +82,8 @@ module.exports.getUserAssignments = function(req, res){
                 }
             }
             //assume all the data is alright in the field
-            else if(data){
-                res.status(200).json(data);
-            }
             else {
-                res.status(404).json({
-                    "message" : "No Courses were found for the requested user."
-                });
+                res.status(200).json(data);
             }
         });
     }
