@@ -51,9 +51,9 @@ CREATE TABLE IF NOT EXISTS `yfdb`.`User` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
-CREATE UNIQUE INDEX `username_UNIQUE` ON `yfdb`.`User` (`username` ASC) VISIBLE;
+CREATE UNIQUE INDEX `username_UNIQUE` ON `yfdb`.`User` (`username` ASC);
 
-CREATE INDEX `fk_User_Institution_idx` ON `yfdb`.`User` (`institutionID` ASC) VISIBLE;
+CREATE INDEX `fk_User_Institution_idx` ON `yfdb`.`User` (`institutionID` ASC);
 
 
 -- -----------------------------------------------------
@@ -85,9 +85,9 @@ CREATE TABLE IF NOT EXISTS `yfdb`.`SectionInstance` (
     ON DELETE SET NULL
     ON UPDATE CASCADE);
 
-CREATE INDEX `fk_SectionInstance_Institution` ON `yfdb`.`SectionInstance` (`institutionID` ASC) VISIBLE;
+CREATE INDEX `fk_SectionInstance_Institution` ON `yfdb`.`SectionInstance` (`institutionID` ASC);
 
-CREATE INDEX `fk_SectionInstance_User` ON `yfdb`.`SectionInstance` (`sectionCreatorEmail` ASC) VISIBLE;
+CREATE INDEX `fk_SectionInstance_User` ON `yfdb`.`SectionInstance` (`sectionCreatorEmail` ASC);
 
 
 -- -----------------------------------------------------
@@ -110,9 +110,9 @@ CREATE TABLE IF NOT EXISTS `yfdb`.`UserEnrollment` (
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-CREATE INDEX `fk_UserEnrollment_SectionInstance` ON `yfdb`.`UserEnrollment` (`sectionInstanceID` ASC) VISIBLE;
+CREATE INDEX `fk_UserEnrollment_SectionInstance` ON `yfdb`.`UserEnrollment` (`sectionInstanceID` ASC);
 
-CREATE INDEX `fk_UserEnrollment_User` ON `yfdb`.`UserEnrollment` (`emailAddress` ASC) VISIBLE;
+CREATE INDEX `fk_UserEnrollment_User` ON `yfdb`.`UserEnrollment` (`emailAddress` ASC);
 
 
 -- -----------------------------------------------------
@@ -140,9 +140,9 @@ CREATE TABLE IF NOT EXISTS `yfdb`.`Post` (
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-CREATE INDEX `fk_Post_User` ON `yfdb`.`Post` (`postAuthorEmail` ASC) VISIBLE;
+CREATE INDEX `fk_Post_User` ON `yfdb`.`Post` (`postAuthorEmail` ASC);
 
-CREATE INDEX `fk_SectionInstance` ON `yfdb`.`Post` (`sectionInstance` ASC) VISIBLE;
+CREATE INDEX `fk_SectionInstance` ON `yfdb`.`Post` (`sectionInstance` ASC);
 
 
 -- -----------------------------------------------------
@@ -174,11 +174,11 @@ CREATE TABLE IF NOT EXISTS `yfdb`.`PostAssociation` (
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
-CREATE INDEX `PostNotificationIndex` ON `yfdb`.`PostAssociation` (`notificationTimeOffset` ASC) VISIBLE;
+CREATE INDEX `PostNotificationIndex` ON `yfdb`.`PostAssociation` (`notificationTimeOffset` ASC);
 
-CREATE INDEX `fk_PostAssociation_User` ON `yfdb`.`PostAssociation` (`emailAddress` ASC) VISIBLE;
+CREATE INDEX `fk_PostAssociation_User` ON `yfdb`.`PostAssociation` (`emailAddress` ASC);
 
-CREATE INDEX `fk_PostAssociation_Post` ON `yfdb`.`PostAssociation` (`assignmentID` ASC) VISIBLE;
+CREATE INDEX `fk_PostAssociation_Post` ON `yfdb`.`PostAssociation` (`assignmentID` ASC);
 
 USE `yfdb`;
 
