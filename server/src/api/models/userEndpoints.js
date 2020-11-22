@@ -16,7 +16,7 @@ module.exports.getUserCourses = function(userEmail, resultCallback) {
             console.log(err);
             resultCallback(err, null);
         }
-        else if(res.length !== 0){
+        else {
             console.log("Found Courses for user" + userEmail + ". Course names");
             let userCourses = [];
             for(let i = 0; i < res.length; i++){
@@ -35,10 +35,6 @@ module.exports.getUserCourses = function(userEmail, resultCallback) {
                 userCourses.push(userCourse);
             }
             resultCallback(null, userCourses);
-        }
-        else{
-            console.log("This user does not have any courses: " + userEmail);
-            resultCallback(null,null);
         }
     });
     
