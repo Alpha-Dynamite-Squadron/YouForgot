@@ -1,6 +1,7 @@
 h4 {
   font-weight: bold;
   color: #00bcd4;
+  margin-bottom: 0px;
 }
 
 app-new-assignment {
@@ -25,6 +26,12 @@ hr {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+#noAssignmentsMsg {
+  font-weight: normal;
+  color: gray;
+  text-align: center;
 }
 
 .row {

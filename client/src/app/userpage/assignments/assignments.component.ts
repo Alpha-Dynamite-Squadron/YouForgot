@@ -12,7 +12,7 @@ export class AssignmentsComponent implements OnInit {
 
   createNewAssignment: boolean = false;
   myAssignments: boolean = false;
-  assignments: PersonalAssignment[];
+  assignments: PersonalAssignment[] = [];
   location: Location;
 
   constructor(

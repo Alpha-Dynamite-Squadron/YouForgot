@@ -9,6 +9,9 @@
     </div>
     <hr>
     <div class="row">
+      <div class="card card-body">
+        <h4 id="noAssignmentsMsg" *ngIf="assignments.length === 0">You currently do not have any active assignments.</h4>
+      </div>
       <div class="col-md-11" *ngFor="let assignment of assignments">
         <app-personal-assignment *ngIf="!assignment.isDone" [assignment]="assignment"></app-personal-assignment>
       </div>
@@ -19,6 +22,9 @@
 <div *ngIf="!myAssignments">
   <hr>
   <div class="row">
+    <div class="card card-body">
+      <h4 id="noAssignmentsMsg" *ngIf="assignments.length === 0">You currently do not have any active assignments.</h4>
+    </div>
     <div class="col-md-11" *ngFor="let assignment of assignments">
       <app-personal-assignment *ngIf="!assignment.isDone" [assignment]="assignment"></app-personal-assignment>
     </div>
