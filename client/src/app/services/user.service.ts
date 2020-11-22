@@ -116,7 +116,9 @@ export class UserService {
               element.assignmentAverage,
               element.iForgotCount,
               element.assignmentID,
-              element.iForgot
+              element.iForgot,
+              element.isReported,
+              element.isIgnored
             ));
           });
           return this.courseAssignments;

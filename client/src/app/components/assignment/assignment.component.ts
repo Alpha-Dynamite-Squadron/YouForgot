@@ -47,8 +47,12 @@ export class AssignmentComponent implements OnInit {
     });
   }
 
-  // onReport() {
-  //   console.log('Assignment Reported.');
-  // }
+  onReport() {
+    console.log('Assignment Reported.');
+  }
+
+  onSubscribe() {
+    console.log('Toggling Subscription to Assignment.');
+  }
 
 }
