@@ -10,8 +10,7 @@ module.exports.getInstitutionCourses = function(institutionID, resultCallback){
             resultCallback(err, null);
         }
         else {
-            console.log(res);
-            console.log("Courses found");
+            console.log("Found " + res.length + " Courses for Institution: " + institutionID);
             let courses = [];
             for(let i = 0; i < res.length; i++){
                 let institutionCourse = {
@@ -65,7 +64,7 @@ module.exports.getInstitutions = function(institution, resultCallback){
 // gives you a assignment ID if you want to subscribe to the assignment, forGrade determines whether or not it shows assignmentAverage
 //tested
 module.exports.getCourseAssignments = function(sectionInstanceID, resultCallback){
-    let getCourseInfoQuery = 'SELECT SectionInstance.nameOfClass, Post.assignmentID, Post.uploadDate, Post.assignmentName, Post.assignmentDueDate, Post.forGrade, Post.assignmentAverage, Post.iForgotCount, PostAssociation.iForgot FROM SectionInstance INNER JOIN Post ON SectionInstance.sectionInstanceID = Post.sectionInstance AND SectionInstance.sectionInstanceID = ? LEFT OUTER JOIN PostAssociation ON PostAssociation.assignmentID = Post.assignmentID;';
+    let getCourseInfoQuery = 'SELECT SectionInstance.nameOfClass, Post.assignmentID, Post.uploadDate, Post.assignmentName, Post.assignmentDueDate, Post.forGrade, Post.assignmentAverage, Post.iForgotCount, PostAssociation.iForgot, PostAssociation.isIgnored, PostAssociation.isReported FROM SectionInstance INNER JOIN Post ON SectionInstance.sectionInstanceID = Post.sectionInstance AND SectionInstance.sectionInstanceID = ? LEFT OUTER JOIN PostAssociation ON PostAssociation.assignmentID = Post.assignmentID;';
     dbPool.query(getCourseInfoQuery, [sectionInstanceID], function(err, res){
         if(err){
             console.log(err);
@@ -84,6 +83,8 @@ module.exports.getCourseAssignments = function(sectionInstanceID, resultCallback
                     assignmentName : res[i].assignmentName,
                     forGrade: res[i].forGrade,
                     iForgot: res[i].iForgot,
+                    isIgnored: res[i].isIgnored,
+                    isReported: res[i].isReported,
                     iForgotCount: res[i].iForgotCount,
                     assignmentAverage: res[i].assignmentAverage,
                     sectionInstanceID: sectionInstanceID

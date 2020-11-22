@@ -17,7 +17,7 @@ module.exports.getUserCourses = function(userEmail, resultCallback) {
             resultCallback(err, null);
         }
         else {
-            console.log("Found Courses for user" + userEmail + ". Course names");
+            console.log("Found " + res.length + " Courses for User: " + userEmail);
             let userCourses = [];
             for(let i = 0; i < res.length; i++){
                 let userCourse = {
@@ -80,7 +80,7 @@ module.exports.getUserAssignments = function(userEmail, resultCallback){
         }
         // worked properly
         else {
-            console.log("Found " + res.length + "Assignments for user: " + userEmail);
+            console.log("Found " + res.length + " Assignments for user: " + userEmail);
             let userAssignments = [];
 
             for(let i = 0; i < res.length; i++){
