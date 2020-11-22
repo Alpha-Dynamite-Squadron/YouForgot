@@ -4,8 +4,21 @@
   justify-content: center;
 }
 
+#courseRows {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .add-course-btn {
   margin-bottom: 2rem;
+}
+
+#noCoursesMsg {
+  font-weight: normal;
+  color: gray;
+  text-align: center;
+  margin-bottom: 0px;
 }
 
 app-new-course {

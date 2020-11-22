@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { UserService } from 'src/app/services/user.service';
+import { Course } from 'src/app/models/course.model';
 
 @Component({
   selector: 'app-courses',
@@ -11,7 +12,7 @@ export class CoursesComponent implements OnInit {
 
   myCourses: boolean;
   location: Location;
-  courses: any[];
+  courses: Course[] = [];
 
   constructor(
     location: Location,

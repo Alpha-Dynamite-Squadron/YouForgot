@@ -9,11 +9,17 @@
     </div>
     <hr>
     <div class="row">
-      <div class="card card-body">
-        <h4 id="noAssignmentsMsg" *ngIf="assignments.length === 0">You currently do not have any active assignments.</h4>
+      <div *ngIf="assignments.length === 0" class="col-md-8">
+        <div class="card card-body">
+          <h4 id="noAssignmentsMsg">You currently do not have any active assignments.</h4>
+        </div>
       </div>
-      <div class="col-md-11" *ngFor="let assignment of assignments">
-        <app-personal-assignment *ngIf="!assignment.isDone" [assignment]="assignment"></app-personal-assignment>
+    </div>
+    <div class="row">
+      <div id="assignmentRows" class="row">
+        <div class="col-md-11" *ngFor="let assignment of assignments">
+          <app-personal-assignment *ngIf="!assignment.isDone" [assignment]="assignment"></app-personal-assignment>
+        </div>
       </div>
     </div>
   </div>
@@ -22,11 +28,17 @@
 <div *ngIf="!myAssignments">
   <hr>
   <div class="row">
-    <div class="card card-body">
-      <h4 id="noAssignmentsMsg" *ngIf="assignments.length === 0">You currently do not have any active assignments.</h4>
+    <div *ngIf="assignments.length === 0" class="col-md-8">
+      <div class="card card-body">
+        <h4 id="noAssignmentsMsg">You currently do not have any active assignments.</h4>
+      </div>
     </div>
-    <div class="col-md-11" *ngFor="let assignment of assignments">
-      <app-personal-assignment *ngIf="!assignment.isDone" [assignment]="assignment"></app-personal-assignment>
+  </div>
+  <div class="row">
+    <div id="assignmentRows" class="row">
+      <div class="col-md-11" *ngFor="let assignment of assignments">
+        <app-personal-assignment *ngIf="!assignment.isDone" [assignment]="assignment"></app-personal-assignment>
+      </div>
     </div>
   </div>
 </div>

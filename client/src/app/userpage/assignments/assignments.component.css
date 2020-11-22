@@ -36,6 +36,12 @@ hr {
 
 .row {
   display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#assignmentRows {
+  display: flex;
   align-items: left;
   justify-content: left;
 }
