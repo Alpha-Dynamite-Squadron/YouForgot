@@ -10,16 +10,17 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class CourseComponent implements OnInit {
 
-  assignments: []; 
+  assignments: [];
   courseName: string = 'Course Name';
-  
+
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router) {}
 
   ngOnInit(): void {
     let courseURL: string = this.route.snapshot.paramMap.get('id');
+    this.courseName = this.route.snapshot.paramMap.get('name');
     if (isNaN(parseInt(courseURL))) {
       this.router.navigateByUrl('/user/mycourses');
     } else {
@@ -27,6 +28,7 @@ export class CourseComponent implements OnInit {
         this.assignments = data;
       });
     }
+    console.log("Course Name in Course Component: ", this.courseName);
   }
 
 }

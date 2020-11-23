@@ -63,7 +63,7 @@ export const ComponentsRoutes: Routes = [
   }, {
     path: '',
     children: [{
-      path: 'course/:id',
+      path: 'course/:id/:name',
       component: CourseComponent
     }]
   }, {

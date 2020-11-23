@@ -3,7 +3,7 @@ import { Course } from 'src/app/models/course.model';
 import { UserService } from 'src/app/services/user.service';
 import { Location } from '@angular/common';
 import swal from 'sweetalert2';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 
 @Component({
   selector: 'app-course-tile',
@@ -15,6 +15,8 @@ export class CourseTileComponent implements OnInit {
   @Input() course: Course;
   location: Location;
   courseIcon: string;
+
+  navigationExtras: NavigationExtras = { }
 
   constructor(
     private userService: UserService,
@@ -36,6 +38,11 @@ export class CourseTileComponent implements OnInit {
       this.courseIcon = 'calculate';
     } else {
       this.courseIcon = 'assignment';
+    }
+    this.navigationExtras = {
+      state: {
+        nameOfClass: this.course.nameOfClass
+      }
     }
   }
 
@@ -70,7 +77,7 @@ export class CourseTileComponent implements OnInit {
 
   goToCourse() {
     console.log("Navigating to Course: ", this.course.nameOfClass);
-    this.router.navigate(['/components/course', this.course.instanceID]);
+    this.router.navigate(['/components/course', this.course.instanceID, this.course.nameOfClass]);
   }
 
   //In Case we want to add code to turn off notifications without dropping course

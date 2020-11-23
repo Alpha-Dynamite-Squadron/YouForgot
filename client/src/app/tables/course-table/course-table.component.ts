@@ -88,14 +88,27 @@ export class CourseTableComponent implements OnInit, AfterViewInit {
 
   enroll(instanceID: number, notifications: boolean) {
     this.userService.enrollUser(instanceID, notifications).subscribe(() => {
-      swal({
-        title: "Successfully Enrolled!",
-        text: "You enrolled in the course with notifications " + notifications?"enabled.":"disabled.",
-        timer: 2000,
-        showConfirmButton: false
-      }).then(() => {
-        window.location.reload();
-      }).catch(swal.noop)
+      console.log(notifications);
+      if(notifications) {
+        swal({
+          title: "Successfully Enrolled!",
+          text: "You enrolled in the course with notifications enabled.",
+          timer: 2000,
+          showConfirmButton: false
+        }).then(() => {
+          window.location.reload();
+        }).catch(swal.noop)
+      }
+      else {
+        swal({
+          title: "Successfully Enrolled!",
+          text: "You enrolled in the course with notifications disabled.",
+          timer: 2000,
+          showConfirmButton: false
+        }).then(() => {
+          window.location.reload();
+        }).catch(swal.noop)
+      }
     }, (err) => {
       if (err.status === 400) {
         swal({
