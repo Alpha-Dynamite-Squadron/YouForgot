@@ -113,12 +113,14 @@ export class UserService {
               element.assignmentName,
               element.dueDate,
               element.forGrade,
+              element.grade,
               element.assignmentAverage,
               element.iForgotCount,
               element.assignmentID,
               element.iForgot,
               element.isReported,
-              element.isIgnored
+              element.isIgnored,
+              element.isDone
             ));
           });
           return this.courseAssignments;
@@ -145,7 +147,8 @@ export class UserService {
               element.grade,
               element.forGrade,
               element.assignmentID,
-              element.isIgnored
+              element.isIgnored,
+              element.nameOfClass
             ));
           });
           return this.userAssignments;
@@ -232,6 +235,19 @@ export class UserService {
     });
   }
 
+  public markAssignmentIncomplete(assignmentID: number): Observable<any> {
+    return this.authService.makeRequest('post', 'updateAssignmentGrade', {
+      assignmentID: assignmentID,
+      gradeReceived: null
+    });
+  }
+
+  public setAssignmentGrade(assignmentID: number, grade: number): Observable<any> {
+    return this.authService.makeRequest('post', 'updateAssignmentGrade', {
+      assignmentID: assignmentID,
+      gradeReceived: grade
+    });
+  }
 
   public wipeData() {
     this.user = null;

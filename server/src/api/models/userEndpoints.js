@@ -72,7 +72,7 @@ module.exports.getUserInfo = function(userEmail, resultCallback){
 //tested
 module.exports.getUserAssignments = function(userEmail, resultCallback){
     //if isIgnored is 0, then its not ignored else if its 1 its ignored
-    let getAssignmentsQuery = 'SELECT * FROM PostAssociation INNER JOIN Post ON Post.assignmentID = PostAssociation.assignmentID WHERE emailAddress = ? AND isIgnored = 0;';
+    let getAssignmentsQuery = 'SELECT * FROM PostAssociation INNER JOIN Post ON Post.assignmentID = PostAssociation.assignmentID AND emailAddress = ? AND isIgnored = 0 INNER JOIN SectionInstance ON SectionInstance.sectionInstanceID = Post.sectionInstance;';
     dbPool.query(getAssignmentsQuery, userEmail, function(err, res){
         if(err) {
             console.log(err);
@@ -85,15 +85,16 @@ module.exports.getUserAssignments = function(userEmail, resultCallback){
 
             for(let i = 0; i < res.length; i++){
                 let userAssignment = {
-                assignmentDescription: res[i].customAssignmentDescription,
-                assignmentName: res[i].customAssignmentName,
-                uploadDate: res[i].customUploadDate,
-                dueDate: res[i].customDueDate,
-                isDone: res[i].isDone,
-                grade: res[i].Grade,
-                forGrade: res[i].forGrade,
-                assignmentID: res[i].assignmentID,
-                isIgnored: res[i].isIgnored
+                    assignmentDescription: res[i].customAssignmentDescription,
+                    assignmentName: res[i].customAssignmentName,
+                    uploadDate: res[i].customUploadDate,
+                    dueDate: res[i].customDueDate,
+                    isDone: res[i].isDone,
+                    grade: res[i].Grade,
+                    forGrade: res[i].forGrade,
+                    assignmentID: res[i].assignmentID,
+                    isIgnored: res[i].isIgnored,
+                    nameOfClass: res[i].nameOfClass  
                 }
                 userAssignments.push(userAssignment);
             }
@@ -179,17 +180,31 @@ module.exports.updateProfile = function(userEmail, username, imageID, postNotifi
     });
 }
 //tested
-module.exports.updateAssignmentGrade = function(userEmail, gradeRecieved, assignmentID, resultCallback){
-    let updateAssignmentGradeQuery = 'UPDATE PostAssociation SET Grade = ? WHERE emailAddress = ? AND assignmentID = ? ;';
-    dbPool.query(updateAssignmentGradeQuery, [gradeRecieved, userEmail, assignmentID], function(err, res){
-        if(err){
-            console.log(err);
-            resultCallback(err, null);
-        }
-        else{
-            resultCallback(null, null);
-        }
-    });
+module.exports.updateAssignmentGrade = function(userEmail, gradeReceived, assignmentID, resultCallback){
+    let gradeScore = gradeReceived == null ? false : true;
+    console.log(gradeReceived);
+    let updateAssignmentGradeQuery = 'UPDATE PostAssociation SET Grade = ?, isDone = ? WHERE emailAddress = ? AND assignmentID = ? ;';
+    if(gradeScore) {
+        dbPool.query(updateAssignmentGradeQuery, [gradeReceived, gradeScore, userEmail, assignmentID], function(err, res){
+            if(err){
+                console.log(err);
+                resultCallback(err, null);
+            }
+            else{
+                resultCallback(null, null);
+            }
+        });
+    } else {
+        dbPool.query(updateAssignmentGradeQuery, [null, gradeScore, userEmail, assignmentID], function(err, res){
+            if(err){
+                console.log(err);
+                resultCallback(err, null);
+            }
+            else{
+                resultCallback(null, null);
+            }
+        });
+    }
 }
 
 //tested
@@ -342,15 +357,22 @@ module.exports.unenroll = function(userEmail, sectionInstanceID, resultCallback)
 
 //tested
 module.exports.deleteAccount = function(userEmail, resultCallback){
-    let deleteAccountQuery = 'DELETE FROM User WHERE emailAddress = ?;';
-    dbPool.query(deleteAccountQuery, userEmail, function(err, res){
-        if(err){
-            console.log("SQL ERROR HERE!")
-            console.log(err);
-            resultCallback(err,null);
-        }
-        else{
-            resultCallback(null,null);
+    let completeUnenrollmentQuery = 'DELETE FROM UserEnrollment WHERE emailAddress = ?;';
+    dbPool.query(completeUnenrollmentQuery, userEmail, function(err, res) {
+        if(err) {
+            resultCallback(err, null);
+        } else {
+            let deleteAccountQuery = 'DELETE FROM User WHERE emailAddress = ?;';
+            dbPool.query(deleteAccountQuery, userEmail, function(err2, res2){
+                if(err2){
+                    console.log("SQL ERROR HERE!")
+                    console.log(err2);
+                    resultCallback(err2,null);
+                }
+                else{
+                    resultCallback(null,null);
+                }
+            });
         }
     });
 }

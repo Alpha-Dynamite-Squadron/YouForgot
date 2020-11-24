@@ -45,6 +45,22 @@ export class PersonalAssignmentComponent implements OnInit {
     });
   }
 
+  updateGrade(grade: number) {
+    console.log("Submitting Grade.");
+    this.userService.setAssignmentGrade(this.assignment.assignmentID, grade).subscribe(() => {
+      window.location.reload();
+    }, (error) => {
+      console.log(error);
+      swal({
+        title: "Oops! Something went wrong.",
+        text: "Please try again later.",
+        buttonsStyling: false,
+        confirmButtonClass: "btn btn-info",
+        type: "error"
+      }).catch(swal.noop)
+    });
+  }
+
   onComplete() {
     console.log("User is Attempting to Mark Assignment as Complete.");
     this.userService.completeAssignment(this.assignment.assignmentID).subscribe(() => {

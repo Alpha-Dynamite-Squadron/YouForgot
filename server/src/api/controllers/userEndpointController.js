@@ -224,18 +224,18 @@ module.exports.updateAssignmentGrade = function(req, res){
             "message" : "User Token does not have an email"
         });
     }
-    else if(!req.body.gradeRecieved){
-        res.status(401).json({
+    else if(req.body.gradeReceived == undefined && req.body.gradeReceived != null){
+        res.status(400).json({
             "message" : "Grade recieved not provided"
         });
     }
     else  if(!req.body.assignmentID){
-        res.status(401).json({
+        res.status(400).json({
             "message" : "assignmentID not provied"
         });
     }
     else{
-        endpoints.updateAssignmentGrade(req.payload.emailAddress, req.body.gradeRecieved, req.body.assignmentID, function(err, result){
+        endpoints.updateAssignmentGrade(req.payload.emailAddress, req.body.gradeReceived, req.body.assignmentID, function(err, result){
             if(err){
                 console.log("Unable to update user's assignment assignment grade.");
                 res.status(500).json({

@@ -47,12 +47,36 @@ export class AssignmentComponent implements OnInit {
     });
   }
 
-  onReport() {
-    console.log('Assignment Reported.');
+  onIncomplete() {
+    console.log("Marked Post as Incompleted Button");
+    this.userService.markAssignmentIncomplete(this.assignment.assignmentID).subscribe(() => {
+      window.location.reload();
+    }, (error) => {
+      console.log(error);
+      swal({
+        title: "Oops! Something went wrong.",
+        text: "Please try again later.",
+        buttonsStyling: false,
+        confirmButtonClass: "btn btn-info",
+        type: "error"
+      }).catch(swal.noop)
+    });
   }
 
   onSubscribe() {
-    console.log('Toggling Subscription to Assignment.');
+    console.log("Clicked Subscribe to Post Button");
+    this.userService.subscribeToPost(this.assignment.assignmentID).subscribe(() => {
+      window.location.reload();
+    }, (error) => {
+      console.log(error);
+      swal({
+        title: "Oops! Something went wrong.",
+        text: "Please try again later.",
+        buttonsStyling: false,
+        confirmButtonClass: "btn btn-info",
+        type: "error"
+      }).catch(swal.noop)
+    });
   }
 
 }

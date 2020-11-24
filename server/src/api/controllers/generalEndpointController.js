@@ -8,10 +8,14 @@ module.exports.getCourseAssignments = function(req,res){
     if(!req.body.sectionInstanceID){
         res.status(400).json({
             "message" : "Section Instance ID Required"
-          });
+        });
+    } else if (!req.payload.emailAddress) {
+        res.status(401).json({
+            "message" : "token Required"
+        });
     }
     else {
-        generalEndpoints.getCourseAssignments(req.body.sectionInstanceID, function(err,data){
+        generalEndpoints.getCourseAssignments(req.body.sectionInstanceID, req.payload.emailAddress, function(err,data){
             console.log("Fetching all information for this course: " + req.body.sectionInstanceID);
             if(err){
                 //DB error

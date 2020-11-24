@@ -21,9 +21,10 @@ span.text-center.text-gray {
   margin-right: 5px;
 }
 
-#reportBtn {
+#incompleteBtn {
   margin-left: 5px;
   margin-right: 5px;
+  opacity: 100%;
 }
 
 #dueDateIcon {
@@ -33,4 +34,15 @@ span.text-center.text-gray {
 
 #gradeReceivedBtn {
   margin-left: 5px;
+}
+
+.completed {
+  opacity: 30%;
+}
+
+#grade {
+  color: #00bcd4;
+  font-weight: bolder;
+  margin-left: 10px;
+  font-size: large;
 }

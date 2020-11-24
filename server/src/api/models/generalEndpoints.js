@@ -63,9 +63,9 @@ module.exports.getInstitutions = function(institution, resultCallback){
 // GET THE INFO OF A SPECIFIC CLASS GIVEN THE SECTION INSTANCE ID
 // gives you a assignment ID if you want to subscribe to the assignment, forGrade determines whether or not it shows assignmentAverage
 //tested
-module.exports.getCourseAssignments = function(sectionInstanceID, resultCallback){
-    let getCourseInfoQuery = 'SELECT SectionInstance.nameOfClass, Post.assignmentID, Post.uploadDate, Post.assignmentName, Post.assignmentDueDate, Post.forGrade, Post.assignmentAverage, Post.iForgotCount, PostAssociation.iForgot, PostAssociation.isIgnored, PostAssociation.isReported FROM SectionInstance INNER JOIN Post ON SectionInstance.sectionInstanceID = Post.sectionInstance AND SectionInstance.sectionInstanceID = ? LEFT OUTER JOIN PostAssociation ON PostAssociation.assignmentID = Post.assignmentID;';
-    dbPool.query(getCourseInfoQuery, [sectionInstanceID], function(err, res){
+module.exports.getCourseAssignments = function(sectionInstanceID, emailAddress, resultCallback){
+    let getCourseInfoQuery = 'SELECT SectionInstance.nameOfClass, Post.assignmentID, Post.uploadDate, Post.assignmentName, Post.assignmentDueDate, Post.forGrade, Post.assignmentAverage, Post.iForgotCount, PostAssociation.isDone, PostAssociation.iForgot, PostAssociation.isIgnored, PostAssociation.isReported, PostAssociation.Grade FROM Post INNER JOIN SectionInstance ON SectionInstance.sectionInstanceID = Post.sectionInstance AND SectionInstance.sectionInstanceID = ? INNER JOIN PostAssociation ON PostAssociation.assignmentID = Post.assignmentID AND PostAssociation.emailAddress = ?;';
+    dbPool.query(getCourseInfoQuery, [sectionInstanceID, emailAddress], function(err, res){
         if(err){
             console.log(err);
             resultCallback(err,null);
@@ -81,7 +81,9 @@ module.exports.getCourseAssignments = function(sectionInstanceID, resultCallback
                     uploadDate: res[i].uploadDate,
                     dueDate: res[i].assignmentDueDate,
                     assignmentName : res[i].assignmentName,
+                    grade: res[i].Grade,
                     forGrade: res[i].forGrade,
+                    isDone: res[i].isDone,
                     iForgot: res[i].iForgot,
                     isIgnored: res[i].isIgnored,
                     isReported: res[i].isReported,
@@ -91,6 +93,7 @@ module.exports.getCourseAssignments = function(sectionInstanceID, resultCallback
                 }
                 courseAssignments.push(courseAssignment);
             }
+            console.log(courseAssignments);
             resultCallback(null, courseAssignments);
         }
     });

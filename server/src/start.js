@@ -9,7 +9,7 @@ require('../src/api/config/passport');
 const performMaintenance = require('../src/api/models/maintenance.js');
 const notify = require('../src/api/models/sendHomeworkNotifications.js');
 
-var port = '443';
+var port = '8080';
 var app = express();
 app.set('port', port);
 app.use(bodyParser.json()); // convert requests into json
@@ -34,13 +34,15 @@ app.get('/ping', (req, res) => {
 });
 
 //Dead code, load balancer handles this
-app.use(function(req, res, next) {
+if(process.env.NODE_ENV == 'production') {
+  app.use(function(req, res, next) {
     console.log(req.hostname, req.ip, req.ips, req.protocol, req.secure);
     if(req.protocol === 'http') {
       res.redirect('301', `https://${req.headers.host} ${req.url}`);
     }
     next();
   });
+}
 
 //All Front end resources
 app.get('*', (req, res) => {
@@ -60,7 +62,7 @@ if(process.env.NODE_ENV == 'production') {
       key: fs.readFileSync('/home/ec2-user/ssl/youforgotsecurity/private.key')
   };
   var server = https.createServer(httpsOptions, app);
-  server.listen(port, '172.31.15.26');
+  server.listen('443', '172.31.15.26');
   server.on('error', onError);
   server.on('listening', onListening);
 } else {

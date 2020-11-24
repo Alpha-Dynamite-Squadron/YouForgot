@@ -1,5 +1,5 @@
-<div class="logo">
-  <a class="simple-text logo-mini">
+<div routerLinkActive="true" class="logo">
+  <a routerLink="/home/main"class="simple-text logo-mini">
     <div class="logo-img">
       <img class="side-bar-img" src="../../assets/img/you_forgot_logo.jpg">
     </div>
@@ -45,21 +45,6 @@
   </div>
   <div *ngIf="isMobileMenu()">
     <ul class="nav navbar-nav nav-mobile-menu">
-      <!-- <li class="nav-item dropdown">
-        <a class="nav-link" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-          aria-expanded="false">
-          <i class="material-icons">notifications</i>
-          <span class="notification">3</span>
-          <p>
-            <span class="d-lg-none d-md-block">Notifications</span>
-          </p>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="#">You have a new assignment!</a>
-          <a class="dropdown-item" href="#">2 assignments are past due!</a>
-          <a class="dropdown-item" href="#">Homework#1 Due in 24 hours!</a>
-        </div>
-      </li> -->
     </ul>
   </div>
   <ul class="nav">

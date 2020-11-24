@@ -1,4 +1,4 @@
-<ul class="timeline timeline-simple mt-0 mb-0">
+<ul class="timeline timeline-simple mt-0 mb-0" [ngClass]="{'completed': assignment.isDone}">
   <li class="timeline-inverted mt-0 mb-0">
     <div class="timeline-badge info">
       <i class="material-icons">assignment</i>
@@ -26,9 +26,10 @@
         <button *ngIf="assignment.iForgot" type="button" id="forgotBtn" mat-raised-button class="btn btn-danger btn-round" (click)="onForgot()">
           <i class="material-icons">favorite</i> I Remembered. {{ assignment.iForgotCount }}
         </button>
-        <button type="button" id="reportBtn" mat-raised-button class="btn btn-info btn-round" (click)="onReport()">
-          <i class="material-icons">flag</i> Report Post
+        <button *ngIf="assignment.isDone" type="button" id="incompleteBtn" mat-raised-button class="btn btn-info btn-round" (click)="onIncomplete()">
+          <i class="material-icons">check</i> Mark Incomplete
         </button>
+        <h6 id="grade" *ngIf="assignment.isDone && assignment.forGrade">Grade Received: {{ assignment.grade }}</h6>
       </div>
       <span class="text-center text-gray pull-right">
         Uploaded {{ formattedUploadDate }}

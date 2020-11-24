@@ -5,7 +5,7 @@ let nodeMailerTransport = require('../config/nodeMailerTransport.js');
 
 let baseMailUrl;
 if (process.env.NODE_ENV === 'production') {
-  baseUrl = 'http://youforgot.school';
+  baseUrl = 'https://youforgot.school';
 } else {
   baseUrl = 'http://localhost:8080';
 }
