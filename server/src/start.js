@@ -30,7 +30,7 @@ app.use('/api', routesApi);
 
 //Support AWS Health Check
 app.get('/ping', (req, res) => {
-    res.status(200).end();
+  res.status(200).end();
 });
 
 //Dead code, load balancer handles this
