@@ -36,7 +36,6 @@ app.get('/ping', (req, res) => {
 //Dead code, load balancer handles this
 if(process.env.NODE_ENV == 'production') {
   app.use(function(req, res, next) {
-    console.log(req.hostname, req.ip, req.ips, req.protocol, req.secure);
     if(req.protocol === 'http') {
       res.redirect('301', `https://${req.headers.host} ${req.url}`);
     }
