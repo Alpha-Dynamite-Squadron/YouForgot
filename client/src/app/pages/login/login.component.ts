@@ -41,6 +41,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     var navbar: HTMLElement = this.element.nativeElement;
+    if(this.authService.isLoggedIn()) {
+      this.router.navigateByUrl('/main/home');
+    }
     this.toggleButton = navbar.getElementsByClassName('navbar-toggle')[0];
     const body = document.getElementsByTagName('body')[0];
     body.classList.add('login-page');

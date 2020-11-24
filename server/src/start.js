@@ -9,7 +9,7 @@ require('../src/api/config/passport');
 const performMaintenance = require('../src/api/models/maintenance.js');
 const notify = require('../src/api/models/sendHomeworkNotifications.js');
 
-var port = '8080';
+var port = '443';
 var app = express();
 app.set('port', port);
 app.use(bodyParser.json()); // convert requests into json
@@ -25,8 +25,24 @@ const allowedExt = [
    '.gif'
 ];
 
+//All API Endpoints
 app.use('/api', routesApi);
 
+//Support AWS Health Check
+app.get('/ping', (req, res) => {
+    res.status(200).end();
+});
+
+//Dead code, load balancer handles this
+app.use(function(req, res, next) {
+    console.log(req.hostname, req.ip, req.ips, req.protocol, req.secure);
+    if(req.protocol === 'http') {
+      res.redirect('301', `https://${req.headers.host} ${req.url}`);
+    }
+    next();
+  });
+
+//All Front end resources
 app.get('*', (req, res) => {
   if(allowedExt.filter(ext => req.url.indexOf(ext) > 0).length > 0) {
     res.sendFile(path.resolve(`../client/dist/${req.url}`));
@@ -35,27 +51,24 @@ app.get('*', (req, res) => {
   }
 });
 
-var http = require('http');
-var server = http.createServer(app);
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
-
 if(process.env.NODE_ENV == 'production') {
-  app.use(function(req, res, next){
-    if(req.protocol === 'http'){
-      res.redirect('301', `https://${req.headers.host} ${req.url}`)
-    }
-    next();
-  });
-  
+  console.log("RUNNING IN PRODUCTION MODE");
+
   const httpsOptions = {
-    cert: fs.readFileSync('/home/ec2-user/ssl/youforgotsecurity/certificate.pem'),
-    ca: fs.readFileSync('/home/ec2-user/ssl/youforgotsecurity/chain.pem'),
-    key: fs.readFileSync('/home/ec2-user/ssl/youforgotsecurity/private.key')
+      cert: fs.readFileSync('/home/ec2-user/ssl/youforgotsecurity/certificate.pem'),
+      ca: fs.readFileSync('/home/ec2-user/ssl/youforgotsecurity/chain.pem'),
+      key: fs.readFileSync('/home/ec2-user/ssl/youforgotsecurity/private.key')
   };
-  const httpsServer = https.createServer(httpsOptions, app);
-  httpsServer.listen(6969, '172.31.15.26');
+  var server = https.createServer(httpsOptions, app);
+  server.listen(port, '172.31.15.26');
+  server.on('error', onError);
+  server.on('listening', onListening);
+} else {
+  var http = require('http');
+  var server = http.createServer(app);
+  server.listen(port);
+  server.on('error', onError);
+  server.on('listening', onListening);
 }
 /**
  * Event listener for HTTP server "listening" event.
@@ -63,7 +76,7 @@ if(process.env.NODE_ENV == 'production') {
 function onListening() {
   var addr = server.address();
   var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-  console.log('Listening on ' + bind);
+  console.log('HTTPS listening on ' + bind);
 }
 
 function onError(error) {
