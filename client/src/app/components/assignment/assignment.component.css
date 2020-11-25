@@ -36,10 +36,6 @@ span.text-center.text-gray {
   margin-left: 5px;
 }
 
-.completed {
-  opacity: 30%;
-}
-
 #grade {
   color: #00bcd4;
   font-weight: bolder;
